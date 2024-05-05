@@ -20,9 +20,7 @@ namespace Authenticate.Services
             {
                 var check = DataValidator.Validate(dto);
                 if (!check.IsValid)
-                {
                     return CustomErrors.InvalidUserData(check.Errors);
-                }
 
                 var founded = Db.Users.FirstOrDefault(i => i.Username == dto.Username);
                 if (founded != null)
