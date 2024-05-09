@@ -15,17 +15,31 @@ namespace MyApp.Namespace
     public class UserController : ControllerBase
     {
         private readonly UserService Service;
-        public UserController(IJWTProvider provider, AuthenticateContextDb db, IValidator<UserDto> validator)
+        private readonly IValidator<UserDto> SignInValidator;
+        private readonly IValidator<CreateUserDto> SignUpValidator;
+
+        public UserController(IJWTProvider provider, AuthenticateContextDb db, IValidator<UserDto> signInValidator, IValidator<CreateUserDto> signUpValidator)
         {
             var tools = new ToolsService(provider, db);
-            Service = new UserService(tools, validator);
+            Service = new UserService(tools);
+            SignUpValidator = signUpValidator;
+            SignInValidator = signInValidator;
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserDto dto)
+        public async Task<IActionResult> CreateUser(CreateUserDto dto)
         {
-            var result = await Service.CreateUser(dto);
+            _ = new Result();
+            var check = SignUpValidator.Validate(dto);
+            Result result;
+            if (!check.IsValid)
+            {
+                result = CustomErrors.InvalidUserData(check.Errors);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            result = await Service.CreateUser(dto);
             return StatusCode(result.StatusCode, result);
         }
 
@@ -33,7 +47,16 @@ namespace MyApp.Namespace
         [HttpPost]
         public IActionResult GenerateToken(UserDto dto)
         {
-            var result = Service.GenerateToken(dto);
+            _ = new Result();
+            var check = SignInValidator.Validate(dto);
+            Result result;
+            if (!check.IsValid)
+            {
+                result = CustomErrors.InvalidUserData(check.Errors);
+                return StatusCode(result.StatusCode, result);
+            }
+
+            result = Service.GenerateToken(dto);
             return StatusCode(result.StatusCode, result);
         }
     }

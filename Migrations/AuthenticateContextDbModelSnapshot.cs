@@ -22,15 +22,36 @@ namespace Authenticate.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Authenticate.Entities.Organization", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizations");
+                });
+
             modelBuilder.Entity("Authenticate.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -38,7 +59,25 @@ namespace Authenticate.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganizationId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Authenticate.Entities.User", b =>
+                {
+                    b.HasOne("Authenticate.Entities.Organization", "Organization")
+                        .WithMany("Users")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("Authenticate.Entities.Organization", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

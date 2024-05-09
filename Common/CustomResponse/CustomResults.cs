@@ -25,5 +25,38 @@ namespace Authenticate.Common
             StatusCode = StatusCodes.Status201Created,
             Data = data
         };
+
+        public static Result OrganizationUpdated() => new()
+        {
+            Message = new()
+            {
+                Fa = "ویرایش سازمان با موفقیت به انجام شد",
+                En = "Update Organization Done"
+            },
+            StatusCode = StatusCodes.Status200OK,
+        };
+
+        public static Result OrganizationAdd(object data) => new()
+        {
+            Message = new()
+            {
+                Fa = "افزودن سازمان با موفقیت به انجام شد",
+                En = "Update Organization Done"
+            },
+            StatusCode = StatusCodes.Status200OK,
+            Data = data
+        };
+
+
+        public static Result OrganizationFounded(object data) => new()
+        {
+            Message = new()
+            {
+                Fa = "عملیات واکشی رکورد با موفقیت انجام شد",
+                En = "Organization Founded"
+            },
+            StatusCode = StatusCodes.Status200OK,
+            Data = data
+        };
     }
 }

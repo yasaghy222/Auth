@@ -8,26 +8,36 @@ using FluentValidation;
 
 namespace Authenticate.Services
 {
-    public class UserService(ToolsService tools, IValidator<UserDto> validator)
+    public class UserService(ToolsService tools)
     {
-        private AuthenticateContextDb Db { get; } = tools.Db;
-        private IJWTProvider Jwt { get; } = tools.Jwt;
-        public IValidator<UserDto> DataValidator { get; private set; } = validator;
+        private AuthenticateContextDb Db { get => tools.Db; }
+        private IJWTProvider Jwt { get => tools.Jwt; }
 
-        public async Task<Result> CreateUser(UserDto dto)
+        private bool HasValidOrganization(Guid OrganizationId)
+        {
+            Organization? organization = Db.Organizations.FirstOrDefault(i => i.Id == OrganizationId);
+            return organization == null;
+        }
+
+        private bool IsExist(string Username)
+        {
+            User? founded = Db.Users.FirstOrDefault(i => i.Username == Username);
+            return founded != null;
+        }
+
+        public async Task<Result> CreateUser(CreateUserDto dto)
         {
             try
             {
-                var check = DataValidator.Validate(dto);
-                if (!check.IsValid)
-                    return CustomErrors.InvalidUserData(check.Errors);
+                if (HasValidOrganization(dto.OrganizationId))
+                    return CustomErrors.OrganizationNotFound();
 
-                var founded = Db.Users.FirstOrDefault(i => i.Username == dto.Username);
-                if (founded != null)
+                if (IsExist(dto.Username))
                     return CustomErrors.UsernameAlreadyExist(dto.Username);
 
-                var user = new User
+                User user = new()
                 {
+                    OrganizationId = dto.OrganizationId,
                     Username = dto.Username,
                     Password = SecretHasher.Hash(dto.Password)
                 };
@@ -46,10 +56,6 @@ namespace Authenticate.Services
         {
             try
             {
-                var check = DataValidator.Validate(dto);
-                if (!check.IsValid)
-                    return CustomErrors.InvalidUserData(check.Errors);
-
                 var founded = Db.Users.FirstOrDefault(i => i.Username == dto.Username);
                 if (founded is null)
                     return CustomErrors.InvalidUsernameOrPassword();

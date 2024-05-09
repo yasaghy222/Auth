@@ -2,10 +2,10 @@ using AuthenticateDTOs;
 using FluentValidation;
 
 namespace Authenticate.Validations {
-    public class UserValidator: AbstractValidator<UserDto>
+    public class CreateUserValidator: AbstractValidator<CreateUserDto>
     {
 
-        public UserValidator()
+        public CreateUserValidator()
         {
             RuleFor(i => i.Username)
                 .NotEmpty()
@@ -16,6 +16,10 @@ namespace Authenticate.Validations {
                 .NotEmpty()
                 .NotNull()
                 .Length(3, 30);
+
+            RuleFor(i => i.OrganizationId)
+                .NotEmpty()
+                .NotNull();
         }
         
     }
