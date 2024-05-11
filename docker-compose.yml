@@ -1,12 +1,30 @@
-# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
 
-version: '3.4'
+version: '3.8'
+
+networks:
+  healthplus-net:
 
 services:
   authenticate:
-    image: authenticate
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    container_name: authenticate
+    image: dotnet-authenticate:0.0
+    environment:
+      - DB_HOST=mssql
+      - DB_NAME=AuthenticateDB
+      - DB_SA_PASSWORD=Admin@123
     ports:
-      - 5280:5280
+      - "5280:5280"
+    networks:
+      - healthplus-net
+    depends_on:
+      - mssql    
+  mssql:
+    container_name: sql
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Admin@123
+    ports:
+      - "1433:1433"
+    networks:
+      - healthplus-net

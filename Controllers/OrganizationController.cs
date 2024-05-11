@@ -15,7 +15,7 @@ namespace MyApp.Namespace
         private AuthenticateContextDb Db { get; } = db;
         private readonly IValidator<OrganizationDto> OrganizationValidator = validator;
 
-        [HttpGet()]
+        [HttpGet]
         public IActionResult Get()
         {
             Result result = new Result();

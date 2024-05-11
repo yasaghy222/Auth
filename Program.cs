@@ -17,7 +17,13 @@ builder.Services.AddScoped<IValidator<UserDto>, UserValidator>();
 builder.Services.AddScoped<IValidator<CreateUserDto>, CreateUserValidator>();
 builder.Services.AddScoped<IValidator<OrganizationDto>, OrganizationValidator>();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var defName = builder.Configuration["Db:Name"];
+var defHost = builder.Configuration["Db:Host"];
+var defPass = builder.Configuration["Db:Pass"];
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? defHost;
+var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? defName;
+var dbPass = Environment.GetEnvironmentVariable("DB_SA_PASSWORD") ?? defPass;
+var connectionString = $"Server={dbHost}; Persist Security Info=False; TrustServerCertificate=true; User ID=sa;Password={dbPass};Initial Catalog={dbName};";
 builder.Services.AddDbContext<AuthenticateContextDb>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
