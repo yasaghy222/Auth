@@ -85,13 +85,14 @@ namespace Authenticate.Common
             Status = false
         };
 
-        public static Result OrganizationQueryFailed() => new()
+        public static Result OrganizationQueryFailed(object? data = null) => new()
         {
             Message = new()
             {
                 Fa = "عملیات واکشی سازمان ها با مشکل مواجه شد",
                 En = "Organization Query Failed!"
             },
+            Data = data,
             StatusCode = StatusCodes.Status500InternalServerError,
             Status = false
         };
@@ -107,13 +108,14 @@ namespace Authenticate.Common
             Status = false
         };
 
-        public static Result OrganizationAddFailed() => new()
+        public static Result OrganizationAddFailed(object? data = null) => new()
         {
             Message = new()
             {
                 Fa = "عملیات افزودن سازمان با مشکل مواجه شد",
                 En = "Organization Update Failed!"
             },
+            Data = data,
             StatusCode = StatusCodes.Status500InternalServerError,
             Status = false
         };

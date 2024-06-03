@@ -28,7 +28,7 @@ namespace MyApp.Namespace
             }
             catch (Exception ex)
             {
-                result = CustomErrors.OrganizationQueryFailed();
+                result = CustomErrors.OrganizationQueryFailed(ex.Message + " " + ex.InnerException);
                 return StatusCode(result.StatusCode, result);
             }
         }
@@ -66,7 +66,7 @@ namespace MyApp.Namespace
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(string name)
+        public async Task<IActionResult> Add([FromBody] string name)
         {
             Result result = new ();
             

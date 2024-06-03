@@ -2,7 +2,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5280
 
-ENV ASPNETCORE_URLS=http://+:5280
+ENV ASPNETCORE_URLS=http://+:5280 
+    # DB_HOST=sql \
+    # DB_PORT=1433 \
+    # DB_NAME=AuthenticateDB \
+    # DB_SA_PASSWORD=Admin@123 \
+    # ASPNETCORE_ENVIRONMENT=Development 
 
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
