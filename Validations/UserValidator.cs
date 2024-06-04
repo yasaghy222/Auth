@@ -7,6 +7,10 @@ namespace Authenticate.Validations {
 
         public UserValidator()
         {
+            RuleFor(i => i.OrganizationId)
+                .NotEmpty()
+                .NotNull();
+
             RuleFor(i => i.Username)
                 .NotEmpty()
                 .NotNull()

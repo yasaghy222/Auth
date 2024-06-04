@@ -19,11 +19,7 @@ namespace Authenticate.Services
             return organization == null;
         }
 
-        private bool IsExist(string Username)
-        {
-            User? founded = Db.Users.FirstOrDefault(i => i.Username == Username);
-            return founded != null;
-        }
+        private User? Find(string Username) => Db.Users.FirstOrDefault(i => i.Username == Username);
 
         public async Task<Result> CreateUser(CreateUserDto dto)
         {
@@ -32,9 +28,11 @@ namespace Authenticate.Services
                 if (HasValidOrganization(dto.OrganizationId))
                     return CustomErrors.OrganizationNotFound();
 
-                if (IsExist(dto.Username))
-                    return CustomErrors.UsernameAlreadyExist(dto.Username);
-
+                User? found = Find(dto.Username);
+                if (found is not null)
+                {
+                    return CustomErrors.UsernameAlreadyExist(dto.Username, 200);
+                }
                 User user = new()
                 {
                     OrganizationId = dto.OrganizationId,
@@ -56,15 +54,15 @@ namespace Authenticate.Services
         {
             try
             {
-                var founded = Db.Users.FirstOrDefault(i => i.Username == dto.Username);
-                if (founded is null)
+                var found = Db.Users.FirstOrDefault(i => i.Username == dto.Username && i.OrganizationId == dto.OrganizationId);
+                if (found is null)
                     return CustomErrors.InvalidUsernameOrPassword();
 
-                var passIsValid = SecretHasher.Verify(dto.Password, founded.Password);
+                var passIsValid = SecretHasher.Verify(dto.Password, found.Password);
                 if (!passIsValid)
                     return CustomErrors.InvalidUsernameOrPassword();
 
-                string token = Jwt.Generate(founded);
+                string token = Jwt.Generate(found);
 
                 return CustomResults.TokenGenerated(token);
             }

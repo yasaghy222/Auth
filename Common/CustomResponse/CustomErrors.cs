@@ -51,7 +51,7 @@ namespace Authenticate.Common
             Status = false
         };
 
-        public static Result UsernameAlreadyExist(object data) => new()
+        public static Result UsernameAlreadyExist(object data, int? code = null) => new()
         {
             Message = new()
             {
@@ -60,6 +60,7 @@ namespace Authenticate.Common
             },
             StatusCode = StatusCodes.Status400BadRequest,
             Data = data,
+            Code = code,
             Status = false
         };
 
