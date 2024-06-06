@@ -28,7 +28,8 @@ namespace MyApp.Namespace
             }
             catch (Exception ex)
             {
-                result = CustomErrors.OrganizationQueryFailed(ex.Message + " " + ex.InnerException);
+                //FIXME: Add Logger
+                result = CustomErrors.OrganizationQueryFailed();
                 return StatusCode(result.StatusCode, result);
             }
         }
@@ -68,8 +69,8 @@ namespace MyApp.Namespace
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] string name)
         {
-            Result result = new ();
-            
+            Result result = new();
+
             try
             {
                 if (string.IsNullOrEmpty(name) && name.Length > 3 && name.Length < 30)
@@ -77,8 +78,9 @@ namespace MyApp.Namespace
                     result = CustomErrors.InvalidOrganizationData("name is invalid");
                     return StatusCode(result.StatusCode, result);
                 }
-                
-                Organization org = new() {
+
+                Organization org = new()
+                {
                     Name = name
                 };
                 Db.Organizations.Add(org);
