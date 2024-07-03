@@ -120,5 +120,17 @@ namespace Authenticate.Common
             StatusCode = StatusCodes.Status500InternalServerError,
             Status = false
         };
+
+        public static Result InternalServer(object? errors = null) => new()
+        {
+            Message = new()
+            {
+                Fa = "با عرض پوزش، عملیات درخواستی با مشکل مواجه شد!",
+                En = "Operation Failed!"
+            },
+            StatusCode = StatusCodes.Status500InternalServerError,
+            Data = errors,
+            Status = false
+        };
     }
 }

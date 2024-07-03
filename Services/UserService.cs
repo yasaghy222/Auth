@@ -1,16 +1,17 @@
 using Authenticate.Common;
 using Authenticate.Context;
+using Authenticate.DTOs;
 using Authenticate.Entities;
 using Authenticate.Interfaces;
 using Authenticate.Models;
-using AuthenticateDTOs;
-using FluentValidation;
+using Mapster;
 
 namespace Authenticate.Services
 {
     public class UserService(ToolsService tools)
     {
         private AuthenticateContextDb Db { get => tools.Db; }
+        private readonly SessionService SessionService = new(tools.Db);
         private IJWTProvider Jwt { get => tools.Jwt; }
 
         private bool HasValidOrganization(Guid OrganizationId)
@@ -21,7 +22,7 @@ namespace Authenticate.Services
 
         private User? Find(string Username) => Db.Users.FirstOrDefault(i => i.Username == Username);
 
-        public async Task<Result> CreateUser(CreateUserDto dto)
+        public async Task<Result> Add(AddUserDto dto)
         {
             try
             {
@@ -36,7 +37,9 @@ namespace Authenticate.Services
                 User user = new()
                 {
                     OrganizationId = dto.OrganizationId,
-                    Username = dto.Username,
+                    Username = dto.Username ?? dto.Phone,
+                    Email = dto.Email,
+                    Phone = dto.Phone,
                     Password = SecretHasher.Hash(dto.Password)
                 };
                 Db.Add(user);
@@ -50,27 +53,25 @@ namespace Authenticate.Services
             }
         }
 
-        public Result GenerateToken(UserDto dto)
+        public async Task<Result> GenerateToken(GenerateTokenDto dto)
         {
-            try
-            {
-                var found = Db.Users.FirstOrDefault(i => i.Username == dto.Username && i.OrganizationId == dto.OrganizationId);
-                if (found is null)
-                    return CustomErrors.InvalidUsernameOrPassword();
+            User? found = Db.Users.FirstOrDefault(i => i.Username == dto.Username && i.OrganizationId == dto.OrganizationId);
+            if (found is null)
+                return CustomErrors.InvalidUsernameOrPassword();
 
-                var passIsValid = SecretHasher.Verify(dto.Password, found.Password);
-                if (!passIsValid)
-                    return CustomErrors.InvalidUsernameOrPassword();
+            bool passIsValid = SecretHasher.Verify(dto.Password, found.Password);
+            if (!passIsValid)
+                return CustomErrors.InvalidUsernameOrPassword();
 
-                string token = Jwt.Generate(found);
+            SessionDto sessionDto = dto.Adapt<SessionDto>();
+            Session? session = await SessionService.Find(sessionDto);
 
-                return CustomResults.TokenGenerated(token);
-            }
-            catch (Exception ex)
-            {
-                return CustomErrors.GenerateTokenFailed();
-            }
+            sessionDto.Token = session != null ? session.Token : Jwt.Generate(found);
+            sessionDto.UserId = found.Id;
 
+            await SessionService.Add(sessionDto);
+
+            return CustomResults.TokenGenerated(sessionDto.Token);
         }
     }
 }

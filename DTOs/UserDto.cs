@@ -1,4 +1,4 @@
-namespace AuthenticateDTOs
+namespace Authenticate.DTOs
 {
     public class UserDto
     {

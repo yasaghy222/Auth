@@ -20,7 +20,7 @@ namespace Authenticate
             var secKeyAsByte = Encoding.UTF8.GetBytes(Options.SecretKey);
             var secKey = new SymmetricSecurityKey(secKeyAsByte);
             var signingCredentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.UtcNow.AddHours(1);
+            var expires = DateTime.UtcNow.AddMonths(1);
             var token = new JwtSecurityToken(Options.Issueer, Options.Audience, claims, null, expires, signingCredentials);
             var handler = new JwtSecurityTokenHandler();
             string tokenValue = handler.WriteToken(token);

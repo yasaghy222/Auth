@@ -14,7 +14,7 @@ namespace Authenticate.Common
             StatusCode = StatusCodes.Status201Created,
             Data = data
         };
-        
+
         public static Result TokenGenerated(object data) => new()
         {
             Message = new()
@@ -24,6 +24,26 @@ namespace Authenticate.Common
             },
             StatusCode = StatusCodes.Status201Created,
             Data = data
+        };
+
+        public static Result TokenValid() => new()
+        {
+            Message = new()
+            {
+                Fa = "شناسه اعتبارسنجی وارد شده معتبر است.",
+                En = "Token is Valid."
+            },
+            StatusCode = StatusCodes.Status202Accepted,
+        };
+
+        public static Result TokenDestroyed() => new()
+        {
+            Message = new()
+            {
+                Fa = "عملیات پاک کردن توکن با موفقیت انجام شد",
+                En = "َDestroyed Toke Done"
+            },
+            StatusCode = StatusCodes.Status200OK,
         };
 
         public static Result OrganizationUpdated() => new()
@@ -41,7 +61,7 @@ namespace Authenticate.Common
             Message = new()
             {
                 Fa = "افزودن سازمان با موفقیت به انجام شد",
-                En = "Update Organization Done"
+                En = "Add Organization Done"
             },
             StatusCode = StatusCodes.Status200OK,
             Data = data
@@ -57,6 +77,18 @@ namespace Authenticate.Common
             },
             StatusCode = StatusCodes.Status200OK,
             Data = data
+        };
+
+        public static Result SessionIsExist(object? data = null) => new()
+        {
+            Message = new()
+            {
+                Fa = "شناسه اعتبارسنجی شما در حال حاظر در سامانه وجود دارد!",
+                En = "Your Authenticate Token Already exist in system!"
+            },
+            Data = data,
+            StatusCode = StatusCodes.Status202Accepted,
+            Status = true
         };
     }
 }

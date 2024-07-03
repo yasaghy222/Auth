@@ -6,7 +6,7 @@ using Authenticate.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyApp.Namespace
+namespace Authenticate.Controllers
 {
     [Route("[controller]")]
     [ApiController]
