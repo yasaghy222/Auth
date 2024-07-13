@@ -15,7 +15,10 @@ namespace Authenticate
             JWTOptions Options = new();
             var claims = new Claim[] {
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.UniqueName, user.Username)
+                new(JwtRegisteredClaimNames.UniqueName, user.Username),
+                new("userId", user.Id.ToString()),
+                new("roleId", user.RoleId?.ToString() ?? ""),
+                new("organizationId", user.OrganizationId.ToString() ?? "")
             };
             var secKeyAsByte = Encoding.UTF8.GetBytes(Options.SecretKey);
             var secKey = new SymmetricSecurityKey(secKeyAsByte);
