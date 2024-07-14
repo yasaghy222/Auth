@@ -64,11 +64,13 @@ namespace Authenticate.Services
                 return CustomErrors.InvalidUsernameOrPassword();
 
             SessionDto sessionDto = dto.Adapt<SessionDto>();
-            Session? session = await SessionService.Find(sessionDto);
-
-            sessionDto.Token = session != null ? session.Token : Jwt.Generate(found);
             sessionDto.UserId = found.Id;
 
+            Session? session = await SessionService.Find(sessionDto);
+            if (session != null)
+                return CustomResults.TokenGenerated(session.Token);
+
+            sessionDto.Token = Jwt.Generate(found);
             await SessionService.Add(sessionDto);
 
             return CustomResults.TokenGenerated(sessionDto.Token);
