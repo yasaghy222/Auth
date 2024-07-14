@@ -8,25 +8,39 @@ using Microsoft.IdentityModel.Tokens;
 namespace Authenticate
 {
 
-    public sealed class JWTProvider : IJWTProvider
+    public sealed class JWTProvider(IConfiguration configuration) : IJWTProvider
     {
+
+        private readonly IConfiguration _configuration = configuration;
+
         public string Generate(User user)
         {
             JWTOptions Options = new();
-            var claims = new Claim[] {
-                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.UniqueName, user.Username),
-                new("userId", user.Id.ToString()),
-                new("roleId", user.RoleId?.ToString() ?? ""),
-                new("organizationId", user.OrganizationId.ToString() ?? "")
-            };
-            var secKeyAsByte = Encoding.UTF8.GetBytes(Options.SecretKey);
-            var secKey = new SymmetricSecurityKey(secKeyAsByte);
-            var signingCredentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.UtcNow.AddMonths(1);
-            var token = new JwtSecurityToken(Options.Issueer, Options.Audience, claims, null, expires, signingCredentials);
-            var handler = new JwtSecurityTokenHandler();
+
+            Claim[] claims =
+            [
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+                new Claim("userId", user.Id.ToString()),
+                new Claim("roleId", user.RoleId?.ToString() ?? ""),
+                new Claim("organizationId", user.OrganizationId.ToString())
+            ];
+
+            byte[] secKeyAsByte = Encoding.UTF8.GetBytes(Options.SecretKey);
+            SymmetricSecurityKey secKey = new(secKeyAsByte);
+            SigningCredentials signingCredentials = new(secKey, SecurityAlgorithms.HmacSha256);
+            DateTime expires = DateTime.UtcNow.AddMonths(1);
+
+            JwtSecurityToken token = new(
+                Options.Issueer,
+                Options.Audience,
+                claims,
+                expires: expires,
+                signingCredentials: signingCredentials);
+
+            JwtSecurityTokenHandler handler = new();
             string tokenValue = handler.WriteToken(token);
+
             return tokenValue;
         }
     }
