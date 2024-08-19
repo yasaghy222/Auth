@@ -19,7 +19,7 @@ namespace Auth.Shared.DependencyInjections
 
 			string connectionString = $"Server={dbHost}; Persist Security Info=False; TrustServerCertificate=true; User ID={defUser};Password={dbPass};Initial Catalog={dbName};";
 
-			builder.Services.AddDbContext<AuthContext>(options => options.UseSqlServer(connectionString));
+			builder.Services.AddDbContext<AuthDBContext>(options => options.UseSqlServer(connectionString));
 
 			return services;
 		}

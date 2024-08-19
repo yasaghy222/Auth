@@ -7,7 +7,7 @@ using Auth.Domain.Aggregates.Interfaces;
 
 namespace Auth.Data.Repositories
 {
-    public class Repository<TEntity, TId>(AuthContext db) : RepositoryBase<TEntity, TId> where TEntity : class,
+    public class Repository<TEntity, TId>(AuthDBContext db) : RepositoryBase<TEntity, TId> where TEntity : class,
       IIdentityAggregate<TId>
     {
         public override List<TEntity> ToList() => [.. db.Set<TEntity>().AsNoTracking()];

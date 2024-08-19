@@ -1,21 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Auth.Data;
+using Auth.Features.Organizations.Services;
+using Auth.Features.Roles.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Shared.RequestPipeline;
 
 public static class DatabaseMigrationConfiguration
 {
-    public static async void ApplyMigrations<TDBContext>(this WebApplication app) where TDBContext : DbContext
+    public static async Task ApplyMigrations(this WebApplication app)
     {
         using IServiceScope scope = app.Services.CreateScope();
 
-        TDBContext? dbContext = scope.ServiceProvider.GetRequiredService<TDBContext>();
+        AuthDBContext? dbContext = scope.ServiceProvider.GetRequiredService<AuthDBContext>();
 
-        if (dbContext.Database.GetService<IDatabaseCreator>() is RelationalDatabaseCreator dbCreator)
+        await dbContext.Database.MigrateAsync();
+
+        if (await dbContext.Database.CanConnectAsync() &&
+            await dbContext.Database.EnsureCreatedAsync())
         {
-            if (!dbCreator.CanConnect())
-                await dbCreator.EnsureCreatedAsync();
+            await dbContext.Organizations.ApplyInitialDatas();
+            await dbContext.Roles.ApplyInitialDatas();
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }

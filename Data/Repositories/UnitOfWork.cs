@@ -3,7 +3,7 @@ using Auth.Contracts.Common;
 
 namespace Auth.Data.Repositories
 {
-    public class UnitOfWork(AuthContext db) : IUnitOfWork
+    public class UnitOfWork(AuthDBContext db) : IUnitOfWork
     {
         private IDbContextTransaction? _currentTransaction;
 

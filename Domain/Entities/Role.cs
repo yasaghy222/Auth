@@ -8,9 +8,9 @@ namespace Auth.Domain.Entities
         public required string Title { get; set; }
 
         public required Ulid OrganizationId { get; set; }
-        public Organization? Organizations { get; set; }
+        public Organization? Organization { get; set; }
 
         public ICollection<UserOrganization>? UserOrganizations { get; set; }
-
+        public ICollection<Permission>? Permissions { get; set; }
     }
 }
