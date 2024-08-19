@@ -5,6 +5,9 @@ namespace Auth.Domain.Entities
 {
     public class User : StatusAggregate<Ulid, UserStatus>
     {
+        public required string Name { get; set; }
+        public required string Family { get; set; }
+
         public required string Username { get; set; }
 
         public string? Phone { get; set; }
