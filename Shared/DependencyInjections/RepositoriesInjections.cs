@@ -1,5 +1,7 @@
+using Auth.Domain.Entities;
 using Auth.Data.Repositories;
 using Auth.Contracts.Common;
+using Auth.Features.Users.Repositories;
 
 namespace Auth.Shared.DependencyInjections
 {
@@ -9,6 +11,8 @@ namespace Auth.Shared.DependencyInjections
 		{
 			services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 
+			services.AddScoped<IRepository<User, Ulid>, UserRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
 
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 

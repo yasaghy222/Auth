@@ -4,13 +4,15 @@ namespace Auth.Shared.Extensions
 {
     public static class HashAlgorithmExtension
     {
-        private const int SaltSize = 16; // 128 bit
-        private const int KeySize = 32;  // 256 bit
-        private const int Iterations = 10000;
+        private const int SaltSize = 16;
+        private const int KeySize = 32;
+        private const int Iterations = 100000;
+
+        private static readonly HashAlgorithmName Algorithm = HashAlgorithmName.SHA3_512;
 
         public static string ToHashString(this string str)
         {
-            byte[] salt = new byte[SaltSize];
+            byte[] salt = RandomNumberGenerator.GetBytes();
             RandomNumberGenerator.Fill(salt);
 
             using Rfc2898DeriveBytes pbkdf2 = new(str, salt, Iterations, HashAlgorithmName.SHA256);

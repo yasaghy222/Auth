@@ -8,7 +8,7 @@ namespace Auth.Shared.RequestPipeline
 {
     internal sealed class UnitOfWorkBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork) :
      IPipelineBehavior<TRequest, TResponse>
-        where TRequest : ICommand
+        where TRequest : ICommand<TResponse>
         where TResponse : IErrorOr
     {
 

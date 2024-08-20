@@ -1,5 +1,4 @@
 using Serilog;
-using Auth.Data;
 using FastEndpoints;
 using System.Reflection;
 using OpenTelemetry.Trace;
@@ -27,7 +26,7 @@ internal class Program
             builder.Services.RegisterRepositories();
 
 
-            // builder.Services.AddFastEndpoints(o => o.IncludeAbstractValidators = true);
+            builder.Services.AddFastEndpoints(o => o.IncludeAbstractValidators = true);
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwaggerGen(c =>
@@ -42,7 +41,7 @@ internal class Program
             builder.Services.AddProblemDetails();
 
             builder.Services.AddOpenTelemetry()
-            .ConfigureResource(resource => resource.AddService("َAuth.Api"))
+            .ConfigureResource(resource => resource.AddService("Auth.Api"))
             .WithTracing(tracing =>
             {
                 tracing.AddAspNetCoreInstrumentation()
@@ -65,7 +64,7 @@ internal class Program
 
             app.UseHttpsRedirection();
             app.UseExceptionHandler();
-            // app.UseFastEndpoints();
+            app.UseFastEndpoints();
 
             app.Run();
         }
