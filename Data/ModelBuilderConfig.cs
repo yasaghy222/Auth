@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Auth.Domain.Entities;
+﻿using Auth.Domain.Entities;
+using Auth.Features.Roles.Services;
+using Auth.Features.Users.Services;
+using Microsoft.EntityFrameworkCore;
+using Auth.Features.Organizations.Services;
+using Auth.Features.UserOrganizations.Services;
 
 namespace Auth.Data;
 
@@ -7,6 +11,28 @@ public static class ModelBuilderConfig
 {
 	public static void OnModelCreatingBuilder(this ModelBuilder modelBuilder)
 	{
+		modelBuilder.Entity<Organization>(entity =>
+		{
+			entity.Property(e => e.Id).HasMaxLength(200);
+			entity.Property(e => e.Title).HasMaxLength(200);
+			entity.Property(e => e.ParentId).HasMaxLength(200);
+
+			entity.HasData(OrganizationDataSeeding.InitialItems);
+		});
+
+		modelBuilder.Entity<Role>(entity =>
+		{
+			entity.Property(e => e.Id).HasMaxLength(200);
+			entity.Property(e => e.Title).HasMaxLength(200);
+			entity.Property(e => e.OrganizationId).HasMaxLength(200);
+
+			entity.HasOne(e => e.Organization).WithMany(e => e.Roles)
+				.HasForeignKey(e => e.OrganizationId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			entity.HasData(RolesDataSeeding.InitialItems);
+		});
+
 		modelBuilder.Entity<User>(entity =>
 		{
 			entity.Property(e => e.Id).HasMaxLength(200);
@@ -17,6 +43,8 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.Email).HasMaxLength(300);
 			entity.Property(e => e.Password).HasMaxLength(500);
 			entity.Property(e => e.StatusDescription).HasMaxLength(500);
+
+			entity.HasData(UsersDataSeeding.InitialItems);
 		});
 
 		modelBuilder.Entity<Session>(entity =>
@@ -30,13 +58,6 @@ public static class ModelBuilderConfig
 			entity.HasOne(e => e.User).WithMany(e => e.Sessions)
 				.HasForeignKey(e => e.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
-		});
-
-		modelBuilder.Entity<Organization>(entity =>
-		{
-			entity.Property(e => e.Id).HasMaxLength(200);
-			entity.Property(e => e.Title).HasMaxLength(200);
-			entity.Property(e => e.ParentId).HasMaxLength(200);
 		});
 
 		modelBuilder.Entity<UserOrganization>(entity =>
@@ -57,17 +78,8 @@ public static class ModelBuilderConfig
 			entity.HasOne(e => e.Role).WithMany(e => e.UserOrganizations)
 				.HasForeignKey(e => e.RoleId)
 				.OnDelete(DeleteBehavior.NoAction);
-		});
 
-		modelBuilder.Entity<Role>(entity =>
-		{
-			entity.Property(e => e.Id).HasMaxLength(200);
-			entity.Property(e => e.Title).HasMaxLength(200);
-			entity.Property(e => e.OrganizationId).HasMaxLength(200);
-
-			entity.HasOne(e => e.Organization).WithMany(e => e.Roles)
-				.HasForeignKey(e => e.OrganizationId)
-				.OnDelete(DeleteBehavior.Cascade);
+			entity.HasData(UserOrganizationsDataSeeding.InitialItems);
 		});
 
 		modelBuilder.Entity<Resource>(entity =>

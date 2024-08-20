@@ -1,6 +1,4 @@
 ﻿using Auth.Data;
-using Auth.Features.Organizations.Services;
-using Auth.Features.Roles.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Shared.RequestPipeline;
@@ -14,14 +12,5 @@ public static class DatabaseMigrationConfiguration
         AuthDBContext? dbContext = scope.ServiceProvider.GetRequiredService<AuthDBContext>();
 
         await dbContext.Database.MigrateAsync();
-
-        if (await dbContext.Database.CanConnectAsync() &&
-            await dbContext.Database.EnsureCreatedAsync())
-        {
-            await dbContext.Organizations.ApplyInitialDatas();
-            await dbContext.Roles.ApplyInitialDatas();
-
-            await dbContext.SaveChangesAsync();
-        }
     }
 }

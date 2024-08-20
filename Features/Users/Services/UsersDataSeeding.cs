@@ -1,44 +1,49 @@
 using Auth.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Auth.Features.Roles.Contracts.Enums;
+using Auth.Shared.Extensions;
 using Auth.Features.Users.Contracts.Enums;
 
-namespace Auth.Features.Roles.Services
+namespace Auth.Features.Users.Services
 {
     public static class UsersDataSeeding
     {
-        public static async Task ApplyInitialDatas(this DbSet<User> table)
-        {
-            IEnumerable<User> initialItems = [
-                new User
-                {
-                    Id = Ulid.Parse("01J5NAZXXVEVWXFWMJVSQNN048"),
-                    Title = "Admin.Auth.Service",
-                    Status = UserStatus.Active,
-                    CreateAt = DateTime.UtcNow,
-                    OrganizationId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8") // auth.service.id
-                },
-                new User
-                {
-                    Id = Ulid.Parse("01J5NANQX796T02CTDQ5X5YKQM"),
-                    Title = "Admin.Accounting.Service",
-                    Status = RoleStatus.Active,
-                    CreateAt = DateTime.UtcNow,
-                    OrganizationId = Ulid.Parse("01J5N8P83VSNQRJNJ8FD6E0M8E") // accounting.service.id
-                },
-                 new User
-                {
-                    Id = Ulid.Parse("01J5NAWMCDS3J0GFNAY7F05AJ5"),
-                    Title = "Admin.RedSense.Service",
-                    Status = RoleStatus.Active,
-                    CreateAt = DateTime.UtcNow,
-                    OrganizationId = Ulid.Parse("01J5N8QDTDVH64T5K3B9RCRB88") // accounting.service.id
-                },
-            ];
-            IEnumerable<Ulid> initialIds = initialItems.Select(i => i.Id);
-
-            if (table.Any(i => initialIds.Contains(i.Id)))
-                await table.AddRangeAsync(initialItems);
-        }
+        public static IEnumerable<User> InitialItems =>
+        [
+            new User
+            {
+                Id = Ulid.Parse("01J5Q6HDSW0J4G3SRWGJNZYJFD"),
+                Name = "Admin",
+                Family = "Auth.Service",
+                Password = "AdminAuth@123".ToHashString(),
+                Username = "AdminAuthService1",
+                Status = UserStatus.Active,
+            },
+            new User
+            {
+                Id = Ulid.Parse("01J5Q6JNY35P6T0SKDHJ36K2XD"),
+                Name = "Admin",
+                Family = "Accounting.Service",
+                Password = "AdminAccounting@123".ToHashString(),
+                Username = "AdminAccountingService1",
+                Status = UserStatus.Active,
+            },
+            new User
+            {
+                Id = Ulid.Parse("01J5Q846WB22M41TEMAPY8P6VF"),
+                Name = "Admin",
+                Family = "RedSense.Service",
+                Password = "AdminRedSense@123".ToHashString(),
+                Username = "AdminRedSenseService1",
+                Status = UserStatus.Active,
+            },
+            new User
+            {
+                Id = Ulid.Parse("01J5Q86APSM2V5703AH2N0QDVY"),
+                Name = "Admin",
+                Family = "RedGuard.Update.Service",
+                Password = "AdminRedGuardUpdate@123".ToHashString(),
+                Username = "AdminRedGuardUpdateService1",
+                Status = UserStatus.Active,
+            },
+        ];
     }
 }

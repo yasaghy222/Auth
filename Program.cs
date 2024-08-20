@@ -1,18 +1,18 @@
-using System.Reflection;
-using Auth.Data;
-using Auth.Shared.DependencyInjections;
-using Auth.Shared.RequestPipeline;
-using FastEndpoints;
-using Microsoft.OpenApi.Models;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Serilog;
+using Auth.Data;
+using FastEndpoints;
+using System.Reflection;
+using OpenTelemetry.Trace;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Consul;
+using OpenTelemetry.Resources;
+using Microsoft.OpenApi.Models;
+using Auth.Shared.RequestPipeline;
+using Auth.Shared.DependencyInjections;
 
 internal class Program
 {
-    private static async void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
         {

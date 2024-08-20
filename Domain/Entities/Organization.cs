@@ -8,7 +8,6 @@ namespace Auth.Domain.Entities
         public required string Title { get; set; }
 
         public Ulid? ParentId { get; set; }
-        public string? ParentTitle { get; set; }
         public Organization? Parent { get; set; }
 
         public ICollection<Role>? Roles { get; set; }
