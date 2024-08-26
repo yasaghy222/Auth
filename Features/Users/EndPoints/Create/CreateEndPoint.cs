@@ -1,10 +1,10 @@
 using ErrorOr;
 using MediatR;
 using FastEndpoints;
-using Auth.Features.Users.CommandQuery.Commands.Create;
-using Auth.Features.Users.Contracts.Mappings;
-using Auth.Shared.CustomErrors;
 using Auth.Shared.Extensions;
+using Auth.Shared.CustomErrors;
+using Auth.Features.Users.Contracts.Mappings;
+using Auth.Features.Users.CommandQuery.Commands.Create;
 
 namespace Auth.Features.Users.EndPoints.Create
 {
@@ -25,6 +25,7 @@ namespace Auth.Features.Users.EndPoints.Create
         public override async Task<IResult> ExecuteAsync(UserCreateDto dto, CancellationToken ct)
         {
             CreateCommand command = dto.MapToCommand();
+            _logger.LogInformation("Command: {command}", command.ToJson());
 
             ErrorOr<Created> result = await _sender.Send(command, ct);
 

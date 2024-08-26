@@ -9,7 +9,7 @@ namespace Auth.Features.Users.EndPoints.Create
         public required string Password { get; set; }
         public required string RepeatPassword { get; set; }
 
-        public string? Phone { get; set; }
+        public required string Phone { get; set; }
         public string? Email { get; set; }
     }
 }

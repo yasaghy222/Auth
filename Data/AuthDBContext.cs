@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Data
 {
-	public class AuthDBContext(DbContextOptions<AuthDBContext> options) : DbContext(options)
+	public class AuthDBContext(DbContextOptions<AuthDBContext> options, IHashService hashService) : DbContext(options)
 	{
 		public DbSet<User> Users { get; set; }
 		public DbSet<Session> Sessions { get; set; }
@@ -21,7 +21,7 @@ namespace Auth.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.OnModelCreatingBuilder();
+			modelBuilder.OnModelCreatingBuilder(hashService);
 			base.OnModelCreating(modelBuilder);
 		}
 

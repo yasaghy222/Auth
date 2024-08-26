@@ -1,10 +1,8 @@
 using Serilog;
 using FastEndpoints;
 using System.Reflection;
-using OpenTelemetry.Trace;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Consul;
-using OpenTelemetry.Resources;
 using Microsoft.OpenApi.Models;
 using Auth.Shared.RequestPipeline;
 using Auth.Shared.DependencyInjections;
@@ -19,12 +17,14 @@ internal class Program
 
             builder.AddSerilog();
 
-            builder.Services.RegisterValidators();
             builder.Services.AddServiceDiscovery(o => o.UseConsul());
 
-            builder.Services.RegisterDBContext(builder);
+            builder.Services.RegisterGlobalServices();
+
+            builder.Services.RegisterDBContext(builder.Configuration);
             builder.Services.RegisterRepositories();
 
+            builder.Services.RegisterValidators();
 
             builder.Services.AddFastEndpoints(o => o.IncludeAbstractValidators = true);
             builder.Services.AddEndpointsApiExplorer();
@@ -40,17 +40,7 @@ internal class Program
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
             builder.Services.AddProblemDetails();
 
-            builder.Services.AddOpenTelemetry()
-            .ConfigureResource(resource => resource.AddService("Auth.Api"))
-            .WithTracing(tracing =>
-            {
-                tracing.AddAspNetCoreInstrumentation()
-                     .AddHttpClientInstrumentation()
-                     .AddSqlClientInstrumentation(o => o.SetDbStatementForText = true)
-                     .AddGrpcClientInstrumentation();
-
-                tracing.AddOtlpExporter();
-            });
+            builder.Services.RegisterOpenTelemetry();
         }
 
         WebApplication app = builder.Build();
@@ -66,7 +56,7 @@ internal class Program
             app.UseExceptionHandler();
             app.UseFastEndpoints();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

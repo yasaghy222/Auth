@@ -4,12 +4,13 @@ using Auth.Features.Users.Services;
 using Microsoft.EntityFrameworkCore;
 using Auth.Features.Organizations.Services;
 using Auth.Features.UserOrganizations.Services;
+using Auth.Shared.Extensions;
 
 namespace Auth.Data;
 
 public static class ModelBuilderConfig
 {
-	public static void OnModelCreatingBuilder(this ModelBuilder modelBuilder)
+	public static void OnModelCreatingBuilder(this ModelBuilder modelBuilder, IHashService hashService)
 	{
 		modelBuilder.Entity<Organization>(entity =>
 		{
@@ -44,7 +45,7 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.Password).HasMaxLength(500);
 			entity.Property(e => e.StatusDescription).HasMaxLength(500);
 
-			entity.HasData(UsersDataSeeding.InitialItems);
+			entity.HasData(UsersDataSeeding.GetInitialItems(hashService));
 		});
 
 		modelBuilder.Entity<Session>(entity =>

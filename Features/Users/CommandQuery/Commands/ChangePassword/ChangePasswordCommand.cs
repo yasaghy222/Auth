@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Auth.Features.Users.Contracts.Requests;
+using ErrorOr;
 
 namespace Auth.Features.Users.CommandQuery.Commands.ChangePassword
 {
-    public record ChangePasswordCommand
+    public record ChangePasswordCommand : IUserCommand<ErrorOr<Updated>>
     {
-
+        public Ulid Id { get; set; }
+        public required string OldPassword { get; set; }
+        public required string Password { get; set; }
     }
 }

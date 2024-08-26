@@ -1,8 +1,8 @@
 using Auth.Domain.Entities;
-using Auth.Features.Users.Contracts.Enums;
-using Auth.Features.Users.CommandQuery.Commands.Create;
-using Auth.Features.Users.EndPoints.Create;
 using Auth.Shared.Extensions;
+using Auth.Features.Users.Contracts.Enums;
+using Auth.Features.Users.EndPoints.Create;
+using Auth.Features.Users.CommandQuery.Commands.Create;
 
 namespace Auth.Features.Users.Contracts.Mappings
 {
@@ -21,7 +21,7 @@ namespace Auth.Features.Users.Contracts.Mappings
             };
         }
 
-        public static User MapToEntity(this CreateCommand command)
+        public static User MapToEntity(this CreateCommand command, IHashService hashService)
         {
             return new()
             {
@@ -31,7 +31,7 @@ namespace Auth.Features.Users.Contracts.Mappings
                 Username = command.Username,
                 Phone = command.Phone,
                 Email = command.Email,
-                Password = command.Password.ToHashString(),
+                Password = hashService.HashString(command.Password),
                 Status = UserStatus.Active
             };
         }

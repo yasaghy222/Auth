@@ -1,16 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using Auth.Data;
+using Auth.Shared.Extensions;
+using Steeltoe.Extensions.Configuration;
 
 namespace Auth.Shared.DependencyInjections
 {
 	public static class DBContextInjections
 	{
-		public static IServiceCollection RegisterDBContext(this IServiceCollection services, WebApplicationBuilder builder)
+		public static IServiceCollection RegisterDBContext(this IServiceCollection services, IConfiguration configuration)
 		{
-			string? defName = builder.Configuration["Db:Name"];
-			string? defHost = builder.Configuration["Db:Host"];
-			string? defUser = builder.Configuration["Db:User"];
-			string? defPass = builder.Configuration["Db:Pass"];
+			string? defName = configuration["Db:Name"];
+			string? defHost = configuration["Db:Host"];
+			string? defUser = configuration["Db:User"];
+			string? defPass = configuration["Db:Pass"];
 
 			string? dbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? defHost;
 			string? dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? defName;
@@ -19,7 +21,7 @@ namespace Auth.Shared.DependencyInjections
 
 			string connectionString = $"Server={dbHost}; Persist Security Info=False; TrustServerCertificate=true; User ID={defUser};Password={dbPass};Initial Catalog={dbName};";
 
-			builder.Services.AddDbContext<AuthDBContext>(options => options.UseSqlServer(connectionString));
+			services.AddDbContext<AuthDBContext>(options => options.UseSqlServer(connectionString));
 
 			return services;
 		}

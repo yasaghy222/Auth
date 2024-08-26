@@ -9,8 +9,6 @@ public static class BehaviorsInjections
     {
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestLoggingBehavior<,>));
 
-
-
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
     }
 }

@@ -11,7 +11,7 @@ namespace Auth.Features.Users.CommandQuery.Commands.Create
         public required string Username { get; set; }
         public required string Password { get; set; }
 
-        public string? Phone { get; set; }
+        public required string Phone { get; set; }
         public string? Email { get; set; }
     }
 }
