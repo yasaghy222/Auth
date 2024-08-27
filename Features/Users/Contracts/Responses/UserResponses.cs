@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Auth.Contracts.Response;
 
 namespace Auth.Features.Users.Contracts.Responses
 {
-    public class UserResponses
-    {
-
-    }
+    public record UsersResponse : QueryResponse<UserResponse>;
 }

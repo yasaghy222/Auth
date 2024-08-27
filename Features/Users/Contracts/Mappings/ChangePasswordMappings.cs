@@ -5,7 +5,7 @@ using Auth.Shared.Extensions;
 
 namespace Auth.Features.Users.Contracts.Mappings
 {
-    public static class UserChangePasswordMappings
+    public static class ChangePasswordMappings
     {
         public static ChangePasswordCommand MapToCommand(
             this UserChangePasswordDto dto)

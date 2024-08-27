@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Auth.Contracts.Response;
 using LanguageExt;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -12,12 +13,27 @@ namespace Auth.Contracts.Common
         public abstract List<TEntity> ToList(
             Expression<Func<TEntity, bool>> condition);
 
+        public abstract QueryResponse<TResponse> ToList<TResponse>(
+                   Func<TEntity, TResponse> selector,
+                   Expression<Func<TEntity, bool>>? expression = default,
+                   Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = default,
+                   int pageIndex = 1,
+                   int pageSize = 10);
+
         public abstract Task<List<TEntity>> ToListAsync(
             CancellationToken ct);
 
         public abstract Task<List<TEntity>> ToListAsync(
             Expression<Func<TEntity, bool>> condition,
             CancellationToken ct);
+
+        public abstract Task<QueryResponse<TResponse>> ToListAsync<TResponse>(
+                  Func<TEntity, TResponse> selector,
+                  Expression<Func<TEntity, bool>>? expression = default,
+                  Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = default,
+                  int pageIndex = 1,
+                  int pageSize = 10,
+                  CancellationToken ct = default);
 
 
         public abstract Option<TEntity> Find(TId id);

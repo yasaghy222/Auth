@@ -1,14 +1,16 @@
 using LanguageExt;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Auth.Contracts.Common;
+using Auth.Contracts.Response;
+using Microsoft.EntityFrameworkCore;
 using Auth.Domain.Aggregates.Interfaces;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Auth.Data.Repositories
 {
-    public class Repository<TEntity, TId>(AuthDBContext db) : RepositoryBase<TEntity, TId> where TEntity : class,
-      IIdentityAggregate<TId>
+    public class Repository<TEntity, TId>(AuthDBContext db)
+        : RepositoryBase<TEntity, TId> where TEntity : class,
+        IIdentityAggregate<TId>
     {
         public override List<TEntity> ToList()
         {
@@ -19,6 +21,46 @@ namespace Auth.Data.Repositories
             Expression<Func<TEntity, bool>> condition)
         {
             return [.. db.Set<TEntity>().Where(condition).AsNoTracking()];
+        }
+
+        public override QueryResponse<TResponse> ToList<TResponse>(
+           Func<TEntity, TResponse> selector,
+           Expression<Func<TEntity, bool>>? expression = null,
+           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+           int pageIndex = 1,
+           int pageSize = 10)
+        {
+            IQueryable<TEntity> baseQuery = db.Set<TEntity>()
+                .AsNoTracking()
+                .AsQueryable();
+
+            // Apply filtering
+            if (expression != null)
+            {
+                baseQuery = baseQuery.Where(expression);
+            }
+
+            // Calculate total count before applying pagination
+            int totalCount = baseQuery.Count();
+
+            // Apply ordering if any
+            IQueryable<TEntity> itemsQuery = order != null ? order(baseQuery) : baseQuery;
+
+            // Apply pagination
+            itemsQuery = itemsQuery.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            // Execute the query and project the results
+            List<TResponse> items = itemsQuery.Select(selector).ToList();
+
+            return new QueryResponse<TResponse>
+            {
+                Items = items,
+                Count = items.Count,
+                TotalCount = totalCount,
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                TotalPageIndex = (int)Math.Ceiling(totalCount / (double)pageSize)
+            };
         }
 
         public override async Task<List<TEntity>> ToListAsync(
@@ -38,6 +80,49 @@ namespace Auth.Data.Repositories
                 .AsNoTracking()
                 .ToListAsync(ct);
         }
+
+        public override async Task<QueryResponse<TResponse>> ToListAsync<TResponse>(
+            Func<TEntity, TResponse> selector,
+            Expression<Func<TEntity, bool>>? expression = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+            int pageIndex = 1,
+            int pageSize = 10,
+            CancellationToken ct = default)
+        {
+            IQueryable<TEntity> baseQuery = db.Set<TEntity>()
+                .AsNoTracking()
+                .AsQueryable();
+
+            // Apply filtering
+            if (expression != null)
+            {
+                baseQuery = baseQuery.Where(expression);
+            }
+
+            // Calculate total count before applying pagination
+            int totalCount = await baseQuery.CountAsync(ct);
+
+            // Apply ordering if any
+            IQueryable<TEntity> itemsQuery = order != null ? order(baseQuery) : baseQuery;
+
+            // Apply pagination
+            itemsQuery = itemsQuery.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            // Execute the query and project the results
+            List<TResponse> items = await Task.Run(itemsQuery.Select(selector).ToList, ct);
+
+            return new QueryResponse<TResponse>
+            {
+                Items = items,
+                Count = items.Count,
+                TotalCount = totalCount,
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                TotalPageIndex = (int)Math.Ceiling(totalCount / (double)pageSize)
+            };
+        }
+
+
 
         public override Option<TEntity> Find(TId id)
         {
