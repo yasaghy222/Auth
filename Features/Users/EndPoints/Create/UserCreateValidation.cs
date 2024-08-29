@@ -36,11 +36,12 @@ namespace Auth.Features.Users.EndPoints.Create
                 .NotEmpty()
                 .MaximumLength(500)
                 .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
-                .WithMessage(@"
+                .WithMessage("""
                     Password must be at least 8 characters long
                     and contain at least one uppercase letter,
                     one lowercase letter, one digit,
-                    and one special character.");
+                    and one special character.
+                    """);
 
             RuleFor(i => i.RepeatPassword)
                 .NotNull()

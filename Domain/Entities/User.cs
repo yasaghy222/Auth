@@ -12,10 +12,10 @@ namespace Auth.Domain.Entities
         public required string Password { get; set; }
 
         public string? Phone { get; set; }
-        public bool IsPhoneValid = false;
+        public bool IsPhoneValid { get; set; } = false;
 
         public string? Email { get; set; }
-        public bool IsEmailValid = false;
+        public bool IsEmailValid { get; set; } = false;
 
         public ICollection<Session>? Sessions { get; set; }
         public ICollection<UserOrganization>? UserOrganizations { get; set; }

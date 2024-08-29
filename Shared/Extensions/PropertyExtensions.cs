@@ -1,11 +1,11 @@
 using System.Reflection;
 using System.Text.Json;
+using FastEndpoints;
 
 namespace Auth.Shared.Extensions
 {
     public static class PropertyExtensions
     {
-
         public static bool HasProp<TEntity>(this TEntity item, string key)
         {
             if (item is null) return false;

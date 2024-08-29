@@ -75,7 +75,7 @@ namespace Auth.Features.Users.Contracts.Mappings
             return new()
             {
                 Id = user.Id,
-                FullName = $"{user.Name} + {user.Family}",
+                FullName = $"{user.Name} {user.Family}",
                 Username = user.Username,
                 Phone = user.Phone,
                 IsPhoneValid = user.IsPhoneValid,

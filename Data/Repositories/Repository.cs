@@ -157,6 +157,7 @@ namespace Auth.Data.Repositories
                 .FirstOrDefaultAsync(i => i.Id == null || i.Id.Equals(id), ct);
         }
 
+
         public override async Task<Option<TEntity>> FindAsync(
             Expression<Func<TEntity, bool>> expression,
             CancellationToken ct)

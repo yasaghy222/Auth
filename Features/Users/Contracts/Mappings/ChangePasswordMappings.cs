@@ -25,7 +25,6 @@ namespace Auth.Features.Users.Contracts.Mappings
             {
                 Id = command.Id,
                 Password = hashService.HashString(command.Password),
-                OldPassword = hashService.HashString(command.OldPassword),
             };
         }
     }

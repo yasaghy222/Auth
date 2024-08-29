@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Auth.Features.Users.Events.SucceedLogin
+namespace Auth.Features.Users.Events.LoginSucceed
 {
-    public class SucceedLoginEvent
+    public class LoginSucceedEventHandler
     {
 
     }

@@ -20,6 +20,17 @@ public static class UserErrors
         Error.Validation("User.DuplicatePhone",
         $"your input Phone:'{phone}' already is exist.");
 
+    public static Error RepeatedPassword() =>
+         Error.Validation("User.RepeatedPassword",
+         $"plz choose the new password.");
+
+
     public static Error NotFound() => Error.NotFound("User.NotFound",
         $"there are no user with this data exist in the database.");
+
+    public static Error InvalidUserPass() => Error.NotFound("User.InvalidUserPass",
+        $"your username or password are invalid");
+
+    public static Error SuspendStatus() => Error.NotFound("User.SuspendStatus",
+     $"your account was suspend plz talk with admin");
 }

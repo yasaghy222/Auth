@@ -10,6 +10,8 @@ using Auth.Features.Users.Contracts.Enums;
 using Auth.Features.Users.Contracts.Requests;
 using Auth.Features.Users.Contracts.Responses;
 using Auth.Features.Users.Contracts.Mappings;
+using LanguageExt;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Features.Users.Repositories
 {
@@ -17,11 +19,23 @@ namespace Auth.Features.Users.Repositories
         Repository<User, Ulid>(db),
         IUserRepository
     {
+
+        private readonly AuthDBContext _db = db;
+
+        public override async Task<Option<User>> FindAsync(
+            Expression<Func<User, bool>> expression, CancellationToken ct)
+        {
+            return await _db.Users.Include(i => i.UserOrganizations).FirstOrDefaultAsync(expression, ct);
+        }
+
+
         private static Expression<Func<User, bool>> GetExpression(UserFilterRequest request)
         {
-            Expression<Func<User, bool>>? expression = u =>
-                          u.UserOrganizations != null &&
-                          u.UserOrganizations.Any(o => request.OrganizationIds.Contains(o.Id));
+            // Expression<Func<User, bool>>? expression = u =>
+            //               u.UserOrganizations != null &&
+            //               u.UserOrganizations.Any(o => request.OrganizationIds.Contains(o.Id));
+
+            Expression<Func<User, bool>>? expression = null;
 
             if (request.Ids != null && request.Ids.Any())
             {
@@ -232,16 +246,28 @@ namespace Auth.Features.Users.Repositories
             return queryResponse.ToResponse();
         }
 
+        public async Task<bool> UpdateFailedLoginInfoAsync(
+                  LoginFailedRequest request, CancellationToken ct)
+        {
+            return await base.EditAsync(
+                i => i.Id == request.Id,
+                setter =>
+                    setter.SetProperty(i => i.FailedLoginAttempts, request.FailedLoginAttempts)
+                    .SetProperty(i => i.AccountLockedUntil, request.AccountLockedUntil)
+                    .SetProperty(i => i.Status, request.Status)
+                    .SetProperty(i => i.ModifyAt, DateTime.UtcNow),
+                ct);
+        }
 
         public async Task<bool> ChangePasswordAsync(
             ChangePasswordRequest request, CancellationToken ct)
         {
             return await base.EditAsync(
                 i => i.Id == request.Id
-                    && i.Password == request.OldPassword
                     && i.Status == UserStatus.Active,
-                setter => setter.SetProperty(i => i.Password,
-                    request.Password),
+                setter =>
+                    setter.SetProperty(i => i.Password, request.Password)
+                    .SetProperty(i => i.ModifyAt, DateTime.UtcNow),
                 ct);
         }
 

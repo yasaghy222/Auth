@@ -12,6 +12,9 @@ namespace Auth.Features.Users.Repositories
         public Task<bool> UpdateAsync(
             UpdateRequest request, CancellationToken ct);
 
+        public Task<bool> UpdateFailedLoginInfoAsync(
+                  LoginFailedRequest request, CancellationToken ct);
+
         public Task<bool> ChangePasswordAsync(
            ChangePasswordRequest request, CancellationToken ct);
     }

@@ -18,7 +18,7 @@ namespace Auth.Features.Users.EndPoints.ChangePassword
 
         public override void Configure()
         {
-            Patch("/user");
+            Patch("/user/change-password");
             AllowAnonymous();
         }
 

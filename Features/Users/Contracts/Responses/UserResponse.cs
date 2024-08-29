@@ -1,3 +1,4 @@
+using Auth.Contracts.Response;
 using Auth.Features.Users.Contracts.Enums;
 
 namespace Auth.Features.Users.Contracts.Responses
@@ -18,4 +19,6 @@ namespace Auth.Features.Users.Contracts.Responses
 
         public DateTime CreateAt { get; set; }
     }
+
+    public record UsersResponse : QueryResponse<UserResponse>;
 }
