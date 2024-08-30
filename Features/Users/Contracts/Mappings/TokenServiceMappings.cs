@@ -13,10 +13,10 @@ namespace Auth.Features.Users.Contracts.Mappings
             return
             [
                 new Claim(UserClaimNames.UserInfo, request.UserInfo.ToJson()),
-                new Claim(UserClaimNames.Organizations, request.Organizations.ToJson()),
+                new Claim(UserClaimNames.Organizations, request.UserOrganizations.ToJson()),
                 new Claim(UserClaimNames.LoginOrganizationId, request.LoginOrganizationId.ToString()),
                 new Claim(UserClaimNames.LoginOrganizationTitle, request.LoginOrganizationTitle.ToString()),
-                new Claim(UserClaimNames.Organizations, request.Organizations.ToJson()),
+                new Claim(UserClaimNames.Organizations, request.UserOrganizations.ToJson()),
             ];
         }
 

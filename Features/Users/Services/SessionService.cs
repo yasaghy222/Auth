@@ -1,9 +1,9 @@
-using Auth.Features.Sessions.Contracts.Mappings;
-using Auth.Features.Sessions.Contracts.Requests;
-using Auth.Features.Sessions.Contracts.Responses;
+using Auth.Features.Users.Contracts.Mappings;
+using Auth.Features.Users.Contracts.Requests;
+using Auth.Features.Users.Contracts.Responses;
 using StackExchange.Redis;
 
-namespace Auth.Features.Sessions.Services
+namespace Auth.Features.Users.Services
 {
     public interface ISessionService
     {

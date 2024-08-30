@@ -28,6 +28,9 @@ public static class UserErrors
     public static Error NotFound() => Error.NotFound("User.NotFound",
         $"there are no user with this data exist in the database.");
 
+    public static Error OrganizationNotFound() => Error.NotFound("User.Organization.NotFound",
+        $"there are no organization with this data exist in the database.");
+
     public static Error InvalidUserPass() => Error.NotFound("User.InvalidUserPass",
         $"your username or password are invalid");
 

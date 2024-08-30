@@ -10,7 +10,7 @@ namespace Auth.Domain.Entities
         public required Ulid OrganizationId { get; set; }
         public Organization? Organization { get; set; }
 
-        public ICollection<UserOrganization>? UserOrganizations { get; set; }
-        public ICollection<Permission>? Permissions { get; set; }
+        public ICollection<UserOrganization> UserOrganizations { get; set; } = [];
+        public ICollection<Permission> Permissions { get; set; } = [];
     }
 }

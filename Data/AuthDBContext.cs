@@ -7,7 +7,6 @@ namespace Auth.Data
 	public class AuthDBContext(DbContextOptions<AuthDBContext> options, IHashService hashService) : DbContext(options)
 	{
 		public DbSet<User> Users { get; set; }
-		public DbSet<Session> Sessions { get; set; }
 		public DbSet<UserOrganization> UserOrganizations { get; set; }
 
 		public DbSet<Organization> Organizations { get; set; }

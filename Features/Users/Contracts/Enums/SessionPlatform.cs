@@ -1,4 +1,4 @@
-namespace Auth.Features.Sessions.Contracts.Enums
+namespace Auth.Features.Users.Contracts.Enums
 {
     public enum SessionPlatform : byte
     {

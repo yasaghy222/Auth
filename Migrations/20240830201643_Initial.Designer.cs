@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Auth.Migrations
 {
     [DbContext(typeof(AuthDBContext))]
-    [Migration("20240826080027_Initial")]
+    [Migration("20240830201643_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -62,28 +62,31 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 865, DateTimeKind.Utc).AddTicks(9833),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6700),
                             Status = (byte)1,
                             Title = "Auth.Service"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 865, DateTimeKind.Utc).AddTicks(9851),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6720),
+                            ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "Accounting.Service"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 865, DateTimeKind.Utc).AddTicks(9854),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6730),
+                            ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "RedSense.Service"
                         },
                         new
                         {
-                            Id = new byte[] { 1, 145, 106, 177, 249, 102, 223, 64, 72, 121, 238, 195, 21, 7, 23, 232 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 865, DateTimeKind.Utc).AddTicks(9856),
+                            Id = new byte[] { 1, 145, 106, 53, 249, 102, 223, 110, 72, 121, 238, 195, 21, 7, 23, 232 },
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6730),
+                            ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "RedGuard.Update.Service"
                         });
@@ -229,7 +232,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 866, DateTimeKind.Utc).AddTicks(1069),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7890),
                             OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "Admin.Auth.Service"
@@ -237,7 +240,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 170, 223, 167, 73, 180, 1, 51, 77, 185, 122, 95, 78, 244 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 866, DateTimeKind.Utc).AddTicks(1075),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7900),
                             OrganizationId = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
                             Status = (byte)1,
                             Title = "Admin.Accounting.Service"
@@ -245,7 +248,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 174, 81, 141, 200, 228, 8, 62, 170, 241, 222, 2, 170, 69 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 866, DateTimeKind.Utc).AddTicks(1079),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7900),
                             OrganizationId = new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 },
                             Status = (byte)1,
                             Title = "Admin.RedSense.Service"
@@ -253,58 +256,11 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 132, 36, 254, 143, 28, 34, 174, 239, 146, 132, 223, 29, 241 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 866, DateTimeKind.Utc).AddTicks(1081),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7900),
                             OrganizationId = new byte[] { 1, 145, 106, 177, 249, 102, 223, 64, 72, 121, 238, 195, 21, 7, 23, 232 },
                             Status = (byte)1,
                             Title = "Admin.RedGuard.Update.Service"
                         });
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.Session", b =>
-                {
-                    b.Property<byte[]>("Id")
-                        .HasMaxLength(200)
-                        .HasColumnType("varbinary(200)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ExpireAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("IP")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime?>("ModifyAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("OrganizationId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varbinary(200)");
-
-                    b.Property<byte>("Platform")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("UniqueId")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<byte[]>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varbinary(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrganizationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("Auth.Domain.Entities.User", b =>
@@ -330,6 +286,12 @@ namespace Auth.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsEmailValid")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPhoneValid")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifyAt")
                         .HasColumnType("datetime2");
@@ -368,44 +330,52 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 866, DateTimeKind.Utc).AddTicks(1560),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(8500),
                             FailedLoginAttempts = 0,
                             Family = "Auth.Service",
+                            IsEmailValid = false,
+                            IsPhoneValid = false,
                             Name = "Admin",
-                            Password = "6YN2Yv9NpJOZp5dLo0zEZAd+5rpfua8Aqt15WLjTa4Mfzr0riVEBb02821vGidTV",
+                            Password = "x4m43WJ6RJ0Koy+Iyt0ARuV4W/ClGcIsGk8himeR62+taIK0nLin7FiuJES9SmWI",
                             Status = (byte)1,
                             Username = "AdminAuthService1"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 105, 87, 195, 45, 141, 160, 102, 109, 140, 134, 105, 139, 173 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 913, DateTimeKind.Utc).AddTicks(8490),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 867, DateTimeKind.Utc).AddTicks(810),
                             FailedLoginAttempts = 0,
                             Family = "Accounting.Service",
+                            IsEmailValid = false,
+                            IsPhoneValid = false,
                             Name = "Admin",
-                            Password = "UPzoxbG0EIgExBEYPTEClopejPe6hATkaM0zJYH+jeXXVBZXgA5Tv0HxggTqycQz",
+                            Password = "4lXII1C2fscxu7Ut44owXCR217WaXGlCwsd6kKmB4Ibj256VQMwwSYFkaofsTkC4",
                             Status = (byte)1,
                             Username = "AdminAccountingService1"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 130, 27, 139, 16, 168, 64, 233, 212, 85, 188, 139, 27, 111 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 26, 961, DateTimeKind.Utc).AddTicks(8643),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 921, DateTimeKind.Utc).AddTicks(6950),
                             FailedLoginAttempts = 0,
                             Family = "RedSense.Service",
+                            IsEmailValid = false,
+                            IsPhoneValid = false,
                             Name = "Admin",
-                            Password = "jam31w/CGBFR9NrfFvRPa5iYZJej1sPuijLYZ6m3XqLyiDNtkjTzIcbNbuVQb2Yf",
+                            Password = "g671NzCdgxeQaemumT1WYkwR2vAjEn/yCHiIjo8Xj0/SjW1nehDsfbeFAJDin7Zx",
                             Status = (byte)1,
                             Username = "AdminRedSenseService1"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 131, 42, 217, 160, 182, 83, 128, 106, 136, 170, 11, 183, 126 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 27, 9, DateTimeKind.Utc).AddTicks(3788),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 975, DateTimeKind.Utc).AddTicks(9940),
                             FailedLoginAttempts = 0,
                             Family = "RedGuard.Update.Service",
+                            IsEmailValid = false,
+                            IsPhoneValid = false,
                             Name = "Admin",
-                            Password = "gu2ckNndOJ5Y7mvlD6MRS2f99wHLXWzoK9XyEq1tZtX/8RW0pc0MPj435gTY6prS",
+                            Password = "pQhIYUb7PEPn1b1WvU0M7h5yht/zyT+F9Ag0nZFvVRpef65P0XfPAesrN4E3rE5n",
                             Status = (byte)1,
                             Username = "AdminRedGuardUpdateService1"
                         });
@@ -452,7 +422,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 124, 211, 13, 172, 121, 123, 233, 248, 119, 101, 211, 216, 0 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 27, 61, DateTimeKind.Utc).AddTicks(4853),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(660),
                             OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 },
                             UserId = new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 }
@@ -460,7 +430,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 127, 99, 205, 140, 184, 243, 37, 41, 73, 148, 104, 34, 45 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 27, 61, DateTimeKind.Utc).AddTicks(4880),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(680),
                             OrganizationId = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
                             RoleId = new byte[] { 1, 145, 106, 170, 223, 167, 73, 180, 1, 51, 77, 185, 122, 95, 78, 244 },
                             UserId = new byte[] { 1, 145, 110, 105, 87, 195, 45, 141, 160, 102, 109, 140, 134, 105, 139, 173 }
@@ -468,7 +438,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 129, 40, 16, 107, 5, 179, 118, 154, 72, 139, 107, 194, 33 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 27, 61, DateTimeKind.Utc).AddTicks(4885),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(690),
                             OrganizationId = new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 },
                             RoleId = new byte[] { 1, 145, 106, 174, 81, 141, 200, 228, 8, 62, 170, 241, 222, 2, 170, 69 },
                             UserId = new byte[] { 1, 145, 110, 130, 27, 139, 16, 168, 64, 233, 212, 85, 188, 139, 27, 111 }
@@ -476,7 +446,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 130, 62, 238, 186, 7, 87, 156, 228, 222, 14, 191, 114, 169 },
-                            CreateAt = new DateTime(2024, 8, 26, 8, 0, 27, 61, DateTimeKind.Utc).AddTicks(4889),
+                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(690),
                             OrganizationId = new byte[] { 1, 145, 106, 177, 249, 102, 223, 64, 72, 121, 238, 195, 21, 7, 23, 232 },
                             RoleId = new byte[] { 1, 145, 110, 132, 36, 254, 143, 28, 34, 174, 239, 146, 132, 223, 29, 241 },
                             UserId = new byte[] { 1, 145, 110, 131, 42, 217, 160, 182, 83, 128, 106, 136, 170, 11, 183, 126 }
@@ -486,8 +456,9 @@ namespace Auth.Migrations
             modelBuilder.Entity("Auth.Domain.Entities.Organization", b =>
                 {
                     b.HasOne("Auth.Domain.Entities.Organization", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
+                        .WithMany("Chides")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
                 });
@@ -550,25 +521,6 @@ namespace Auth.Migrations
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("Auth.Domain.Entities.Session", b =>
-                {
-                    b.HasOne("Auth.Domain.Entities.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Auth.Domain.Entities.User", "User")
-                        .WithMany("Sessions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Organization");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Auth.Domain.Entities.UserOrganization", b =>
                 {
                     b.HasOne("Auth.Domain.Entities.Organization", "Organization")
@@ -598,6 +550,8 @@ namespace Auth.Migrations
 
             modelBuilder.Entity("Auth.Domain.Entities.Organization", b =>
                 {
+                    b.Navigation("Chides");
+
                     b.Navigation("Resources");
 
                     b.Navigation("Roles");
@@ -626,8 +580,6 @@ namespace Auth.Migrations
 
             modelBuilder.Entity("Auth.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Sessions");
-
                     b.Navigation("UserOrganizations");
                 });
 #pragma warning restore 612, 618

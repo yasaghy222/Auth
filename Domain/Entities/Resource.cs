@@ -14,6 +14,6 @@ namespace Auth.Domain.Entities
         public Ulid? GroupId { get; set; }
         public ResourceGroup? Group { get; set; }
 
-        public ICollection<Permission>? Permissions { get; set; }
+        public ICollection<Permission> Permissions { get; set; } = [];
     }
 }

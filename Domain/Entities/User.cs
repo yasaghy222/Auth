@@ -17,8 +17,7 @@ namespace Auth.Domain.Entities
         public string? Email { get; set; }
         public bool IsEmailValid { get; set; } = false;
 
-        public ICollection<Session>? Sessions { get; set; }
-        public ICollection<UserOrganization>? UserOrganizations { get; set; }
+        public ICollection<UserOrganization> UserOrganizations { get; set; } = [];
 
         public int FailedLoginAttempts { get; set; } = 0;
         public DateTime? AccountLockedUntil { get; set; }

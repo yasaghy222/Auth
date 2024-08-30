@@ -1,17 +1,17 @@
 using Auth.Data;
+using LanguageExt;
 using Auth.Domain.Entities;
 using Auth.Contracts.Enums;
 using Auth.Data.Repositories;
 using Auth.Shared.Extensions;
+using Auth.Contracts.Common;
 using System.Linq.Expressions;
 using Auth.Contracts.Response;
-using Auth.Contracts.Common;
+using Microsoft.EntityFrameworkCore;
 using Auth.Features.Users.Contracts.Enums;
 using Auth.Features.Users.Contracts.Requests;
-using Auth.Features.Users.Contracts.Responses;
 using Auth.Features.Users.Contracts.Mappings;
-using LanguageExt;
-using Microsoft.EntityFrameworkCore;
+using Auth.Features.Users.Contracts.Responses;
 
 namespace Auth.Features.Users.Repositories
 {
@@ -22,20 +22,28 @@ namespace Auth.Features.Users.Repositories
 
         private readonly AuthDBContext _db = db;
 
-        public override async Task<Option<User>> FindAsync(
-            Expression<Func<User, bool>> expression, CancellationToken ct)
+        public async Task<Option<User>> FindAsync(
+            Expression<Func<User, bool>> expression,
+            IEnumerable<Ulid>? organizationChidesIds,
+            CancellationToken ct)
         {
-            return await _db.Users.Include(i => i.UserOrganizations).FirstOrDefaultAsync(expression, ct);
+            if (organizationChidesIds != null)
+            {
+                return await _db.Users.Include(i => i.UserOrganizations
+                    .Where(i => organizationChidesIds.Contains(i.OrganizationId)))
+                    .FirstOrDefaultAsync(expression, ct);
+            }
+
+            return await _db.Users.Include(i => i.UserOrganizations)
+                .FirstOrDefaultAsync(expression, ct);
         }
 
 
         private static Expression<Func<User, bool>> GetExpression(UserFilterRequest request)
         {
-            // Expression<Func<User, bool>>? expression = u =>
-            //               u.UserOrganizations != null &&
-            //               u.UserOrganizations.Any(o => request.OrganizationIds.Contains(o.Id));
-
-            Expression<Func<User, bool>>? expression = null;
+            Expression<Func<User, bool>>? expression = u =>
+                          u.UserOrganizations != null &&
+                          u.UserOrganizations.Any(o => request.OrganizationIds.Contains(o.Id));
 
             if (request.Ids != null && request.Ids.Any())
             {
@@ -276,5 +284,6 @@ namespace Auth.Features.Users.Repositories
         {
             throw new NotImplementedException();
         }
+
     }
 }

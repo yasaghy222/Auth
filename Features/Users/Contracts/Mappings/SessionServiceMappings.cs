@@ -1,10 +1,9 @@
-using Auth.Features.Sessions.Contracts.Enums;
-using Auth.Features.Sessions.Contracts.Requests;
-using Auth.Features.Sessions.Contracts.Responses;
-using Auth.Shared.Extensions;
+using Auth.Features.Users.Contracts.Enums;
+using Auth.Features.Users.Contracts.Requests;
+using Auth.Features.Users.Contracts.Responses;
 using StackExchange.Redis;
 
-namespace Auth.Features.Sessions.Contracts.Mappings
+namespace Auth.Features.Users.Contracts.Mappings
 {
     public static class SessionServiceMappings
     {

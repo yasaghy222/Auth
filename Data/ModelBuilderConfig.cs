@@ -18,6 +18,11 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.Title).HasMaxLength(200);
 			entity.Property(e => e.ParentId).HasMaxLength(200);
 
+			entity.HasOne(e => e.Parent)
+				.WithMany(e => e.Chides)
+				.HasForeignKey(e => e.ParentId)
+				.OnDelete(DeleteBehavior.NoAction);
+
 			entity.HasData(OrganizationDataSeeding.InitialItems);
 		});
 
@@ -27,7 +32,8 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.Title).HasMaxLength(200);
 			entity.Property(e => e.OrganizationId).HasMaxLength(200);
 
-			entity.HasOne(e => e.Organization).WithMany(e => e.Roles)
+			entity.HasOne(e => e.Organization)
+				.WithMany(e => e.Roles)
 				.HasForeignKey(e => e.OrganizationId)
 				.OnDelete(DeleteBehavior.Cascade);
 
@@ -46,19 +52,6 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.StatusDescription).HasMaxLength(500);
 
 			entity.HasData(UsersDataSeeding.GetInitialItems(hashService));
-		});
-
-		modelBuilder.Entity<Session>(entity =>
-		{
-			entity.Property(e => e.Id).HasMaxLength(200);
-			entity.Property(e => e.UserId).HasMaxLength(200);
-			entity.Property(e => e.UniqueId).HasMaxLength(300);
-			entity.Property(e => e.IP).HasMaxLength(20);
-			entity.Property(e => e.OrganizationId).HasMaxLength(200);
-
-			entity.HasOne(e => e.User).WithMany(e => e.Sessions)
-				.HasForeignKey(e => e.UserId)
-				.OnDelete(DeleteBehavior.Cascade);
 		});
 
 		modelBuilder.Entity<UserOrganization>(entity =>

@@ -1,6 +1,6 @@
-using Auth.Features.Sessions.Contracts.Enums;
+using Auth.Features.Users.Contracts.Enums;
 
-namespace Auth.Features.Sessions.Contracts.Requests
+namespace Auth.Features.Users.Contracts.Requests
 {
     public record CreateSessionRequest
     {

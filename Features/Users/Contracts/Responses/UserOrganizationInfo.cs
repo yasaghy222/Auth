@@ -1,6 +1,6 @@
 namespace Auth.Features.Users.Contracts.Responses
 {
-    public record OrganizationInfo
+    public record UserOrganizationInfo
     {
         public required Ulid OrganizationId { get; set; }
         public required string OrganizationTitle { get; set; }

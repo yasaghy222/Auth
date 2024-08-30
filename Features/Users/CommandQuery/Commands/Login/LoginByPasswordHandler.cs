@@ -1,16 +1,14 @@
-using Auth.Domain.Entities;
-using Auth.Features.Users.Contracts.Enums;
-using Auth.Features.Users.Contracts.Mappings;
-using Auth.Features.Users.Contracts.Responses;
-using Auth.Features.Users.Events.LoginFailed;
-using Auth.Features.Users.Repositories;
-using Auth.Features.Users.Services;
-using Auth.Shared.CustomErrors;
-using Auth.Shared.Extensions;
 using ErrorOr;
-using LanguageExt;
-using LanguageExt.UnsafeValueAccess;
 using MediatR;
+using LanguageExt;
+using Auth.Domain.Entities;
+using Auth.Shared.Extensions;
+using Auth.Shared.CustomErrors;
+using LanguageExt.UnsafeValueAccess;
+using Auth.Features.Users.Repositories;
+using Auth.Features.Users.Contracts.Enums;
+using Auth.Features.Users.Events.LoginFailed;
+using Auth.Features.Users.Contracts.Mappings;
 
 namespace Auth.Features.Users.CommandQuery.Commands.Login
 {
@@ -25,10 +23,14 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
         private readonly IMediator _mediator = mediator;
 
 
-        public async Task<ErrorOr<TokenResponse>> HandleLogin(LoginCommand command, CancellationToken ct)
+        public async Task<ErrorOr<User>> HandleLogin(
+               LoginHandlerCommand command,
+               IEnumerable<Ulid>? organizationChidesIds,
+               CancellationToken ct)
         {
             Option<User> getUser = await _userRepository
-                .FindAsync(i => i.Username == command.Username, ct);
+                .FindAsync(i => i.Username == command.Username,
+                organizationChidesIds, ct);
 
             if (getUser.IsNone)
             {
@@ -36,6 +38,8 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
             }
 
             User user = getUser.ValueUnsafe();
+
+
             LoginFailedEvent loginFailedEvent = user.MapToEvent();
 
 
@@ -55,10 +59,7 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
                 return UserErrors.InvalidUserPass();
             }
 
-
-            //submit session event
-
-
+            return user;
         }
     }
 }

@@ -15,9 +15,6 @@ namespace Auth.Features.Users.Services
     {
         public TokenResponse GenerateTokens(GenerateTokenRequest request);
         public Task<ErrorOr<Ulid>> ValidateRefreshToken(string refreshToken);
-
-        string GenerateAccessToken(GenerateTokenRequest request);
-        string GenerateRefreshToken(string loginOrganizationTitle, Ulid sessionId);
     }
 
     public class TokenService : ITokenService
@@ -59,7 +56,7 @@ namespace Auth.Features.Users.Services
             };
         }
 
-        public string GenerateAccessToken(GenerateTokenRequest request)
+        private string GenerateAccessToken(GenerateTokenRequest request)
         {
             JwtSecurityToken token = new(
                 "Auth.Service",
@@ -75,7 +72,7 @@ namespace Auth.Features.Users.Services
             return tokenValue;
         }
 
-        public string GenerateRefreshToken(string loginOrganizationTitle, Ulid sessionId)
+        private string GenerateRefreshToken(string loginOrganizationTitle, Ulid sessionId)
         {
             JwtSecurityToken token = new(
                 "Auth.Service",
@@ -112,7 +109,9 @@ namespace Auth.Features.Users.Services
                 return GlobalErrors.InvalidToken();
             }
 
-            KeyValuePair<string, object> getSessionId = result.Claims.FirstOrDefault(x => x.Key == UserClaimNames.SessionId);
+            KeyValuePair<string, object> getSessionId = result.Claims
+                .FirstOrDefault(x => x.Key == UserClaimNames.SessionId);
+
             Ulid sessionId = Ulid.Parse(getSessionId.Value.ToString());
 
             return sessionId;

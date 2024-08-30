@@ -1,6 +1,6 @@
-using Auth.Features.Sessions.Contracts.Enums;
+using Auth.Features.Users.Contracts.Enums;
 
-namespace Auth.Features.Sessions.Contracts.Responses
+namespace Auth.Features.Users.Contracts.Responses
 {
     public record SessionResponse
     {

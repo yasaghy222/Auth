@@ -10,6 +10,6 @@ namespace Auth.Features.Users.Contracts.Requests
         public Ulid LoginOrganizationId { get; set; }
         public required string LoginOrganizationTitle { get; set; }
 
-        public IEnumerable<OrganizationInfo>? Organizations { get; set; }
+        public IEnumerable<UserOrganizationInfo>? UserOrganizations { get; set; }
     }
 }
