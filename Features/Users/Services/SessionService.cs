@@ -7,39 +7,23 @@ namespace Auth.Features.Users.Services
 {
     public interface ISessionService
     {
-        public Task<Ulid> CreateAsync(CreateSessionRequest request);
+        public Task CreateAsync(CreateSessionRequest request);
         public Task<SessionsResponse> GetListByUserIdAsync(Ulid userId);
     }
 
-    public sealed class SessionService : ISessionService
+    public sealed class SessionService(IConnectionMultiplexer redis)
+        : ISessionService
     {
-        private readonly IDatabase _redisDatabase;
+        private readonly IConnectionMultiplexer _redis = redis;
+        private readonly IDatabase _redisDatabase = redis.GetDatabase();
 
-        public SessionService(IConfiguration configuration)
+        public async Task CreateAsync(CreateSessionRequest request)
         {
-            string? defUrl = configuration["BaseUrl:Redis"];
-            string? defPassword = configuration["Settings:RedisPassword"];
-
-
-            string? url = Environment.GetEnvironmentVariable("REDIS_HOST") ?? defUrl;
-            string? password = Environment.GetEnvironmentVariable("REDIS_PASSWORD") ?? defPassword;
-            string connectionString = $"{url},password={password}";
-
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(connectionString);
-            _redisDatabase = redis.GetDatabase();
-        }
-
-        public async Task<Ulid> CreateAsync(CreateSessionRequest request)
-        {
-            Ulid sessionId = Ulid.NewUlid(DateTime.UtcNow);
-            string sessionKey = $"session:{sessionId}";
-
+            string sessionKey = $"session:{request.Id}";
             await _redisDatabase.HashSetAsync(sessionKey, request.MapToHashEntry());
 
             string userSessionsKey = $"user_sessions:{request.UserId}";
-            await _redisDatabase.SetAddAsync(userSessionsKey, sessionId.ToString());
-
-            return sessionId;
+            await _redisDatabase.SetAddAsync(userSessionsKey, request.Id.ToString());
         }
 
         public async Task<SessionResponse> GetSessionsAsync(string? id)
@@ -54,7 +38,9 @@ namespace Auth.Features.Users.Services
             string userSessionsKey = $"user_sessions:{userId}";
             RedisValue[] sessionIds = await _redisDatabase.SetMembersAsync(userSessionsKey);
 
-            IEnumerable<Task<SessionResponse>> tasks = sessionIds.Select(async id => await GetSessionsAsync(id));
+            IEnumerable<Task<SessionResponse>> tasks = sessionIds
+                .Select(async id => await GetSessionsAsync(id));
+
             SessionResponse[] results = await Task.WhenAll(tasks);
 
             SessionsResponse sessions = new()

@@ -67,16 +67,11 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
 
             User user = loginResponse.Value;
 
-            CreateSessionRequest createSessionRequest = command
-                .MapToRequest(user.Id, command.IP, organization.Title);
-
-            Ulid sessionId = await _sessionService
-                .CreateAsync(createSessionRequest);
 
             GenerateTokenRequest generateTokenRequest = new()
             {
                 UserInfo = user.MapToInfo(),
-                SessionId = sessionId,
+                SessionId = Ulid.NewUlid(DateTime.UtcNow),
                 LoginOrganizationTitle = organization.Title,
                 LoginOrganizationId = organization.Id,
                 UserOrganizations = user.UserOrganizations.MapToInfo(),
@@ -84,6 +79,21 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
 
             TokenResponse tokenResponse = _tokenService
                 .GenerateTokens(generateTokenRequest);
+
+
+            CreateSessionRequest createSessionRequest = new()
+            {
+                Id = generateTokenRequest.SessionId,
+                IP = command.IP,
+                OrganizationId = organization.Id,
+                OrganizationTitle = organization.Title,
+                UniqueId = command.UniqueId,
+                Platform = command.Platform,
+                ExpireAt = tokenResponse.RefreshTokenExpiry,
+                UserId = user.Id,
+            };
+
+            await _sessionService.CreateAsync(createSessionRequest);
 
             return tokenResponse;
         }

@@ -36,4 +36,8 @@ public static class UserErrors
 
     public static Error SuspendStatus() => Error.NotFound("User.SuspendStatus",
      $"your account was suspend plz talk with admin");
+
+    public static Error BlockStatus() => Error.NotFound("User.BlockStatus",
+        @"you are block for so many time try with invalid username or password,
+        plz wait for 5 minute and try again with valid data");
 }

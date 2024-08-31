@@ -22,6 +22,7 @@ namespace Auth.Features.Users.Services
         private readonly int _refreshTokenExpiryDuration;
         private readonly int _accessTokenExpiryDuration = 1;
         private readonly SymmetricSecurityKey _secKey;
+        private readonly SigningCredentials _signingCredentials;
 
 
         public TokenService(IConfiguration configuration)
@@ -39,6 +40,8 @@ namespace Auth.Features.Users.Services
 
             _refreshTokenExpiryDuration = int.Parse(defRefreshTokenExpiryDuration
                 ?? Environment.GetEnvironmentVariable("Settings_SecretKey") ?? "7");
+
+            _signingCredentials = new(_secKey, SecurityAlgorithms.HmacSha256);
         }
 
 
@@ -59,11 +62,11 @@ namespace Auth.Features.Users.Services
         private string GenerateAccessToken(GenerateTokenRequest request)
         {
             JwtSecurityToken token = new(
-                "Auth.Service",
-                request.LoginOrganizationTitle,
-                request.MapToClaims(),
+                issuer: "Auth.Service",
+                audience: request.LoginOrganizationTitle,
+                claims: request.MapToClaims(),
                 expires: DateTime.UtcNow.AddDays(_accessTokenExpiryDuration),
-                signingCredentials: new(_secKey, SecurityAlgorithms.HmacSha256)
+                signingCredentials: _signingCredentials
             );
 
             JwtSecurityTokenHandler handler = new();
@@ -75,11 +78,11 @@ namespace Auth.Features.Users.Services
         private string GenerateRefreshToken(string loginOrganizationTitle, Ulid sessionId)
         {
             JwtSecurityToken token = new(
-                "Auth.Service",
-                loginOrganizationTitle,
-                [new Claim(UserClaimNames.SessionId, sessionId.ToString())],
+                issuer: "Auth.Service",
+                audience: loginOrganizationTitle,
+                claims: [new Claim(UserClaimNames.SessionId, sessionId.ToString())],
                 expires: DateTime.UtcNow.AddDays(_refreshTokenExpiryDuration),
-                signingCredentials: new(_secKey, SecurityAlgorithms.HmacSha256)
+                signingCredentials: _signingCredentials
             );
 
             JwtSecurityTokenHandler handler = new();

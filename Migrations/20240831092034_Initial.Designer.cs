@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Auth.Migrations
 {
     [DbContext(typeof(AuthDBContext))]
-    [Migration("20240830201643_Initial")]
+    [Migration("20240831092034_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -62,14 +62,14 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6700),
+                            CreateAt = new DateTime(2024, 8, 31, 9, 20, 33, 847, DateTimeKind.Utc).AddTicks(6230),
                             Status = (byte)1,
                             Title = "Auth.Service"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6720),
+                            CreateAt = new DateTime(2024, 8, 31, 9, 20, 33, 847, DateTimeKind.Utc).AddTicks(6250),
                             ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "Accounting.Service"
@@ -77,7 +77,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6730),
+                            CreateAt = new DateTime(2024, 8, 31, 9, 20, 33, 847, DateTimeKind.Utc).AddTicks(6250),
                             ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "RedSense.Service"
@@ -85,7 +85,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 53, 249, 102, 223, 110, 72, 121, 238, 195, 21, 7, 23, 232 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(6730),
+                            CreateAt = new DateTime(2024, 8, 31, 9, 20, 33, 847, DateTimeKind.Utc).AddTicks(6260),
                             ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "RedGuard.Update.Service"
@@ -232,34 +232,10 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7890),
+                            CreateAt = new DateTime(2024, 8, 31, 9, 20, 33, 847, DateTimeKind.Utc).AddTicks(7100),
                             OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "Admin.Auth.Service"
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 106, 170, 223, 167, 73, 180, 1, 51, 77, 185, 122, 95, 78, 244 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7900),
-                            OrganizationId = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
-                            Status = (byte)1,
-                            Title = "Admin.Accounting.Service"
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 106, 174, 81, 141, 200, 228, 8, 62, 170, 241, 222, 2, 170, 69 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7900),
-                            OrganizationId = new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 },
-                            Status = (byte)1,
-                            Title = "Admin.RedSense.Service"
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 110, 132, 36, 254, 143, 28, 34, 174, 239, 146, 132, 223, 29, 241 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(7900),
-                            OrganizationId = new byte[] { 1, 145, 106, 177, 249, 102, 223, 64, 72, 121, 238, 195, 21, 7, 23, 232 },
-                            Status = (byte)1,
-                            Title = "Admin.RedGuard.Update.Service"
                         });
                 });
 
@@ -330,54 +306,15 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 812, DateTimeKind.Utc).AddTicks(8500),
+                            CreateAt = new DateTime(2024, 8, 31, 9, 20, 33, 847, DateTimeKind.Utc).AddTicks(7550),
                             FailedLoginAttempts = 0,
                             Family = "Auth.Service",
                             IsEmailValid = false,
                             IsPhoneValid = false,
                             Name = "Admin",
-                            Password = "x4m43WJ6RJ0Koy+Iyt0ARuV4W/ClGcIsGk8himeR62+taIK0nLin7FiuJES9SmWI",
+                            Password = "2in6xMqcVxnGbbye3rm8R6N+XMIuT0lcmXYalDNVGHps8Jt3DHPUzs31OQz7hfKf",
                             Status = (byte)1,
                             Username = "AdminAuthService1"
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 110, 105, 87, 195, 45, 141, 160, 102, 109, 140, 134, 105, 139, 173 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 867, DateTimeKind.Utc).AddTicks(810),
-                            FailedLoginAttempts = 0,
-                            Family = "Accounting.Service",
-                            IsEmailValid = false,
-                            IsPhoneValid = false,
-                            Name = "Admin",
-                            Password = "4lXII1C2fscxu7Ut44owXCR217WaXGlCwsd6kKmB4Ibj256VQMwwSYFkaofsTkC4",
-                            Status = (byte)1,
-                            Username = "AdminAccountingService1"
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 110, 130, 27, 139, 16, 168, 64, 233, 212, 85, 188, 139, 27, 111 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 921, DateTimeKind.Utc).AddTicks(6950),
-                            FailedLoginAttempts = 0,
-                            Family = "RedSense.Service",
-                            IsEmailValid = false,
-                            IsPhoneValid = false,
-                            Name = "Admin",
-                            Password = "g671NzCdgxeQaemumT1WYkwR2vAjEn/yCHiIjo8Xj0/SjW1nehDsfbeFAJDin7Zx",
-                            Status = (byte)1,
-                            Username = "AdminRedSenseService1"
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 110, 131, 42, 217, 160, 182, 83, 128, 106, 136, 170, 11, 183, 126 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 42, 975, DateTimeKind.Utc).AddTicks(9940),
-                            FailedLoginAttempts = 0,
-                            Family = "RedGuard.Update.Service",
-                            IsEmailValid = false,
-                            IsPhoneValid = false,
-                            Name = "Admin",
-                            Password = "pQhIYUb7PEPn1b1WvU0M7h5yht/zyT+F9Ag0nZFvVRpef65P0XfPAesrN4E3rE5n",
-                            Status = (byte)1,
-                            Username = "AdminRedGuardUpdateService1"
                         });
                 });
 
@@ -422,34 +359,10 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 124, 211, 13, 172, 121, 123, 233, 248, 119, 101, 211, 216, 0 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(660),
+                            CreateAt = new DateTime(2024, 8, 31, 9, 20, 33, 890, DateTimeKind.Utc).AddTicks(4700),
                             OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 },
                             UserId = new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 }
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 110, 127, 99, 205, 140, 184, 243, 37, 41, 73, 148, 104, 34, 45 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(680),
-                            OrganizationId = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
-                            RoleId = new byte[] { 1, 145, 106, 170, 223, 167, 73, 180, 1, 51, 77, 185, 122, 95, 78, 244 },
-                            UserId = new byte[] { 1, 145, 110, 105, 87, 195, 45, 141, 160, 102, 109, 140, 134, 105, 139, 173 }
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 110, 129, 40, 16, 107, 5, 179, 118, 154, 72, 139, 107, 194, 33 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(690),
-                            OrganizationId = new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 },
-                            RoleId = new byte[] { 1, 145, 106, 174, 81, 141, 200, 228, 8, 62, 170, 241, 222, 2, 170, 69 },
-                            UserId = new byte[] { 1, 145, 110, 130, 27, 139, 16, 168, 64, 233, 212, 85, 188, 139, 27, 111 }
-                        },
-                        new
-                        {
-                            Id = new byte[] { 1, 145, 110, 130, 62, 238, 186, 7, 87, 156, 228, 222, 14, 191, 114, 169 },
-                            CreateAt = new DateTime(2024, 8, 30, 20, 16, 43, 31, DateTimeKind.Utc).AddTicks(690),
-                            OrganizationId = new byte[] { 1, 145, 106, 177, 249, 102, 223, 64, 72, 121, 238, 195, 21, 7, 23, 232 },
-                            RoleId = new byte[] { 1, 145, 110, 132, 36, 254, 143, 28, 34, 174, 239, 146, 132, 223, 29, 241 },
-                            UserId = new byte[] { 1, 145, 110, 131, 42, 217, 160, 182, 83, 128, 106, 136, 170, 11, 183, 126 }
                         });
                 });
 

@@ -4,6 +4,7 @@ using Auth.Features.Users.Contracts.Enums;
 using Auth.Features.Users.Events.LoginFailed;
 using Auth.Features.Users.Contracts.Requests;
 using Auth.Features.Users.CommandQuery.Commands.Login;
+using Auth.Features.Users.Events.ResetFailedStatus;
 
 namespace Auth.Features.Users.Contracts.Mappings
 {
@@ -38,14 +39,23 @@ namespace Auth.Features.Users.Contracts.Mappings
             };
         }
 
-        public static LoginFailedEvent MapToEvent(this User user)
+        public static LoginFailedEvent MapToEvent(this User user, string reason)
         {
             return new()
             {
                 Id = user.Id,
                 Username = user.Username,
-                Reason = "",
+                Reason = reason,
                 FailedLoginAttempts = user.FailedLoginAttempts,
+            };
+        }
+
+        public static ResetFailedStatusEvent MapToEvent(this User user)
+        {
+            return new()
+            {
+                Id = user.Id,
+                Username = user.Username,
             };
         }
 
@@ -55,24 +65,31 @@ namespace Auth.Features.Users.Contracts.Mappings
             return new()
             {
                 Id = @event.Id,
-                FailedLoginAttempts = @event.FailedLoginAttempts++,
-                AccountLockedUntil = @event.FailedLoginAttempts >= 5
-                    ? DateTime.UtcNow.AddMinutes(5) : default,
-                Status = UserStatus.Active
+                FailedLoginAttempts = @event.FailedLoginAttempts + 1,
+                AccountLockedUntil = @event.FailedLoginAttempts >= 4
+                    ? DateTime.UtcNow.AddMinutes(5) : null,
+                Status = @event.FailedLoginAttempts >= 4
+                    ? UserStatus.Blocked : UserStatus.Active
             };
         }
 
         public static CreateSessionRequest MapToRequest(
             this LoginCommand loginCommand,
-            Ulid userId, string ip, string organizationTitle)
+            Ulid sessionId,
+            Ulid userId,
+            string ip,
+            string organizationTitle,
+            DateTime expireAt)
         {
             return new()
             {
+                Id = sessionId,
                 IP = ip,
                 OrganizationId = loginCommand.OrganizationId,
                 OrganizationTitle = organizationTitle,
                 UniqueId = loginCommand.UniqueId,
                 Platform = loginCommand.Platform,
+                ExpireAt = expireAt,
                 UserId = userId,
             };
         }

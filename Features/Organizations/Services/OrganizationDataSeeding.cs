@@ -19,7 +19,7 @@ namespace Auth.Features.Organizations.Services
                     Id = Ulid.Parse("01J5N8P83VSNQRJNJ8FD6E0M8E"),
                     Title = "Accounting.Service",
                     Status = OrganizationStatus.Active,
-                    ParentId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8")
+                    ParentId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8"),
                 },
                 new Organization
                 {

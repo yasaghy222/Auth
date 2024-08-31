@@ -4,6 +4,8 @@ namespace Auth.Features.Users.Contracts.Requests
 {
     public record CreateSessionRequest
     {
+        public Ulid Id { get; set; }
+
         public Ulid UserId { get; set; }
         public SessionPlatform Platform { get; set; }
 

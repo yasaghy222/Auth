@@ -61,15 +61,18 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.OrganizationId).HasMaxLength(200);
 			entity.Property(e => e.RoleId).HasMaxLength(200);
 
-			entity.HasOne(e => e.User).WithMany(e => e.UserOrganizations)
+			entity.HasOne(e => e.User)
+				.WithMany(e => e.UserOrganizations)
 				.HasForeignKey(e => e.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			entity.HasOne(e => e.Organization).WithMany(e => e.UserOrganizations)
+			entity.HasOne(e => e.Organization)
+				.WithMany(e => e.UserOrganizations)
 				.HasForeignKey(e => e.OrganizationId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			entity.HasOne(e => e.Role).WithMany(e => e.UserOrganizations)
+			entity.HasOne(e => e.Role)
+				.WithMany(e => e.UserOrganizations)
 				.HasForeignKey(e => e.RoleId)
 				.OnDelete(DeleteBehavior.NoAction);
 
@@ -99,7 +102,8 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.Title).HasMaxLength(200);
 			entity.Property(e => e.ParentId).HasMaxLength(200);
 
-			entity.HasOne(e => e.Parent).WithMany(e => e.Chields)
+			entity.HasOne(e => e.Parent)
+				.WithMany(e => e.Chields)
 				.HasForeignKey(e => e.ParentId)
 				.OnDelete(DeleteBehavior.NoAction);
 		});

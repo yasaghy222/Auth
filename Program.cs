@@ -19,7 +19,7 @@ internal class Program
 
             builder.Services.AddServiceDiscovery(o => o.UseConsul());
 
-            builder.Services.RegisterGlobalServices();
+            builder.Services.RegisterGlobalServices(builder.Configuration);
 
             builder.Services.RegisterDBContext(builder.Configuration);
             builder.Services.RegisterRepositories();

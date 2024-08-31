@@ -34,7 +34,7 @@ namespace Auth.Features.Users.EndPoints.Login
             ErrorOr<TokenResponse> result = await _sender.Send(command, ct);
 
             return result.Match(
-                created => Results.Created(),
+                tokens => Results.Ok(tokens),
                 errors =>
                 {
                     _logger.LogWarning(UserErrors.CreateLogMsg, errors);

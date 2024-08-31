@@ -267,6 +267,19 @@ namespace Auth.Features.Users.Repositories
                 ct);
         }
 
+        public async Task<bool> ResetFailedLoginInfoAsync(
+                  ResetFailedStatusRequest request, CancellationToken ct)
+        {
+            return await base.EditAsync(
+                i => i.Id == request.Id,
+                setter =>
+                    setter.SetProperty(i => i.FailedLoginAttempts, 0)
+                    .SetProperty(i => i.AccountLockedUntil, (DateTime?)null)
+                    .SetProperty(i => i.Status, UserStatus.Active)
+                    .SetProperty(i => i.ModifyAt, DateTime.UtcNow),
+                ct);
+        }
+
         public async Task<bool> ChangePasswordAsync(
             ChangePasswordRequest request, CancellationToken ct)
         {
