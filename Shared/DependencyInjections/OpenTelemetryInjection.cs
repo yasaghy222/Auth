@@ -12,12 +12,12 @@ namespace Auth.Shared.DependencyInjections
          				.WithTracing(tracing =>
          				{
 					         tracing.AddAspNetCoreInstrumentation()
-						       .AddHttpClientInstrumentation()
-						       .AddSqlClientInstrumentation(o => o.SetDbStatementForText = true)
-						       .AddGrpcClientInstrumentation();
+						         .AddHttpClientInstrumentation()
+						         .AddSqlClientInstrumentation(o => o.SetDbStatementForText = true)
+						         .AddGrpcClientInstrumentation();
 
 					         tracing.AddOtlpExporter();
-         				});
+	         			});
 
 			return services;
 		}

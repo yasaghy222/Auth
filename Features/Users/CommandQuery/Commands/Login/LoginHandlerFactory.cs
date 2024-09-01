@@ -36,19 +36,40 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
         private readonly IServiceProvider _serviceProvider = serviceProvider;
         private readonly IOrganizationRepository _organizationRepository = organizationRepository;
 
-        public async Task<ErrorOr<TokenResponse>> Handle(
-            LoginCommand command, CancellationToken ct)
+        private async Task<ErrorOr<OrganizationInfo>> GetOrganization(
+            Ulid organizationId, CancellationToken ct)
         {
-            Option<OrganizationInfo> getOrganization = await _organizationRepository
-                .GetInfoAsync(command.OrganizationId, ct);
+            Option<OrganizationInfo> getOrganization = await
+                _organizationRepository.GetInfoAsync(organizationId, ct);
 
             if (getOrganization.IsNone)
             {
                 return UserErrors.OrganizationNotFound();
             }
 
-            OrganizationInfo organization = getOrganization.ValueUnsafe();
+            return getOrganization.ValueUnsafe();
+        }
 
+        private TokenResponse GenerateToken(
+            Ulid sessionId, User user, OrganizationInfo organizationInfo)
+        {
+            GenerateTokenRequest generateTokenRequest = new()
+            {
+                UserInfo = user.MapToInfo(),
+                SessionId = sessionId,
+                LoginOrganizationTitle = organizationInfo.Title,
+                LoginOrganizationId = organizationInfo.Id,
+                UserOrganizations = user.UserOrganizations.MapToInfo(),
+            };
+
+            return _tokenService.GenerateTokens(generateTokenRequest);
+        }
+
+        private async Task<ErrorOr<User>> LoginHandler(
+            LoginCommand command,
+            OrganizationInfo organizationInfo,
+            CancellationToken ct)
+        {
             ILoginHandler loginHandler = command.Type switch
             {
                 UserLoginType.Password => _serviceProvider
@@ -56,44 +77,59 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
                 _ => throw new ArgumentNullException(nameof(command)),
             };
 
-            ErrorOr<User> loginResponse = await loginHandler
+            return await loginHandler
                 .HandleLogin(command.MapToHandlerCommand(),
-                organization.ChidesIds, ct);
+                organizationInfo.ChidesIds, ct);
+        }
 
+        private async Task SubmitSession(SubmitSessionRequest request)
+        {
+            await _sessionService.DeleteSessionAsync(
+                request.UserId,
+                i => i.Platform == request.Platform
+                    && i.IP == request.IP
+                    && i.OrganizationId == request.OrganizationId);
+
+            CreateSessionRequest createSessionRequest = request.MapToCreateRequest();
+            await _sessionService.CreateAsync(createSessionRequest);
+        }
+
+        public async Task<ErrorOr<TokenResponse>> Handle(
+            LoginCommand command, CancellationToken ct)
+        {
+            ErrorOr<OrganizationInfo> getOrganization = await
+                GetOrganization(command.OrganizationId, ct);
+
+            if (getOrganization.IsError)
+            {
+                return getOrganization.Errors;
+            }
+
+            OrganizationInfo organizationInfo = getOrganization.Value;
+            ErrorOr<User> loginResponse = await LoginHandler(command, organizationInfo, ct);
             if (loginResponse.IsError)
             {
                 return loginResponse.Errors;
             }
 
             User user = loginResponse.Value;
+            Ulid sessionId = Ulid.NewUlid(DateTime.UtcNow);
+            TokenResponse tokenResponse = GenerateToken(sessionId, user, organizationInfo);
 
 
-            GenerateTokenRequest generateTokenRequest = new()
+            SubmitSessionRequest submitSessionRequest = new()
             {
-                UserInfo = user.MapToInfo(),
-                SessionId = Ulid.NewUlid(DateTime.UtcNow),
-                LoginOrganizationTitle = organization.Title,
-                LoginOrganizationId = organization.Id,
-                UserOrganizations = user.UserOrganizations.MapToInfo(),
-            };
-
-            TokenResponse tokenResponse = _tokenService
-                .GenerateTokens(generateTokenRequest);
-
-
-            CreateSessionRequest createSessionRequest = new()
-            {
-                Id = generateTokenRequest.SessionId,
+                SessionId = sessionId,
                 IP = command.IP,
-                OrganizationId = organization.Id,
-                OrganizationTitle = organization.Title,
-                UniqueId = command.UniqueId,
-                Platform = command.Platform,
                 ExpireAt = tokenResponse.RefreshTokenExpiry,
-                UserId = user.Id,
+                OrganizationId = organizationInfo.Id,
+                OrganizationTitle = organizationInfo.Title,
+                Platform = command.Platform,
+                UniqueId = command.UniqueId,
+                UserId = user.Id
             };
+            await SubmitSession(submitSessionRequest);
 
-            await _sessionService.CreateAsync(createSessionRequest);
 
             return tokenResponse;
         }

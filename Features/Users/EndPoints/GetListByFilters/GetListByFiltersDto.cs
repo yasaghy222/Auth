@@ -58,7 +58,7 @@ namespace Auth.Features.Users.EndPoints.GetListByFilters
 
         public QueryOrderType? CreateAtOrderType { get; set; }
 
-        public int PageSize { get; set; } = 10;
-        public int PageIndex { get; set; } = 1;
+        public int? PageSize { get; set; } = 10;
+        public int? PageIndex { get; set; } = 1;
     }
 }

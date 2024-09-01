@@ -19,7 +19,6 @@ namespace Auth.Features.Users.EndPoints.Create
         public override void Configure()
         {
             Post("/user");
-            AllowAnonymous();
         }
 
         public override async Task<IResult> ExecuteAsync(UserCreateDto dto, CancellationToken ct)

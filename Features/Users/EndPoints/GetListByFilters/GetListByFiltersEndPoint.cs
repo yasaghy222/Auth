@@ -4,6 +4,7 @@ using Auth.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.CommandQuery.Queries.GetListByFilters;
+using Auth.Features.Users.Contracts.Responses;
 
 namespace Auth.Features.Users.EndPoints.GetListByFilters
 {
@@ -18,7 +19,11 @@ namespace Auth.Features.Users.EndPoints.GetListByFilters
         public override void Configure()
         {
             Get("/user/list/filter");
-            AllowAnonymous();
+            Description(b => b
+                   .Accepts<GetListByFiltersDto>("application/json+custom")
+                   .Produces<UsersResponse>(200, "application/json+custom")
+                   .ProducesProblemFE(400)
+                   .ProducesProblemFE<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync([FromQuery] GetListByFiltersDto dto, CancellationToken ct)
@@ -26,7 +31,8 @@ namespace Auth.Features.Users.EndPoints.GetListByFilters
             GetListByFiltersQuery query = dto.MapToQuery();
             _logger.LogInformation("Query: {query}", query.ToJson());
 
-            return Results.Ok(await _sender.Send(query, ct));
+            UsersResponse response = await _sender.Send(query, ct);
+            return Results.Ok(response);
         }
     }
 }

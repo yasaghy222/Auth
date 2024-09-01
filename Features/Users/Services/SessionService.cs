@@ -1,14 +1,21 @@
-using Auth.Features.Users.Contracts.Mappings;
-using Auth.Features.Users.Contracts.Requests;
-using Auth.Features.Users.Contracts.Responses;
+using LanguageExt;
 using StackExchange.Redis;
+using Microsoft.IdentityModel.Tokens;
+using LanguageExt.UnsafeValueAccess;
+using Auth.Features.Users.Contracts.Requests;
+using Auth.Features.Users.Contracts.Mappings;
+using Auth.Features.Users.Contracts.Responses;
 
 namespace Auth.Features.Users.Services
 {
     public interface ISessionService
     {
         public Task CreateAsync(CreateSessionRequest request);
+
         public Task<SessionsResponse> GetListByUserIdAsync(Ulid userId);
+
+        public Task<bool> DeleteSessionAsync(Ulid userId, string sessionId);
+        public Task<bool> DeleteSessionAsync(Ulid userId, Func<SessionResponse, bool> condition);
     }
 
     public sealed class SessionService(IConnectionMultiplexer redis)
@@ -26,11 +33,21 @@ namespace Auth.Features.Users.Services
             await _redisDatabase.SetAddAsync(userSessionsKey, request.Id.ToString());
         }
 
-        public async Task<SessionResponse> GetSessionsAsync(string? id)
+        public async Task<Option<SessionResponse>> GetSessionsAsync(string? id)
         {
+            if (id.IsNullOrEmpty())
+            {
+                return Option<SessionResponse>.None;
+            }
+
             string sessionKey = $"session:{id}";
             HashEntry[] hashEntries = await _redisDatabase.HashGetAllAsync(sessionKey);
-            return hashEntries.MapToResponse();
+            if (hashEntries.Length == 0)
+            {
+                return Option<SessionResponse>.None;
+            }
+
+            return hashEntries.MapToResponse(id ?? string.Empty);
         }
 
         public async Task<SessionsResponse> GetListByUserIdAsync(Ulid userId)
@@ -38,28 +55,47 @@ namespace Auth.Features.Users.Services
             string userSessionsKey = $"user_sessions:{userId}";
             RedisValue[] sessionIds = await _redisDatabase.SetMembersAsync(userSessionsKey);
 
-            IEnumerable<Task<SessionResponse>> tasks = sessionIds
+            IEnumerable<Task<Option<SessionResponse>>> tasks = sessionIds
                 .Select(async id => await GetSessionsAsync(id));
 
-            SessionResponse[] results = await Task.WhenAll(tasks);
-
+            Option<SessionResponse>[] results = await Task.WhenAll(tasks);
             SessionsResponse sessions = new()
             {
-                Items = results
+                Items = results.Where(i => i.IsSome).Select(i => i.ValueUnsafe())
             };
 
             return sessions;
         }
 
-
-        public async Task DeleteSessionAsync(string sessionId, string userId)
+        public async Task<bool> DeleteSessionAsync(Ulid userId, string sessionId)
         {
             string sessionKey = $"session:{sessionId}";
-            await _redisDatabase.KeyDeleteAsync(sessionKey);
+            bool isSessionDel = await _redisDatabase.KeyDeleteAsync(sessionKey);
+
+            if (!isSessionDel)
+            {
+                return false;
+            }
 
             string userSessionsKey = $"user_sessions:{userId}";
-            await _redisDatabase.SetRemoveAsync(userSessionsKey, sessionId);
+            bool isDelFromList = await _redisDatabase.SetRemoveAsync(userSessionsKey, sessionId);
+
+            return isDelFromList;
         }
+
+        public async Task<bool> DeleteSessionAsync(Ulid userId, Func<SessionResponse, bool> condition)
+        {
+            SessionsResponse userSessions = await GetListByUserIdAsync(userId);
+
+            SessionResponse? session = userSessions.Items.FirstOrDefault(condition);
+            if (session == null)
+            {
+                return false;
+            }
+
+            return await DeleteSessionAsync(userId, session.Id);
+        }
+
 
         public async Task SetSessionExpirationAsync(string sessionId, TimeSpan expiration)
         {

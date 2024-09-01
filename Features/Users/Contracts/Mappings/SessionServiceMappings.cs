@@ -7,6 +7,22 @@ namespace Auth.Features.Users.Contracts.Mappings
 {
     public static class SessionServiceMappings
     {
+        public static CreateSessionRequest MapToCreateRequest(this SubmitSessionRequest request)
+        {
+            return new()
+            {
+                Id = request.SessionId,
+                IP = request.IP,
+                OrganizationId = request.OrganizationId,
+                OrganizationTitle = request.OrganizationTitle,
+                UniqueId = request.UniqueId,
+                Platform = request.Platform,
+                ExpireAt = request.ExpireAt,
+                UserId = request.UserId,
+            };
+        }
+
+
         public static HashEntry[] MapToHashEntry(this CreateSessionRequest request)
         {
             return [
@@ -15,7 +31,7 @@ namespace Auth.Features.Users.Contracts.Mappings
                 new HashEntry(SessionFields.UniqueId, request.UniqueId.ToString()),
                 new HashEntry(SessionFields.IP, request.IP.ToString()),
                 new HashEntry(SessionFields.OrganizationId, request.OrganizationId.ToString()),
-                new HashEntry(SessionFields.OrganizationId, request.OrganizationTitle.ToString()),
+                new HashEntry(SessionFields.OrganizationTitle, request.OrganizationTitle.ToString()),
                 new HashEntry(SessionFields.ExpireAt, request.ExpireAt.ToString()),
             ];
         }
@@ -27,10 +43,12 @@ namespace Auth.Features.Users.Contracts.Mappings
         }
 
 
-        public static SessionResponse MapToResponse(this HashEntry[] sessionData)
+        public static SessionResponse MapToResponse(this HashEntry[] sessionData, string id)
         {
             return new()
             {
+                Id = id,
+
                 Platform = Enum.Parse<SessionPlatform>(sessionData.GetFiledValue(SessionFields.Platform)),
 
                 IP = sessionData.GetFiledValue(SessionFields.IP),

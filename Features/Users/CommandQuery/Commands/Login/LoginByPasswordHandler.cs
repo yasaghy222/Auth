@@ -10,7 +10,6 @@ using Auth.Features.Users.Contracts.Enums;
 using Auth.Features.Users.Events.LoginFailed;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.Events.ResetFailedStatus;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Auth.Features.Users.CommandQuery.Commands.Login
 {

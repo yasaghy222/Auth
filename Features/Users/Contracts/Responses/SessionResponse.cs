@@ -4,6 +4,8 @@ namespace Auth.Features.Users.Contracts.Responses
 {
     public record SessionResponse
     {
+        public required string Id { get; set; }
+
         public SessionPlatform Platform { get; set; }
 
         public required string UniqueId { get; set; }

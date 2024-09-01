@@ -12,6 +12,7 @@ namespace Auth.Features.Users.Contracts.Mappings
         {
             return
             [
+                new Claim(UserClaimNames.SessionId, request.SessionId.ToString()),
                 new Claim(UserClaimNames.UserInfo, request.UserInfo.ToJson()),
                 new Claim(UserClaimNames.Organizations, request.UserOrganizations.ToJson()),
                 new Claim(UserClaimNames.LoginOrganizationId, request.LoginOrganizationId.ToString()),

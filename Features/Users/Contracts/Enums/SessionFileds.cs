@@ -2,6 +2,8 @@ namespace Auth.Features.Users.Contracts.Enums
 {
     public struct SessionFields
     {
+        public const string Id = "Id";
+
         public const string UserId = "UserId";
 
         public const string Platform = "Platform";
