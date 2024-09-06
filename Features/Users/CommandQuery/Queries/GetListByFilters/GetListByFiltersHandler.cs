@@ -15,7 +15,7 @@ namespace Auth.Features.Users.CommandQuery.Queries.GetListByFilters
         public async Task<UsersResponse> Handle(
             GetListByFiltersQuery query, CancellationToken ct)
         {
-            UserFilterRequest request = query.MapToRequest([]);
+            UserFilterRequest request = query.MapToRequest();
             return await _userRepository.ToListByFilters(request, ct);
         }
     }

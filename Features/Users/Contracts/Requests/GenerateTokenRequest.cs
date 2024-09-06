@@ -11,5 +11,6 @@ namespace Auth.Features.Users.Contracts.Requests
         public required string LoginOrganizationTitle { get; set; }
 
         public IEnumerable<UserOrganizationInfo>? UserOrganizations { get; set; }
+        public IEnumerable<string>? Permissions { get; set; }
     }
 }

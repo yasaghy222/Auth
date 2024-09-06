@@ -9,5 +9,7 @@ namespace Auth.Features.Users.Contracts.Enums
         public const string LoginOrganizationTitle = "LoginOrganizationTitle";
 
         public const string Organizations = "Organizations";
+        public const string UserOrganizations = "UserOrganizations";
+        public const string UserPermissions = "UserPermissions";
     }
 }

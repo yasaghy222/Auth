@@ -17,7 +17,8 @@ namespace Auth.Features.Users.Contracts.Mappings
                 new Claim(UserClaimNames.Organizations, request.UserOrganizations.ToJson()),
                 new Claim(UserClaimNames.LoginOrganizationId, request.LoginOrganizationId.ToString()),
                 new Claim(UserClaimNames.LoginOrganizationTitle, request.LoginOrganizationTitle.ToString()),
-                new Claim(UserClaimNames.Organizations, request.UserOrganizations.ToJson()),
+                new Claim(UserClaimNames.UserOrganizations, request.UserOrganizations.ToJson()),
+                new Claim(UserClaimNames.UserPermissions, request.Permissions.ToJson()),
             ];
         }
 

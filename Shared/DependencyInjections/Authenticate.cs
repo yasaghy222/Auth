@@ -7,7 +7,7 @@ namespace Auth.Shared.DependencyInjections;
 
 public static class Authenticate
 {
-    public static void ApplyJWT(this IServiceCollection services, IConfiguration configuration)
+    public static void AddJWT(this IServiceCollection services, IConfiguration configuration)
     {
         string? defSecretKey = configuration["Settings:SecretKey"];
 

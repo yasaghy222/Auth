@@ -9,12 +9,14 @@ namespace Auth.Shared.DependencyInjections
 		public static IServiceCollection RegisterGlobalServices(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddScoped<IHashService, HashService>();
-			services.AddScoped<ITokenService, TokenService>();
+			services.AddSingleton<ITokenService, TokenService>();
 
 			services.RegisterRedis(configuration);
-			services.AddScoped<ISessionService, SessionService>();
+			services.AddSingleton<ISessionService, SessionService>();
 
 			services.AddScoped<LoginByPasswordHandler>();
+
+			services.AddHttpContextAccessor();
 			return services;
 		}
 	}

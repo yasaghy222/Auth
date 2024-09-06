@@ -16,14 +16,14 @@ namespace Auth.Features.Users.Contracts.Mappings
             return new()
             {
                 OrganizationId = dto.OrganizationId,
-                UniqueId = dto.UniqueId,
+                UniqueId = dto.UniqueId ?? string.Empty,
                 IP = ip,
-                Username = dto.Username,
+                Username = dto.Username ?? string.Empty,
                 Platform = dto.Platform,
                 Type = dto.Type,
-                Password = dto.Password,
-                Phone = dto.Phone,
-                Email = dto.Email,
+                Password = dto.Password ?? string.Empty,
+                Phone = dto.Phone ?? string.Empty,
+                Email = dto.Email ?? string.Empty,
             };
         }
 

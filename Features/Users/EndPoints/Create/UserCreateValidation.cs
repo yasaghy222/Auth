@@ -28,7 +28,7 @@ namespace Auth.Features.Users.EndPoints.Create
                 .Matches(@"^(\+98|0)?9\d{9}$");
 
             RuleFor(i => i.Email)
-                .Matches(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")
+                .EmailAddress()
                 .When(i => !i.Email.IsNullOrEmpty());
 
             RuleFor(i => i.Password)

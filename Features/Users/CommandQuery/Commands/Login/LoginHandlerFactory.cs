@@ -50,8 +50,21 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
             return getOrganization.ValueUnsafe();
         }
 
+        private static ErrorOr<bool> IsUserInOrganization(
+            IEnumerable<UserOrganization> userOrganizationInfos,
+            OrganizationInfo organizationInfo)
+        {
+            bool isInOrganization = userOrganizationInfos.Any(info =>
+                organizationInfo.ChidesIds.Contains(info.OrganizationId));
+
+            return isInOrganization ? true : UserErrors.NotFound();
+        }
+
         private TokenResponse GenerateToken(
-            Ulid sessionId, User user, OrganizationInfo organizationInfo)
+            Ulid sessionId,
+            User user,
+            OrganizationInfo organizationInfo,
+            IEnumerable<string> permissions)
         {
             GenerateTokenRequest generateTokenRequest = new()
             {
@@ -60,6 +73,7 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
                 LoginOrganizationTitle = organizationInfo.Title,
                 LoginOrganizationId = organizationInfo.Id,
                 UserOrganizations = user.UserOrganizations.MapToInfo(),
+                Permissions = permissions
             };
 
             return _tokenService.GenerateTokens(generateTokenRequest);
@@ -113,9 +127,22 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
             }
 
             User user = loginResponse.Value;
-            Ulid sessionId = Ulid.NewUlid(DateTime.UtcNow);
-            TokenResponse tokenResponse = GenerateToken(sessionId, user, organizationInfo);
 
+            ErrorOr<bool> isUserInOrganization = IsUserInOrganization(
+                user.UserOrganizations, organizationInfo);
+
+            if (isUserInOrganization.IsError)
+            {
+                return isUserInOrganization.Errors;
+            }
+
+            Ulid sessionId = Ulid.NewUlid(DateTime.UtcNow);
+
+            IEnumerable<string> permissions = user.UserOrganizations
+                .SelectMany(x => x.Role?.Permissions.Select(i => i.Resource?.Title ?? string.Empty) ?? []);
+
+            TokenResponse tokenResponse = GenerateToken(
+                sessionId, user, organizationInfo, permissions);
 
             SubmitSessionRequest submitSessionRequest = new()
             {
@@ -129,7 +156,6 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
                 UserId = user.Id
             };
             await SubmitSession(submitSessionRequest);
-
 
             return tokenResponse;
         }

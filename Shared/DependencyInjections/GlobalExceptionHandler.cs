@@ -20,7 +20,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
             BaseException baseException => new()
             {
                 Status = baseException.Status,
-                Title = baseException.Source,
+                Title = baseException.Title,
                 Type = baseException.Type,
                 Detail = baseException.Detail,
             },

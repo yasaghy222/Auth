@@ -20,11 +20,11 @@ namespace Auth.Features.Users.Contracts.Mappings
         }
 
         public static GetListByFiltersQuery MapToQuery(
-            this GetListByFiltersDto dto)
+            this GetListByFiltersDto dto, IEnumerable<Ulid> userOrganizations)
         {
             return new()
             {
-                Organizations = dto.Organizations,
+                Organizations = dto.Organizations.GetUserOrganizationIds(userOrganizations),
 
                 Usernames = dto.Usernames,
                 UsernamesComparisonType = dto.UsernamesComparisonType,
@@ -45,12 +45,11 @@ namespace Auth.Features.Users.Contracts.Mappings
         }
 
         public static UserFilterRequest MapToRequest(
-            this GetListByFiltersQuery query,
-            IEnumerable<Ulid> userOrganizationIds)
+            this GetListByFiltersQuery query)
         {
             return new()
             {
-                OrganizationIds = query.Organizations.GetUserOrganizationIds(userOrganizationIds),
+                OrganizationIds = query.Organizations,
 
                 Usernames = query.Usernames,
                 UsernamesComparisonType = query.UsernamesComparisonType,

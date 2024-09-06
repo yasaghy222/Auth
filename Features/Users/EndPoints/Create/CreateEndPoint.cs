@@ -3,6 +3,7 @@ using MediatR;
 using FastEndpoints;
 using Auth.Shared.Extensions;
 using Auth.Shared.CustomErrors;
+using Auth.Shared.RequestPipeline;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.CommandQuery.Commands.Create;
 
@@ -19,6 +20,13 @@ namespace Auth.Features.Users.EndPoints.Create
         public override void Configure()
         {
             Post("/user");
+            Permissions("Auth.User.Create");
+            Description(b => b
+                .Accepts<UserCreateDto>()
+                .Produces(200)
+                .Produces(401)
+                .ProducesProblemFE(400)
+                .ProducesProblemFE(500));
         }
 
         public override async Task<IResult> ExecuteAsync(UserCreateDto dto, CancellationToken ct)

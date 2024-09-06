@@ -1,10 +1,12 @@
 ﻿using Auth.Domain.Entities;
+using Auth.Shared.Extensions;
 using Auth.Features.Roles.Services;
 using Auth.Features.Users.Services;
 using Microsoft.EntityFrameworkCore;
+using Auth.Features.Resources.Services;
+using Auth.Features.Permissions.Services;
 using Auth.Features.Organizations.Services;
 using Auth.Features.UserOrganizations.Services;
-using Auth.Shared.Extensions;
 
 namespace Auth.Data;
 
@@ -38,6 +40,8 @@ public static class ModelBuilderConfig
 				.OnDelete(DeleteBehavior.Cascade);
 
 			entity.HasData(RolesDataSeeding.InitialItems);
+
+			entity.Navigation(e => e.Permissions).AutoInclude();
 		});
 
 		modelBuilder.Entity<User>(entity =>
@@ -52,6 +56,8 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.StatusDescription).HasMaxLength(500);
 
 			entity.HasData(UsersDataSeeding.GetInitialItems(hashService));
+
+			entity.Navigation(e => e.UserOrganizations).AutoInclude();
 		});
 
 		modelBuilder.Entity<UserOrganization>(entity =>
@@ -77,6 +83,23 @@ public static class ModelBuilderConfig
 				.OnDelete(DeleteBehavior.NoAction);
 
 			entity.HasData(UserOrganizationsDataSeeding.InitialItems);
+
+			entity.Navigation(e => e.Role).AutoInclude();
+		});
+
+
+		modelBuilder.Entity<ResourceGroup>(entity =>
+		{
+			entity.Property(e => e.Id).HasMaxLength(200);
+			entity.Property(e => e.Title).HasMaxLength(200);
+			entity.Property(e => e.ParentId).HasMaxLength(200);
+
+			entity.HasOne(e => e.Parent)
+				.WithMany(e => e.Chields)
+				.HasForeignKey(e => e.ParentId)
+				.OnDelete(DeleteBehavior.NoAction);
+
+			entity.HasData(ResourceGroupsDataSeeding.InitialItems);
 		});
 
 		modelBuilder.Entity<Resource>(entity =>
@@ -93,20 +116,11 @@ public static class ModelBuilderConfig
 
 			entity.HasOne(e => e.Group).WithMany(e => e.Resources)
 				.HasForeignKey(e => e.GroupId)
-				.OnDelete(DeleteBehavior.SetNull);
-		});
-
-		modelBuilder.Entity<ResourceGroup>(entity =>
-		{
-			entity.Property(e => e.Id).HasMaxLength(200);
-			entity.Property(e => e.Title).HasMaxLength(200);
-			entity.Property(e => e.ParentId).HasMaxLength(200);
-
-			entity.HasOne(e => e.Parent)
-				.WithMany(e => e.Chields)
-				.HasForeignKey(e => e.ParentId)
 				.OnDelete(DeleteBehavior.NoAction);
+
+			entity.HasData(ResourcesDataSeeding.InitialItems);
 		});
+
 
 		modelBuilder.Entity<Permission>(entity =>
 		{
@@ -122,6 +136,10 @@ public static class ModelBuilderConfig
 			entity.HasOne(e => e.Resource).WithMany(e => e.Permissions)
 				.HasForeignKey(e => e.ResourceId)
 				.OnDelete(DeleteBehavior.Cascade);
+
+			entity.HasData(PermissionsDataSeeding.InitialItems);
+
+			entity.Navigation(e => e.Resource).AutoInclude();
 		});
 	}
 }

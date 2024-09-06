@@ -19,7 +19,12 @@ namespace Auth.Features.Users.EndPoints.ChangePassword
         public override void Configure()
         {
             Patch("/user/change-password");
-            AllowAnonymous();
+            Description(b => b
+              .Accepts<UserChangePasswordDto>()
+              .Produces(200)
+              .Produces(401)
+              .ProducesProblemFE(400)
+              .ProducesProblemFE(500));
         }
 
         public override async Task<IResult> ExecuteAsync(

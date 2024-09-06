@@ -7,12 +7,14 @@ namespace Auth.Features.Organizations.Contracts.Mappings
     {
         public static IEnumerable<Ulid> GetAllChildIds(this Organization organization)
         {
-            IEnumerable<Ulid> childIds = organization.Chides.Select(ch => ch.Id);
+            List<Ulid> childIds = organization.Chides.Select(ch => ch.Id).ToList();
 
             foreach (Organization child in organization.Chides)
             {
-                childIds = childIds.Concat(GetAllChildIds(child));
+                childIds = [.. childIds, .. GetAllChildIds(child)];
             }
+
+            childIds.Add(organization.Id);
 
             return childIds;
         }

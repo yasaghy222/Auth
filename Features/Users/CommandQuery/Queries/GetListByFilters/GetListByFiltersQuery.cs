@@ -13,7 +13,7 @@ namespace Auth.Features.Users.CommandQuery.Queries.GetListByFilters
         public QueryOrderType IdOrderType { get; set; }
             = QueryOrderType.Descending;
 
-        public required IEnumerable<Ulid>? Organizations { get; set; }
+        public required IEnumerable<Ulid> Organizations { get; set; }
         public QueryOrderType? OrganizationOrderType { get; set; }
 
         public string? FullName { get; set; }

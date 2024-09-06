@@ -1,4 +1,5 @@
 using Auth.Features.Users.EndPoints.Create;
+using Auth.Features.Users.EndPoints.Login;
 using FluentValidation;
 
 namespace Auth.Shared.DependencyInjections
@@ -7,7 +8,6 @@ namespace Auth.Shared.DependencyInjections
 	{
 		public static IServiceCollection RegisterValidators(this IServiceCollection services)
 		{
-			services.AddScoped<IValidator<UserCreateDto>, UserCreateValidation>();
 
 			return services;
 		}

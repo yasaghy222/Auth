@@ -8,6 +8,7 @@ using Auth.Features.Users.Contracts.Enums;
 using Auth.Features.Users.Contracts.Requests;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.Contracts.Responses;
+using Auth.Features.Organizations.Services;
 
 namespace Auth.Features.Users.Services
 {
@@ -15,6 +16,7 @@ namespace Auth.Features.Users.Services
     {
         public TokenResponse GenerateTokens(GenerateTokenRequest request);
         public Task<ErrorOr<Ulid>> ValidateRefreshToken(string refreshToken);
+        public Task<ErrorOr<Ulid>> ValidateAccessToken(string accessToken);
     }
 
     public class TokenService : ITokenService
@@ -23,6 +25,7 @@ namespace Auth.Features.Users.Services
         private readonly int _accessTokenExpiryDuration = 1;
         private readonly SymmetricSecurityKey _secKey;
         private readonly SigningCredentials _signingCredentials;
+        private readonly JwtSecurityTokenHandler _tokenHandler;
 
 
         public TokenService(IConfiguration configuration)
@@ -42,6 +45,8 @@ namespace Auth.Features.Users.Services
                 ?? Environment.GetEnvironmentVariable("Settings_SecretKey") ?? "7");
 
             _signingCredentials = new(_secKey, SecurityAlgorithms.HmacSha256);
+
+            _tokenHandler = new JwtSecurityTokenHandler();
         }
 
 
@@ -69,9 +74,7 @@ namespace Auth.Features.Users.Services
                 signingCredentials: _signingCredentials
             );
 
-            JwtSecurityTokenHandler handler = new();
-            string tokenValue = handler.WriteToken(token);
-
+            string tokenValue = _tokenHandler.WriteToken(token);
             return tokenValue;
         }
 
@@ -85,9 +88,7 @@ namespace Auth.Features.Users.Services
                 signingCredentials: _signingCredentials
             );
 
-            JwtSecurityTokenHandler handler = new();
-            string tokenValue = handler.WriteToken(token);
-
+            string tokenValue = _tokenHandler.WriteToken(token);
             return tokenValue;
         }
 
@@ -97,17 +98,46 @@ namespace Auth.Features.Users.Services
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _secKey,
-                ValidateIssuer = false,
-                ValidateAudience = false,
+                ValidateIssuer = true,
+                ValidIssuer = "Auth.Service",
+                ValidateAudience = true,
+                ValidAudiences = OrganizationDataSeeding.InitialItems.Select(x => x.Title).ToArray(),
                 ClockSkew = TimeSpan.Zero
             };
 
-            JwtSecurityTokenHandler tokenHandler = new();
-
-            TokenValidationResult result = await tokenHandler
+            TokenValidationResult result = await _tokenHandler
                 .ValidateTokenAsync(refreshToken, tokenValidationParameters);
 
             if (result.IsValid)
+            {
+                return GlobalErrors.InvalidToken();
+            }
+
+            KeyValuePair<string, object> getSessionId = result.Claims
+                .FirstOrDefault(x => x.Key == UserClaimNames.SessionId);
+
+            Ulid sessionId = Ulid.Parse(getSessionId.Value.ToString());
+
+            return sessionId;
+        }
+
+        public async Task<ErrorOr<Ulid>> ValidateAccessToken(string accessToken)
+        {
+            TokenValidationParameters tokenValidationParameters = new()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _secKey,
+                ValidateIssuer = true,
+                ValidIssuer = "Auth.Service",
+                ValidateAudience = true,
+                ValidAudiences = OrganizationDataSeeding.InitialItems.Select(x => x.Title).ToArray(),
+                ClockSkew = TimeSpan.Zero
+            };
+
+            TokenValidationResult result = await _tokenHandler
+                .ValidateTokenAsync(accessToken, tokenValidationParameters);
+
+            if (!result.IsValid)
             {
                 return GlobalErrors.InvalidToken();
             }

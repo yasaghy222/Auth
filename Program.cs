@@ -5,9 +5,8 @@ using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Consul;
 using Auth.Shared.RequestPipeline;
 using Auth.Shared.DependencyInjections;
-using FastEndpoints.Swagger;
-using NJsonSchema.Generation.TypeMappers;
-using NJsonSchema;
+using FastEndpoints.Security;
+using Auth.Features.Users.Contracts.Enums;
 
 internal class Program
 {
@@ -28,27 +27,15 @@ internal class Program
             builder.Services.RegisterValidators();
 
 
-            builder.Services.ApplyJWT(builder.Configuration);
+            builder.Services.AddJWT(builder.Configuration);
             builder.Services.AddAuthorization();
-            builder.Services.AddFastEndpoints(o => o.IncludeAbstractValidators = true);
-            builder.Services.SwaggerDocument(
-                o => o.DocumentSettings =
-                    s => s.SchemaSettings.TypeMappers.Add(
-                        new PrimitiveTypeMapper(
-                            typeof(Ulid),
-                            schema =>
-                            {
-                                schema.Type = JsonObjectType.String;
-                                schema.MinLength = 32;
-                                schema.UniqueItems = true;
-                                schema.Example = Ulid.NewUlid();
-                                schema.Format = "ulid";
-                            }
-                        )
-                    )
-                );
 
-            builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(assembly));
+            builder.Services.AddFastEndpoints(o => o.IncludeAbstractValidators = true);
+            builder.Services.AddSwagger();
+
+            builder.Services.AddMediatR(config =>
+                 config.RegisterServicesFromAssembly(assembly));
+
             builder.Services.ApplyBehaviors();
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -63,10 +50,13 @@ internal class Program
 
                 await app.ApplyMigrations();
 
+                app.UseJwtRevocation<TokenValidationMiddleware>();
                 app.UseAuthentication();
                 app.UseAuthorization();
+
                 app.UseFastEndpoints();
-                app.UseSwaggerGen();
+                app.UseSwagger();
+
 
                 await app.RunAsync();
             }

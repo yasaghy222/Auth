@@ -42,8 +42,11 @@ namespace Auth.Features.Users.Repositories
         private static Expression<Func<User, bool>> GetExpression(UserFilterRequest request)
         {
             Expression<Func<User, bool>>? expression = u =>
-                          u.UserOrganizations != null &&
-                          u.UserOrganizations.Any(o => request.OrganizationIds.Contains(o.Id));
+                u.UserOrganizations != null &&
+                request.OrganizationIds.Any() &&
+                request.OrganizationIds.Any(i =>
+                    u.UserOrganizations.Select(x => x.OrganizationId).Contains(i));
+
 
             if (request.Ids != null && request.Ids.Any())
             {

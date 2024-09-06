@@ -1,3 +1,6 @@
+using Auth.Domain.Aggregates;
+using Auth.Domain.Aggregates.Interfaces;
+
 namespace Auth.Features.Users.EndPoints.Create
 {
     public class UserCreateDto

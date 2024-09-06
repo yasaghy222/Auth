@@ -7,6 +7,9 @@ namespace Auth.Domain.Entities
         public required string Title { get; set; }
         public int? Order { get; set; }
 
+        public required Ulid OrganizationId { get; set; }
+        public Organization? Organization { get; set; }
+
         public Ulid? ParentId { get; set; }
         public ResourceGroup? Parent { get; set; }
 

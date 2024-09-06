@@ -5,6 +5,7 @@ namespace Auth.Shared.CustomErrors;
 public static class GlobalErrors
 {
     public const string InvalidTokenLogMsg = "request with invalid token {token}";
+    public const string TokenExpireMsg = "your token has been expire";
 
     public static Error Validation(string action, string code, string description) => Error.Validation($"{action}.{code}.Validation", description);
     public static Error InvalidToken() => Error.Validation(description: "Your token are not valid.");

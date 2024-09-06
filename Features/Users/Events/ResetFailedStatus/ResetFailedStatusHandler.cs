@@ -2,7 +2,6 @@ using MediatR;
 using Auth.Features.Users.Repositories;
 using Auth.Features.Users.Contracts.Requests;
 using Auth.Contracts.Common;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Auth.Features.Users.Events.ResetFailedStatus
 {

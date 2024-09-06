@@ -1,12 +1,14 @@
-using Auth.Contracts.Common;
 using Auth.Contracts.Enums;
+using Auth.Contracts.Common;
 using Auth.Features.Users.Contracts.Enums;
 
 namespace Auth.Features.Users.EndPoints.GetListByFilters
 {
+    [Permissions("Auth.User.ListByFilters")]
     public record GetListByFiltersDto : IPaginationFilterDto, IDateFilterDto
     {
         public IEnumerable<Ulid>? Ids { get; set; }
+
         public QueryOrderType IdOrderType { get; set; }
             = QueryOrderType.Descending;
 

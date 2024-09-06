@@ -13,8 +13,8 @@ namespace Auth.Features.Users.Contracts.Mappings
             return new()
             {
                 Id = dto.Id,
-                Password = dto.Password,
-                OldPassword = dto.OldPassword,
+                Password = dto.Password ?? string.Empty,
+                OldPassword = dto.OldPassword ?? string.Empty,
             };
         }
 

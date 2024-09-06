@@ -5,6 +5,8 @@ using LanguageExt.UnsafeValueAccess;
 using Auth.Features.Users.Contracts.Requests;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.Contracts.Responses;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Auth.Shared.CustomException;
 
 namespace Auth.Features.Users.Services
 {
@@ -13,6 +15,8 @@ namespace Auth.Features.Users.Services
         public Task CreateAsync(CreateSessionRequest request);
 
         public Task<SessionsResponse> GetListByUserIdAsync(Ulid userId);
+        public Task<Option<SessionResponse>> GetSessionAsync(string? id);
+        public Task<bool> ValidateSessionAsync(string? id);
 
         public Task<bool> DeleteSessionAsync(Ulid userId, string sessionId);
         public Task<bool> DeleteSessionAsync(Ulid userId, Func<SessionResponse, bool> condition);
@@ -33,7 +37,7 @@ namespace Auth.Features.Users.Services
             await _redisDatabase.SetAddAsync(userSessionsKey, request.Id.ToString());
         }
 
-        public async Task<Option<SessionResponse>> GetSessionsAsync(string? id)
+        public async Task<Option<SessionResponse>> GetSessionAsync(string? id)
         {
             if (id.IsNullOrEmpty())
             {
@@ -56,7 +60,8 @@ namespace Auth.Features.Users.Services
             RedisValue[] sessionIds = await _redisDatabase.SetMembersAsync(userSessionsKey);
 
             IEnumerable<Task<Option<SessionResponse>>> tasks = sessionIds
-                .Select(async id => await GetSessionsAsync(id));
+                .Select(async id => await GetSessionAsync(id));
+
 
             Option<SessionResponse>[] results = await Task.WhenAll(tasks);
             SessionsResponse sessions = new()
@@ -101,6 +106,22 @@ namespace Auth.Features.Users.Services
         {
             string sessionKey = $"session:{sessionId}";
             await _redisDatabase.KeyExpireAsync(sessionKey, expiration);
+        }
+
+        public async Task<bool> ValidateSessionAsync(string? id)
+        {
+            if (id.IsNullOrEmpty())
+                return false;
+
+            Option<SessionResponse> getSession = await GetSessionAsync(id);
+            if (getSession.IsNone)
+                return false;
+
+            SessionResponse session = getSession.ValueUnsafe();
+            if (session.ExpireAt <= DateTime.UtcNow)
+                throw new TokenExpireException();
+
+            return true;
         }
     }
 }
