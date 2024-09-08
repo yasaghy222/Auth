@@ -18,5 +18,20 @@ namespace Auth.Features.Users.Contracts.Mappings
             };
         }
 
+        public static UserResponse MapToResponse(this User user)
+        {
+            return new()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                FullName = $"{user.Name} {user.Family}",
+                CreateAt = user.CreateAt,
+                Email = user.Email,
+                IsEmailValid = user.IsEmailValid,
+                Phone = user.Phone,
+                IsPhoneValid = user.IsPhoneValid,
+                Status = user.Status,
+            };
+        }
     }
 }

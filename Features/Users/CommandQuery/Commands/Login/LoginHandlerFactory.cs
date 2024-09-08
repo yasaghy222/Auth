@@ -50,21 +50,11 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
             return getOrganization.ValueUnsafe();
         }
 
-        private static ErrorOr<bool> IsUserInOrganization(
-            IEnumerable<UserOrganization> userOrganizationInfos,
-            OrganizationInfo organizationInfo)
-        {
-            bool isInOrganization = userOrganizationInfos.Any(info =>
-                organizationInfo.ChidesIds.Contains(info.OrganizationId));
-
-            return isInOrganization ? true : UserErrors.NotFound();
-        }
-
         private TokenResponse GenerateToken(
             Ulid sessionId,
             User user,
             OrganizationInfo organizationInfo,
-            IEnumerable<string> permissions)
+            IEnumerable<Ulid> permissions)
         {
             GenerateTokenRequest generateTokenRequest = new()
             {
@@ -120,6 +110,7 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
             }
 
             OrganizationInfo organizationInfo = getOrganization.Value;
+
             ErrorOr<User> loginResponse = await LoginHandler(command, organizationInfo, ct);
             if (loginResponse.IsError)
             {
@@ -128,18 +119,10 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
 
             User user = loginResponse.Value;
 
-            ErrorOr<bool> isUserInOrganization = IsUserInOrganization(
-                user.UserOrganizations, organizationInfo);
-
-            if (isUserInOrganization.IsError)
-            {
-                return isUserInOrganization.Errors;
-            }
-
             Ulid sessionId = Ulid.NewUlid(DateTime.UtcNow);
 
-            IEnumerable<string> permissions = user.UserOrganizations
-                .SelectMany(x => x.Role?.Permissions.Select(i => i.Resource?.Title ?? string.Empty) ?? []);
+            IEnumerable<Ulid> permissions = user.UserOrganizations
+                .SelectMany(x => x.Role?.Permissions.Select(i => i.Id) ?? []);
 
             TokenResponse tokenResponse = GenerateToken(
                 sessionId, user, organizationInfo, permissions);

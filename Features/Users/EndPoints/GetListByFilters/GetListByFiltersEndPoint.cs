@@ -1,13 +1,12 @@
 using MediatR;
 using FastEndpoints;
-using System.Security.Claims;
+using Auth.Shared.Constes;
 using Auth.Shared.Extensions;
+using Auth.Contracts.Common;
 using Microsoft.AspNetCore.Mvc;
-using Auth.Features.Users.Contracts.Enums;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.Contracts.Responses;
 using Auth.Features.Users.CommandQuery.Queries.GetListByFilters;
-using Auth.Shared.RequestPipeline;
 
 namespace Auth.Features.Users.EndPoints.GetListByFilters
 {
@@ -15,34 +14,28 @@ namespace Auth.Features.Users.EndPoints.GetListByFilters
     public class GetListByFiltersEndPoint(
             ISender sender,
             ILogger<GetListByFiltersEndPoint> logger,
-            IHttpContextAccessor httpContextAccessor)
-            : Endpoint<GetListByFiltersDto, IResult>
+            IUserClaimsInfo userClaimsInfo)
+            : Endpoint<UserGetListByFiltersDto, IResult>
     {
         private readonly ISender _sender = sender;
         private readonly ILogger<GetListByFiltersEndPoint> _logger = logger;
-        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+        private readonly IUserClaimsInfo _userClaimsInfo = userClaimsInfo;
 
         public override void Configure()
         {
-            Get("/user/list/filter");
-            PreProcessor<PermissionValidation<GetListByFiltersDto>>();
+            Get(UserConstes.Get_List_Filter_Resource_Url);
+            Permissions(UserConstes.Get_List_Filter_Permission_Id);
             Description(b => b
-                   .Accepts<GetListByFiltersDto>()
+                   .Accepts<UserGetListByFiltersDto>()
                    .Produces<UsersResponse>(200, "application/json")
                    .ProducesProblemFE(400)
                    .ProducesProblemFE(500));
         }
 
-        public override async Task<IResult> ExecuteAsync([FromQuery] GetListByFiltersDto dto, CancellationToken ct)
+        public override async Task<IResult> ExecuteAsync([FromQuery] UserGetListByFiltersDto dto, CancellationToken ct)
         {
-            Claim? userOrganizationsClaim = _httpContextAccessor.HttpContext?.User.Claims
-                .FirstOrDefault(i => i.Type == UserClaimNames.UserOrganizations);
-
-            IEnumerable<UserOrganizationInfo>? userOrganizations =
-                userOrganizationsClaim?.Value.FromJson<IEnumerable<UserOrganizationInfo>>();
-
             IEnumerable<Ulid> userOrganizationsIds =
-                userOrganizations?.Select(i => i.OrganizationId) ?? [];
+                _userClaimsInfo.UserOrganizations?.Select(i => i.OrganizationId) ?? [];
 
             GetListByFiltersQuery query = dto.MapToQuery(userOrganizationsIds);
             _logger.LogInformation("Query: {query}", query.ToJson());

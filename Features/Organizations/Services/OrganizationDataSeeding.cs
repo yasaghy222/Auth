@@ -1,4 +1,5 @@
 using Auth.Domain.Entities;
+using Auth.Shared.Constes;
 using Auth.Features.Organizations.Contracts.Enums;
 
 namespace Auth.Features.Organizations.Services
@@ -9,31 +10,31 @@ namespace Auth.Features.Organizations.Services
          [
                 new Organization
                 {
-                    Id = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8"),
-                    Title = "Auth.Service",
+                    Id = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
+                    Title = OrganizationConstes.Auth_Service_Title,
                     Status = OrganizationStatus.Active,
                     ParentId = null,
                 },
                 new Organization
                 {
-                    Id = Ulid.Parse("01J5N8P83VSNQRJNJ8FD6E0M8E"),
-                    Title = "Accounting.Service",
+                    Id = Ulid.Parse(OrganizationConstes.Accounting_Service_Id),
+                    Title = OrganizationConstes.Accounting_Service_Title,
                     Status = OrganizationStatus.Active,
-                    ParentId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8"),
+                    ParentId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
                 },
                 new Organization
                 {
-                    Id = Ulid.Parse("01J5N8QDTDVH64T5K3B9RCRB88"),
-                    Title = "RedSense.Service",
+                    Id = Ulid.Parse(OrganizationConstes.RedSense_Service_Id),
+                    Title = OrganizationConstes.RedSense_Service_Title,
                     Status = OrganizationStatus.Active,
-                    ParentId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8") // Set parent relationship
+                    ParentId = Ulid.Parse(OrganizationConstes.Auth_Service_Id)
                 },
                 new Organization
                 {
-                    Id = Ulid.Parse("01J5N3BYB6VXQ4GYFERCAGE5Z8"),
-                    Title = "RedGuard.Update.Service",
+                    Id = Ulid.Parse(OrganizationConstes.RedGuard_Update_Service_Id),
+                    Title = OrganizationConstes.RedGuard_Update_Service_Title,
                     Status = OrganizationStatus.Active,
-                    ParentId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8") // Set parent relationship
+                    ParentId = Ulid.Parse(OrganizationConstes.Auth_Service_Id)
                 }
             ];
     }

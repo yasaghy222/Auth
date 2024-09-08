@@ -20,7 +20,7 @@ namespace Auth.Features.Users.Contracts.Mappings
         }
 
         public static GetListByFiltersQuery MapToQuery(
-            this GetListByFiltersDto dto, IEnumerable<Ulid> userOrganizations)
+            this UserGetListByFiltersDto dto, IEnumerable<Ulid> userOrganizations)
         {
             return new()
             {

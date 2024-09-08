@@ -5,6 +5,7 @@ using Auth.Shared.Extensions;
 using Auth.Shared.CustomErrors;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.CommandQuery.Commands.ChangePassword;
+using Auth.Shared.Constes;
 
 namespace Auth.Features.Users.EndPoints.ChangePassword
 {
@@ -18,7 +19,7 @@ namespace Auth.Features.Users.EndPoints.ChangePassword
 
         public override void Configure()
         {
-            Patch("/user/change-password");
+            Patch(UserConstes.Change_Password_Resource_Url);
             Description(b => b
               .Accepts<UserChangePasswordDto>()
               .Produces(200)

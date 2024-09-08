@@ -1,12 +1,12 @@
 using ErrorOr;
 using MediatR;
 using FastEndpoints;
-using FastEndpoints.Security;
+using Auth.Shared.Constes;
 using Auth.Shared.Extensions;
 using Auth.Shared.CustomErrors;
 using Auth.Features.Users.Contracts.Mappings;
+using Auth.Features.Users.Contracts.Responses;
 using Auth.Features.Users.CommandQuery.Commands.Login;
-using System.Security.Claims;
 
 namespace Auth.Features.Users.EndPoints.Login
 {
@@ -20,7 +20,7 @@ namespace Auth.Features.Users.EndPoints.Login
 
         public override void Configure()
         {
-            Post("/user/login");
+            Post(UserConstes.Login_Resource_Url);
             Description(b => b
               .Accepts<LoginDto>()
               .Produces(200)
@@ -37,7 +37,7 @@ namespace Auth.Features.Users.EndPoints.Login
             LoginCommand command = dto.MapToCommand(ip);
             _logger.LogInformation("Command: {command}", command.ToJson());
 
-            ErrorOr<Contracts.Responses.TokenResponse> result = await _sender.Send(command, ct);
+            ErrorOr<TokenResponse> result = await _sender.Send(command, ct);
 
             return result.Match(
                 tokens => Results.Ok(tokens),

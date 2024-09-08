@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ErrorOr;
+using Auth.Features.Users.Contracts.Requests;
+using Auth.Features.Users.Contracts.Responses;
 
-namespace Auth.Features.Users.CommandQuery.Queries.UserById
+namespace Auth.Features.Users.CommandQuery.Queries.GetById
 {
-    public class GetByIdQuery
-    {
-
-    }
+    public record GetByIdQuery(Ulid Id, IEnumerable<Ulid> OrganizationIds) : IUserQuery<ErrorOr<UserResponse>>;
 }

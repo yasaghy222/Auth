@@ -1,9 +1,9 @@
 using ErrorOr;
 using MediatR;
 using FastEndpoints;
+using Auth.Shared.Constes;
 using Auth.Shared.Extensions;
 using Auth.Shared.CustomErrors;
-using Auth.Shared.RequestPipeline;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.CommandQuery.Commands.Create;
 
@@ -19,8 +19,8 @@ namespace Auth.Features.Users.EndPoints.Create
 
         public override void Configure()
         {
-            Post("/user");
-            Permissions("Auth.User.Create");
+            Post(UserConstes.Create_Resource_Url);
+            Permissions(UserConstes.Create_Permission_Id);
             Description(b => b
                 .Accepts<UserCreateDto>()
                 .Produces(200)

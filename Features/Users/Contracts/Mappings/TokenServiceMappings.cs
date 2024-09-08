@@ -12,13 +12,12 @@ namespace Auth.Features.Users.Contracts.Mappings
         {
             return
             [
-                new Claim(UserClaimNames.SessionId, request.SessionId.ToString()),
-                new Claim(UserClaimNames.UserInfo, request.UserInfo.ToJson()),
-                new Claim(UserClaimNames.Organizations, request.UserOrganizations.ToJson()),
-                new Claim(UserClaimNames.LoginOrganizationId, request.LoginOrganizationId.ToString()),
-                new Claim(UserClaimNames.LoginOrganizationTitle, request.LoginOrganizationTitle.ToString()),
-                new Claim(UserClaimNames.UserOrganizations, request.UserOrganizations.ToJson()),
-                new Claim(UserClaimNames.UserPermissions, request.Permissions.ToJson()),
+                new Claim(UserClaimsTypes.SessionId, request.SessionId.ToString()),
+                new Claim(UserClaimsTypes.UserInfo, request.UserInfo.ToJson()),
+                new Claim(UserClaimsTypes.LoginOrganizationId, request.LoginOrganizationId.ToString()),
+                new Claim(UserClaimsTypes.LoginOrganizationTitle, request.LoginOrganizationTitle.ToString()),
+                new Claim(UserClaimsTypes.UserOrganizations, request.UserOrganizations.ToJson()),
+                new Claim(UserClaimsTypes.UserPermissions, request.Permissions.ToJson()),
             ];
         }
 

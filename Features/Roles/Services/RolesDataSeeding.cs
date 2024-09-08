@@ -1,5 +1,6 @@
 using Auth.Domain.Entities;
 using Auth.Features.Roles.Contracts.Enums;
+using Auth.Shared.Constes;
 
 namespace Auth.Features.Roles.Services
 {
@@ -9,10 +10,10 @@ namespace Auth.Features.Roles.Services
         [
                new Role
                 {
-                    Id = Ulid.Parse("01J5NAK6SJGDKN0NJ00YX7MWXP"),
-                    Title = "Admin.Auth.Service",
+                    Id = Ulid.Parse(RoleConstes.Admin_Role_Id),
+                    Title = RoleConstes.Admin_Role_Name,
                     Status = RoleStatus.Active,
-                    OrganizationId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8") // auth.service.id
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id)
                 },
             ];
     }

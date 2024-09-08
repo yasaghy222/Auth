@@ -1,4 +1,5 @@
 using Auth.Domain.Entities;
+using Auth.Shared.Constes;
 
 namespace Auth.Features.Resources.Services
 {
@@ -8,16 +9,16 @@ namespace Auth.Features.Resources.Services
         [
                new ResourceGroup
                 {
-                    Id = Ulid.Parse("01J712NGSNRS456XTQQW6HWJNZ"),
-                    OrganizationId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8"),
-                    Title = "Auth.Users",
+                    Id = Ulid.Parse(ResourceGroupConstes.User_Group_Id),
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
+                    Title = ResourceGroupConstes.User_Group_Title,
                     Order = 1,
                 },
-                 new ResourceGroup
+                new ResourceGroup
                 {
-                    Id = Ulid.Parse("01J712TRTE84VCNAZZAVK63MEF"),
-                    OrganizationId = Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8"),
-                    Title = "Auth.Organizations",
+                    Id = Ulid.Parse(ResourceGroupConstes.Organization_Group_Id),
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Accounting_Service_Id),
+                    Title = ResourceGroupConstes.Organization_Group_Title,
                     Order = 2,
                 },
         ];

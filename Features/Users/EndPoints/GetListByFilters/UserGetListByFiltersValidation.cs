@@ -3,9 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Auth.Features.Users.EndPoints.GetListByFilters
 {
-    public class GetListByFiltersValidation : AbstractValidator<GetListByFiltersDto>
+    public class UserGetListByFiltersValidation : AbstractValidator<UserGetListByFiltersDto>
     {
-        public GetListByFiltersValidation()
+        public UserGetListByFiltersValidation()
         {
             RuleFor(i => i.FullName).MaximumLength(100).
                 When(i => !i.FullName.IsNullOrEmpty());

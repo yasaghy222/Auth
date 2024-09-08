@@ -119,6 +119,9 @@ namespace Auth.Migrations
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     OrganizationId = table.Column<byte[]>(type: "varbinary(200)", maxLength: 200, nullable: false),
                     Url = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
+                    Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    RequirePermission = table.Column<bool>(type: "bit", nullable: false),
                     GroupId = table.Column<byte[]>(type: "varbinary(200)", maxLength: 200, nullable: true),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifyAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -201,58 +204,67 @@ namespace Auth.Migrations
             migrationBuilder.InsertData(
                 table: "Organizations",
                 columns: new[] { "Id", "CreateAt", "ModifyAt", "ParentId", "Status", "StatusDescription", "Title" },
-                values: new object[] { new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, new DateTime(2024, 9, 5, 12, 45, 38, 659, DateTimeKind.Utc).AddTicks(8750), null, null, (byte)1, null, "Auth.Service" });
+                values: new object[] { new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, new DateTime(2024, 9, 8, 6, 31, 29, 224, DateTimeKind.Utc).AddTicks(8454), null, null, (byte)1, null, "Auth.Service" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccountLockedUntil", "CreateAt", "Email", "FailedLoginAttempts", "Family", "IsEmailValid", "IsPhoneValid", "ModifyAt", "Name", "Password", "Phone", "Status", "StatusDescription", "Username" },
-                values: new object[] { new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 }, null, new DateTime(2024, 9, 5, 12, 45, 38, 660, DateTimeKind.Utc).AddTicks(220), null, 0, "Auth.Service", false, false, null, "Admin", "icoMg8j2l99NC7JaDWHofIL6jJsut20+7kWSohXr6vKU1niIvwchn47i44Sr72bP", null, (byte)1, null, "AdminAuthService1" });
+                values: new object[] { new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 }, null, new DateTime(2024, 9, 8, 6, 31, 29, 224, DateTimeKind.Utc).AddTicks(9997), null, 0, "", false, false, null, "Admin.Auth.Service", "tVl4uV2vRUGOIF1FUsJBsCW8w4c5WsqFjnS3mTORDyHwEPeEYysMTrPOjTH9HjuW", null, (byte)1, null, "AdminAuthService1" });
 
             migrationBuilder.InsertData(
                 table: "Organizations",
                 columns: new[] { "Id", "CreateAt", "ModifyAt", "ParentId", "Status", "StatusDescription", "Title" },
                 values: new object[,]
                 {
-                    { new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 }, new DateTime(2024, 9, 5, 12, 45, 38, 659, DateTimeKind.Utc).AddTicks(8770), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "Accounting.Service" },
-                    { new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 }, new DateTime(2024, 9, 5, 12, 45, 38, 659, DateTimeKind.Utc).AddTicks(8770), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "RedSense.Service" },
-                    { new byte[] { 1, 145, 106, 53, 249, 102, 223, 110, 72, 121, 238, 195, 21, 7, 23, 232 }, new DateTime(2024, 9, 5, 12, 45, 38, 659, DateTimeKind.Utc).AddTicks(8810), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "RedGuard.Update.Service" }
+                    { new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 }, new DateTime(2024, 9, 8, 6, 31, 29, 224, DateTimeKind.Utc).AddTicks(8475), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "Accounting.Service" },
+                    { new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 }, new DateTime(2024, 9, 8, 6, 31, 29, 224, DateTimeKind.Utc).AddTicks(8480), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "RedSense.Service" },
+                    { new byte[] { 1, 145, 106, 53, 249, 102, 223, 110, 72, 121, 238, 195, 21, 7, 23, 232 }, new DateTime(2024, 9, 8, 6, 31, 29, 224, DateTimeKind.Utc).AddTicks(8483), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "RedGuard.Update.Service" }
                 });
 
             migrationBuilder.InsertData(
                 table: "ResourceGroups",
                 columns: new[] { "Id", "CreateAt", "ModifyAt", "Order", "OrganizationId", "ParentId", "Title" },
-                values: new object[,]
-                {
-                    { new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, new DateTime(2024, 9, 5, 12, 45, 38, 701, DateTimeKind.Utc).AddTicks(6370), null, 1, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, null, "Auth.Users" },
-                    { new byte[] { 1, 145, 194, 45, 99, 78, 65, 54, 202, 171, 255, 86, 230, 97, 209, 207 }, new DateTime(2024, 9, 5, 12, 45, 38, 701, DateTimeKind.Utc).AddTicks(6370), null, 2, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, null, "Auth.Organizations" }
-                });
+                values: new object[] { new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(1659), null, 1, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, null, "Auth.User" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreateAt", "ModifyAt", "OrganizationId", "Status", "StatusDescription", "Title" },
-                values: new object[] { new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }, new DateTime(2024, 9, 5, 12, 45, 38, 659, DateTimeKind.Utc).AddTicks(9690), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "Admin.Auth.Service" });
+                values: new object[] { new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }, new DateTime(2024, 9, 8, 6, 31, 29, 224, DateTimeKind.Utc).AddTicks(9381), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, (byte)1, null, "Admin.Auth.Service" });
+
+            migrationBuilder.InsertData(
+                table: "ResourceGroups",
+                columns: new[] { "Id", "CreateAt", "ModifyAt", "Order", "OrganizationId", "ParentId", "Title" },
+                values: new object[] { new byte[] { 1, 145, 208, 31, 165, 2, 171, 227, 176, 45, 84, 44, 249, 118, 7, 186 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(1667), null, 2, new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 }, null, "Auth.Organization" });
 
             migrationBuilder.InsertData(
                 table: "Resources",
-                columns: new[] { "Id", "CreateAt", "GroupId", "ModifyAt", "OrganizationId", "Title", "Url" },
+                columns: new[] { "Id", "CreateAt", "GroupId", "IsPublic", "Method", "ModifyAt", "OrganizationId", "RequirePermission", "Title", "Url" },
                 values: new object[,]
                 {
-                    { new byte[] { 1, 145, 194, 19, 100, 213, 195, 167, 224, 76, 129, 159, 122, 140, 74, 9 }, new DateTime(2024, 9, 5, 12, 45, 38, 701, DateTimeKind.Utc).AddTicks(7800), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, "Auth.User.Create", "/user" },
-                    { new byte[] { 1, 145, 194, 46, 218, 213, 189, 253, 172, 150, 128, 62, 74, 166, 112, 183 }, new DateTime(2024, 9, 5, 12, 45, 38, 701, DateTimeKind.Utc).AddTicks(7800), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, "Auth.User.ListByFilters", "/user/list/filter" }
+                    { new byte[] { 1, 145, 203, 214, 139, 112, 40, 246, 89, 83, 179, 208, 14, 133, 229, 148 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(3092), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, false, "POST", null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, true, "Auth.User.Create", "/user" },
+                    { new byte[] { 1, 145, 204, 104, 59, 239, 89, 149, 197, 113, 106, 71, 146, 116, 105, 173 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(3110), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, false, "PUT", null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, true, "Auth.User.Create", "/user" },
+                    { new byte[] { 1, 145, 194, 19, 100, 213, 195, 167, 224, 76, 129, 159, 122, 140, 74, 9 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(3117), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, false, "DELETE", null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, true, "Auth.User.Delete", "/user" },
+                    { new byte[] { 1, 145, 204, 113, 69, 43, 84, 249, 125, 55, 60, 132, 175, 127, 19, 107 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(3120), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, false, "PATCH", null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, true, "Auth.User.ChangePassword", "/user/change-password" },
+                    { new byte[] { 1, 145, 204, 121, 186, 100, 163, 46, 156, 160, 49, 160, 100, 99, 222, 204 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(3125), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, true, "PATCH", null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, false, "Auth.User.ResetPassword", "/user/reset-password" },
+                    { new byte[] { 1, 145, 204, 124, 54, 99, 52, 242, 64, 198, 0, 248, 113, 159, 236, 46 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(3128), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, false, "GET", null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, true, "Auth.User.Get.Id", "/user" },
+                    { new byte[] { 1, 145, 194, 46, 218, 213, 189, 253, 172, 150, 128, 62, 74, 166, 112, 183 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(3132), new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 }, false, "GET", null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, true, "Auth.User.List.Filter", "/user/list/filter" }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserOrganizations",
                 columns: new[] { "Id", "CreateAt", "ModifyAt", "OrganizationId", "RoleId", "UserId" },
-                values: new object[] { new byte[] { 1, 145, 110, 124, 211, 13, 172, 121, 123, 233, 248, 119, 101, 211, 216, 0 }, new DateTime(2024, 9, 5, 12, 45, 38, 701, DateTimeKind.Utc).AddTicks(5300), null, new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }, new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 } });
+                values: new object[] { new byte[] { 1, 145, 110, 124, 211, 13, 172, 121, 123, 233, 248, 119, 101, 211, 216, 0 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(738), null, new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }, new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 } });
 
             migrationBuilder.InsertData(
                 table: "Permissions",
                 columns: new[] { "Id", "CreateAt", "ModifyAt", "ResourceId", "RoleId" },
                 values: new object[,]
                 {
-                    { new byte[] { 1, 145, 194, 17, 51, 104, 213, 0, 96, 96, 6, 174, 40, 102, 47, 34 }, new DateTime(2024, 9, 5, 12, 45, 38, 701, DateTimeKind.Utc).AddTicks(8930), null, new byte[] { 1, 145, 194, 19, 100, 213, 195, 167, 224, 76, 129, 159, 122, 140, 74, 9 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 } },
-                    { new byte[] { 1, 145, 194, 48, 229, 40, 27, 168, 73, 211, 5, 201, 74, 251, 113, 198 }, new DateTime(2024, 9, 5, 12, 45, 38, 701, DateTimeKind.Utc).AddTicks(8930), null, new byte[] { 1, 145, 194, 46, 218, 213, 189, 253, 172, 150, 128, 62, 74, 166, 112, 183 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 } }
+                    { new byte[] { 1, 145, 204, 150, 84, 240, 42, 228, 210, 77, 104, 4, 133, 180, 25, 184 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(4237), null, new byte[] { 1, 145, 203, 214, 139, 112, 40, 246, 89, 83, 179, 208, 14, 133, 229, 148 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 } },
+                    { new byte[] { 1, 145, 204, 150, 107, 127, 150, 207, 20, 119, 52, 110, 7, 61, 68, 202 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(4246), null, new byte[] { 1, 145, 204, 104, 59, 239, 89, 149, 197, 113, 106, 71, 146, 116, 105, 173 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 } },
+                    { new byte[] { 1, 145, 208, 13, 36, 216, 81, 194, 36, 35, 85, 25, 108, 59, 73, 83 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(4249), null, new byte[] { 1, 145, 194, 19, 100, 213, 195, 167, 224, 76, 129, 159, 122, 140, 74, 9 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 } },
+                    { new byte[] { 1, 145, 208, 13, 243, 255, 43, 0, 161, 232, 166, 128, 90, 226, 38, 133 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(4251), null, new byte[] { 1, 145, 204, 124, 54, 99, 52, 242, 64, 198, 0, 248, 113, 159, 236, 46 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 } },
+                    { new byte[] { 1, 145, 208, 14, 63, 53, 205, 210, 151, 168, 232, 220, 223, 155, 152, 77 }, new DateTime(2024, 9, 8, 6, 31, 29, 268, DateTimeKind.Utc).AddTicks(4254), null, new byte[] { 1, 145, 194, 46, 218, 213, 189, 253, 172, 150, 128, 62, 74, 166, 112, 183 }, new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 } }
                 });
 
             migrationBuilder.CreateIndex(

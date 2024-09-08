@@ -1,6 +1,7 @@
 using Auth.Domain.Entities;
 using Auth.Shared.Extensions;
 using Auth.Features.Users.Contracts.Enums;
+using Auth.Shared.Constes;
 
 namespace Auth.Features.Users.Services
 {
@@ -10,11 +11,11 @@ namespace Auth.Features.Users.Services
         [
             new User
             {
-                Id = Ulid.Parse("01J5Q6HDSW0J4G3SRWGJNZYJFD"),
-                Name = "Admin",
-                Family = "Auth.Service",
-                Password = hashService.HashString("AdminAuth@123"),
-                Username = "AdminAuthService1",
+                Id = Ulid.Parse(UserConstes.Admin_Id),
+                Name = RoleConstes.Admin_Role_Name,
+                Family = string.Empty,
+                Password = hashService.HashString(UserConstes.Admin_Password),
+                Username = UserConstes.Admin_Username,
                 Status = UserStatus.Active,
             },
         ];

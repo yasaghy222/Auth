@@ -1,6 +1,9 @@
-using Auth.Features.Users.CommandQuery.Commands.Login;
-using Auth.Features.Users.Services;
 using Auth.Shared.Extensions;
+using Auth.Features.Users.Services;
+using Auth.Shared.RequestPipeline;
+using Microsoft.AspNetCore.Authorization;
+using Auth.Features.Users.CommandQuery.Commands.Login;
+using Auth.Contracts.Common;
 
 namespace Auth.Shared.DependencyInjections
 {
@@ -17,6 +20,9 @@ namespace Auth.Shared.DependencyInjections
 			services.AddScoped<LoginByPasswordHandler>();
 
 			services.AddHttpContextAccessor();
+
+			services.AddSingleton<IUserClaimsInfo, UserClaimsInfo>();
+			services.AddSingleton<IAuthorizationMiddlewareResultHandler, PermissionMiddleware>();
 			return services;
 		}
 	}

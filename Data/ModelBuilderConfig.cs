@@ -138,8 +138,6 @@ public static class ModelBuilderConfig
 				.OnDelete(DeleteBehavior.Cascade);
 
 			entity.HasData(PermissionsDataSeeding.InitialItems);
-
-			entity.Navigation(e => e.Resource).AutoInclude();
 		});
 	}
 }

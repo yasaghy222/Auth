@@ -1,4 +1,5 @@
 using Auth.Domain.Entities;
+using Auth.Shared.Constes;
 
 namespace Auth.Features.UserOrganizations.Services
 {
@@ -8,9 +9,9 @@ namespace Auth.Features.UserOrganizations.Services
         [
             new UserOrganization{
                 Id = Ulid.Parse("01J5Q7SMRDNHWQQTFREXJX7P00"),
-                OrganizationId =Ulid.Parse("01J5N8HWG80H4Y3T6WRQ2PGBQ8"), // auth.service.id
-                RoleId =Ulid.Parse("01J5NAK6SJGDKN0NJ00YX7MWXP"), // admin.auth.service.role.id
-                UserId = Ulid.Parse("01J5Q6HDSW0J4G3SRWGJNZYJFD"), // user.id
+                OrganizationId =Ulid.Parse(OrganizationConstes.Accounting_Service_Id),
+                RoleId =Ulid.Parse(RoleConstes.Admin_Role_Id),
+                UserId = Ulid.Parse(UserConstes.Admin_Id),
             },
         ];
     }

@@ -10,6 +10,9 @@ namespace Auth.Domain.Entities
         public Organization? Organization { get; set; }
 
         public required string Url { get; set; }
+        public required string Method { get; set; }
+        public required bool IsPublic { get; set; }
+        public required bool RequirePermission { get; set; }
 
         public Ulid? GroupId { get; set; }
         public ResourceGroup? Group { get; set; }

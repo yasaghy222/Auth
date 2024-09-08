@@ -9,6 +9,7 @@ using Auth.Features.Users.Contracts.Requests;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.Contracts.Responses;
 using Auth.Features.Organizations.Services;
+using Auth.Shared.Constes;
 
 namespace Auth.Features.Users.Services
 {
@@ -67,7 +68,7 @@ namespace Auth.Features.Users.Services
         private string GenerateAccessToken(GenerateTokenRequest request)
         {
             JwtSecurityToken token = new(
-                issuer: "Auth.Service",
+                issuer: OrganizationConstes.Auth_Service_Title,
                 audience: request.LoginOrganizationTitle,
                 claims: request.MapToClaims(),
                 expires: DateTime.UtcNow.AddDays(_accessTokenExpiryDuration),
@@ -81,9 +82,9 @@ namespace Auth.Features.Users.Services
         private string GenerateRefreshToken(string loginOrganizationTitle, Ulid sessionId)
         {
             JwtSecurityToken token = new(
-                issuer: "Auth.Service",
+                issuer: OrganizationConstes.Auth_Service_Title,
                 audience: loginOrganizationTitle,
-                claims: [new Claim(UserClaimNames.SessionId, sessionId.ToString())],
+                claims: [new Claim(UserClaimsTypes.SessionId, sessionId.ToString())],
                 expires: DateTime.UtcNow.AddDays(_refreshTokenExpiryDuration),
                 signingCredentials: _signingCredentials
             );
@@ -99,7 +100,7 @@ namespace Auth.Features.Users.Services
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _secKey,
                 ValidateIssuer = true,
-                ValidIssuer = "Auth.Service",
+                ValidIssuer = OrganizationConstes.Auth_Service_Title,
                 ValidateAudience = true,
                 ValidAudiences = OrganizationDataSeeding.InitialItems.Select(x => x.Title).ToArray(),
                 ClockSkew = TimeSpan.Zero
@@ -114,7 +115,7 @@ namespace Auth.Features.Users.Services
             }
 
             KeyValuePair<string, object> getSessionId = result.Claims
-                .FirstOrDefault(x => x.Key == UserClaimNames.SessionId);
+                .FirstOrDefault(x => x.Key == UserClaimsTypes.SessionId);
 
             Ulid sessionId = Ulid.Parse(getSessionId.Value.ToString());
 
@@ -128,7 +129,7 @@ namespace Auth.Features.Users.Services
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _secKey,
                 ValidateIssuer = true,
-                ValidIssuer = "Auth.Service",
+                ValidIssuer = OrganizationConstes.Auth_Service_Title,
                 ValidateAudience = true,
                 ValidAudiences = OrganizationDataSeeding.InitialItems.Select(x => x.Title).ToArray(),
                 ClockSkew = TimeSpan.Zero
@@ -143,7 +144,7 @@ namespace Auth.Features.Users.Services
             }
 
             KeyValuePair<string, object> getSessionId = result.Claims
-                .FirstOrDefault(x => x.Key == UserClaimNames.SessionId);
+                .FirstOrDefault(x => x.Key == UserClaimsTypes.SessionId);
 
             Ulid sessionId = Ulid.Parse(getSessionId.Value.ToString());
 

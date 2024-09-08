@@ -4,8 +4,7 @@ using Auth.Features.Users.Contracts.Enums;
 
 namespace Auth.Features.Users.EndPoints.GetListByFilters
 {
-    [Permissions("Auth.User.ListByFilters")]
-    public record GetListByFiltersDto : IPaginationFilterDto, IDateFilterDto
+    public record UserGetListByFiltersDto : IPaginationFilterDto, IDateFilterDto
     {
         public IEnumerable<Ulid>? Ids { get; set; }
 

@@ -13,8 +13,10 @@ namespace Auth.Features.Organizations.Contracts.Mappings
             {
                 childIds = [.. childIds, .. GetAllChildIds(child)];
             }
-
-            childIds.Add(organization.Id);
+            if (organization.ParentId == null)
+            {
+                childIds.Add(organization.Id);
+            }
 
             return childIds;
         }
