@@ -29,6 +29,8 @@ namespace Auth.Features.Users.EndPoints.GetListByFilters
                    .Accepts<UserGetListByFiltersDto>()
                    .Produces<UsersResponse>(200, "application/json")
                    .ProducesProblemFE(400)
+                   .ProducesProblemFE(401)
+                   .ProducesProblemFE(403)
                    .ProducesProblemFE(500));
         }
 

@@ -4,8 +4,8 @@ using Auth.Domain.Entities;
 using Auth.Contracts.Enums;
 using Auth.Data.Repositories;
 using Auth.Shared.Extensions;
-using Auth.Contracts.Common;
 using System.Linq.Expressions;
+using Auth.Contracts.Common;
 using Auth.Contracts.Response;
 using Microsoft.EntityFrameworkCore;
 using Auth.Features.Users.Contracts.Enums;
@@ -19,7 +19,6 @@ namespace Auth.Features.Users.Repositories
         Repository<User, Ulid>(db),
         IUserRepository
     {
-
         private readonly AuthDBContext _db = db;
 
         public async Task<Option<User>> FindAsync(
@@ -245,7 +244,8 @@ namespace Auth.Features.Users.Repositories
             return order;
         }
 
-        public async Task<UsersResponse> ToListByFilters(UserFilterRequest request, CancellationToken ct)
+        public async Task<UsersResponse> ToListByFilters(
+            UserFilterRequest request, CancellationToken ct)
         {
             static UserResponse selector(User user) => user.ToResponse();
             Expression<Func<User, bool>>? expression = GetExpression(request);
@@ -295,11 +295,22 @@ namespace Auth.Features.Users.Repositories
                 ct);
         }
 
-        public Task<bool> UpdateAsync(
+        public async Task<bool> UpdateAsync(
             UpdateRequest request, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            return await base.EditAsync(
+              i => i.Id == request.Id
+                  && i.Status == UserStatus.Active,
+              setter =>
+                  setter.SetProperty(i => i.Username, request.Username)
+                  .SetProperty(i => i.Name, request.Name)
+                  .SetProperty(i => i.Family, request.Family)
+                  .SetProperty(i => i.Phone, request.Phone)
+                  .SetProperty(i => i.IsPhoneValid, false)
+                  .SetProperty(i => i.Email, request.Email)
+                  .SetProperty(i => i.IsEmailValid, false)
+                  .SetProperty(i => i.ModifyAt, DateTime.UtcNow),
+              ct);
         }
-
     }
 }

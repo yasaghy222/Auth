@@ -6,6 +6,7 @@ using Auth.Shared.CustomErrors;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.CommandQuery.Commands.ChangePassword;
 using Auth.Shared.Constes;
+using System.Net.Mime;
 
 namespace Auth.Features.Users.EndPoints.ChangePassword
 {
@@ -21,7 +22,7 @@ namespace Auth.Features.Users.EndPoints.ChangePassword
         {
             Patch(UserConstes.Change_Password_Resource_Url);
             Description(b => b
-              .Accepts<UserChangePasswordDto>()
+              .Accepts<UserChangePasswordDto>("application/json")
               .Produces(200)
               .Produces(401)
               .ProducesProblemFE(400)

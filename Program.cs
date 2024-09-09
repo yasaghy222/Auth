@@ -1,12 +1,11 @@
 using Serilog;
 using FastEndpoints;
 using System.Reflection;
+using FastEndpoints.Security;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Consul;
 using Auth.Shared.RequestPipeline;
 using Auth.Shared.DependencyInjections;
-using FastEndpoints.Security;
-using Auth.Features.Users.Contracts.Enums;
 
 internal class Program
 {
@@ -24,13 +23,13 @@ internal class Program
 
             builder.Services.RegisterDBContext(builder.Configuration);
             builder.Services.RegisterRepositories();
-            builder.Services.RegisterValidators();
-
 
             builder.Services.AddJWT(builder.Configuration);
             builder.Services.AddAuthorization();
 
-            builder.Services.AddFastEndpoints(o => o.IncludeAbstractValidators = true);
+            builder.Services.AddFastEndpoints(o =>
+                 o.IncludeAbstractValidators = true);
+
             builder.Services.AddSwagger();
 
             builder.Services.AddMediatR(config =>
@@ -56,7 +55,6 @@ internal class Program
 
                 app.UseFastEndpoints();
                 app.UseSwagger();
-
 
                 await app.RunAsync();
             }

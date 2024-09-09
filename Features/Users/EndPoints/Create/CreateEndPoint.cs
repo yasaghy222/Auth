@@ -22,9 +22,10 @@ namespace Auth.Features.Users.EndPoints.Create
             Post(UserConstes.Create_Resource_Url);
             Permissions(UserConstes.Create_Permission_Id);
             Description(b => b
-                .Accepts<UserCreateDto>()
+                .Accepts<UserCreateDto>("application/json")
                 .Produces(200)
                 .Produces(401)
+                .Produces(403)
                 .ProducesProblemFE(400)
                 .ProducesProblemFE(500));
         }

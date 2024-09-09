@@ -1,9 +1,6 @@
-using Auth.Domain.Aggregates;
-using Auth.Domain.Aggregates.Interfaces;
-
 namespace Auth.Features.Users.EndPoints.Create
 {
-    public class UserCreateDto
+    public record UserCreateDto
     {
         public required string Name { get; set; }
         public required string Family { get; set; }

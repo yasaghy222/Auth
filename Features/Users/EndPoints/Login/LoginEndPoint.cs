@@ -22,7 +22,7 @@ namespace Auth.Features.Users.EndPoints.Login
         {
             Post(UserConstes.Login_Resource_Url);
             Description(b => b
-              .Accepts<LoginDto>()
+              .Accepts<LoginDto>("application/json")
               .Produces(200)
               .ProducesProblemFE(400)
               .ProducesProblemFE(500));

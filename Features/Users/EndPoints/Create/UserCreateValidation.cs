@@ -8,23 +8,19 @@ namespace Auth.Features.Users.EndPoints.Create
         public UserCreateValidation()
         {
             RuleFor(i => i.Name)
-                .NotNull()
                 .NotEmpty()
                 .MaximumLength(100);
 
             RuleFor(i => i.Family)
-                .NotNull()
                 .NotEmpty()
                 .MaximumLength(200);
 
             RuleFor(i => i.Username)
-                .NotNull()
                 .NotEmpty()
                 .MaximumLength(300);
 
             RuleFor(i => i.Phone)
                 .NotEmpty()
-                .NotNull()
                 .Matches(@"^(\+98|0)?9\d{9}$");
 
             RuleFor(i => i.Email)
@@ -32,7 +28,6 @@ namespace Auth.Features.Users.EndPoints.Create
                 .When(i => !i.Email.IsNullOrEmpty());
 
             RuleFor(i => i.Password)
-                .NotNull()
                 .NotEmpty()
                 .MaximumLength(500)
                 .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
@@ -44,7 +39,6 @@ namespace Auth.Features.Users.EndPoints.Create
                     """);
 
             RuleFor(i => i.RepeatPassword)
-                .NotNull()
                 .NotEmpty()
                 .Equal(i => i.Password).WithMessage("Repeat Password' must be equal to Password");
         }
