@@ -3,37 +3,38 @@ using MediatR;
 using FastEndpoints;
 using Auth.Shared.Constes;
 using Auth.Shared.Extensions;
+using Auth.Contracts.Common;
 using Auth.Shared.CustomErrors;
+using Auth.Features.Users.EndPoints.Update;
 using Auth.Features.Users.Contracts.Mappings;
-using Auth.Features.Users.CommandQuery.Commands.Update;
+using Auth.Features.Users.CommandQuery.Commands.UpdateProfile;
 
-namespace Auth.Features.Users.EndPoints.Update
+namespace Auth.Features.Users.EndPoints.UpdateProfile
 {
-    public class UpdateEndPoint(
+    public class UpdateProfileEndPoint(
         ISender sender,
-        ILogger<UpdateEndPoint> logger)
-        : Endpoint<UserUpdateDto, IResult>
+        IUserClaimsInfo userClaimsInfo,
+        ILogger<UpdateProfileEndPoint> logger)
+        : Endpoint<UserUpdateProfileDto, IResult>
     {
         private readonly ISender _sender = sender;
-        private readonly ILogger<UpdateEndPoint> _logger = logger;
+        private readonly IUserClaimsInfo _userClaimsInfo = userClaimsInfo;
+        private readonly ILogger<UpdateProfileEndPoint> _logger = logger;
 
         public override void Configure()
         {
-            Put(UserConstes.Update_Resource_Url);
-            Permissions(UserConstes.Update_Permission_Id);
+            Put(UserConstes.Update_Profile_Resource_Url);
             Description(b => b
-                .Accepts<UserUpdateDto>("application/json")
+                .Accepts<UserUpdateProfileDto>("application/json")
                 .Produces(200)
                 .Produces(401)
-                .Produces(403)
                 .ProducesProblemFE(400)
                 .ProducesProblemFE(500));
         }
 
-        public override async Task<IResult> ExecuteAsync(
-            UserUpdateDto dto, CancellationToken ct)
+        public override async Task<IResult> ExecuteAsync(UserUpdateProfileDto dto, CancellationToken ct)
         {
-            UpdateCommand command = dto.MapToCommand();
+            UpdateProfileCommand command = dto.MapToCommand(_userClaimsInfo.UserInfo);
             _logger.LogInformation("Command: {command}", command.ToJson());
 
             ErrorOr<Updated> result = await _sender.Send(command, ct);

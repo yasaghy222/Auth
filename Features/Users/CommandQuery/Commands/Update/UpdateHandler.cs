@@ -1,10 +1,6 @@
 using ErrorOr;
 using MediatR;
 using LanguageExt;
-using Auth.Domain.Entities;
-using Auth.Shared.Extensions;
-using System.Linq.Expressions;
-using Auth.Contracts.Common;
 using Auth.Shared.CustomErrors;
 using LanguageExt.UnsafeValueAccess;
 using Auth.Features.Users.Repositories;
@@ -14,70 +10,20 @@ using Auth.Features.Users.Contracts.Mappings;
 namespace Auth.Features.Users.CommandQuery.Commands.Update
 {
     public class UpdateHandler(
-        IUserRepository userRepository,
-        IUserClaimsInfo userClaimsInfo)
+        IUserRepository userRepository)
         : IRequestHandler<UpdateCommand, ErrorOr<Updated>>
     {
         private readonly IUserRepository _userRepository = userRepository;
-        private readonly IUserClaimsInfo _userClaimsInfo = userClaimsInfo;
-
-        private Expression<Func<User, bool>>? GetExpression(
-            UpdateCommand command)
-        {
-            Expression<Func<User, bool>>? expression = default;
-
-            if (command.Username != _userClaimsInfo.UserInfo?.Username)
-            {
-                expression = u => u.Username == command.Username;
-            }
-
-            if (command.Phone != _userClaimsInfo.UserInfo?.Phone)
-            {
-                if (expression != null)
-                {
-                    expression.OrElse(u => u.Phone == command.Phone);
-                }
-                else
-                {
-                    expression = u => u.Phone == command.Phone;
-                }
-            }
-
-            if (command.Email != _userClaimsInfo.UserInfo?.Email)
-            {
-                if (expression != null)
-                {
-                    expression?.OrElse(u => u.Email == command.Email);
-                }
-                else
-                {
-                    expression = u => u.Email == command.Email;
-                }
-            }
-
-            return expression;
-        }
 
         private async Task<ErrorOr<bool>> ValidateData(
             UpdateCommand command, CancellationToken ct)
         {
-            Expression<Func<User, bool>>? expression =
-                GetExpression(command);
-
-            if (expression == null)
-            {
-                return true;
-            }
-
             Option<Tuple<string, string, string>> existingUser =
              await _userRepository.FindAsync(
-                expression,
+                 u => u.Username == command.Username ||
+                    u.Phone == command.Phone ||
+                    u.Email == command.Email,
                 selector: u => Tuple.Create(u.Username, u.Phone, u.Email), ct);
-
-            if (existingUser.IsNone)
-            {
-                return true;
-            }
 
             List<Error> errors = [];
             Tuple<string, string, string> existUser = existingUser.ValueUnsafe();

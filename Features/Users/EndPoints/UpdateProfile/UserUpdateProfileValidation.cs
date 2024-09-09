@@ -1,16 +1,13 @@
 using FluentValidation;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Auth.Features.Users.EndPoints.Update
+namespace Auth.Features.Users.EndPoints.UpdateProfile
 {
-    public class UserUpdateValidation
-        : AbstractValidator<UserUpdateDto>
+    public class UserUpdateProfileValidation
+        : AbstractValidator<UserUpdateProfileDto>
     {
-        public UserUpdateValidation()
+        public UserUpdateProfileValidation()
         {
-            RuleFor(i => i.Id)
-              .NotNull();
-
             RuleFor(i => i.Name)
                 .NotEmpty()
                 .MaximumLength(100);
