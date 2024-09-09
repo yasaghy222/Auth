@@ -9,7 +9,6 @@ public static class UserErrors
     public const string GetBydLogMsg = "User_GetByd_Error: some error has occurred when get user by Id with this input data: {Errors}";
     public const string UpdateLogMsg = "User_Update_Error: some error has occurred when updating user with this input data: {Errors}";
     public const string ChangeStatusLogMsg = "User_ChangeStatus_Error: some error has occurred when changing user status with this input data: {Errors}";
-    public const string GetByOrganizationLogMsg = "User_GetByOrganizationId_Error: some error has occurred when get user by branchId with this input data: {Errors}";
 
 
     public static Error DuplicateUsername(string username) =>

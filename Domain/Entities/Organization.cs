@@ -10,7 +10,7 @@ namespace Auth.Domain.Entities
         public Ulid? ParentId { get; set; }
         public Organization? Parent { get; set; }
 
-        public ICollection<Organization> Chides { get; set; } = [];
+        public ICollection<Organization> Children { get; set; } = [];
 
         public ICollection<Role> Roles { get; set; } = [];
         public ICollection<Resource> Resources { get; set; } = [];

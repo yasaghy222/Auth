@@ -5,11 +5,11 @@ namespace Auth.Features.Organizations.Contracts.Mappings
 {
     public static class OrganizationMappings
     {
-        public static IEnumerable<Ulid> GetAllChildIds(this Organization organization)
+        private static Ulid[] GetAllChildIds(this Organization organization)
         {
-            List<Ulid> childIds = organization.Chides.Select(ch => ch.Id).ToList();
+            List<Ulid> childIds = organization.Children.Select(ch => ch.Id).ToList();
 
-            foreach (Organization child in organization.Chides)
+            foreach (Organization child in organization.Children)
             {
                 childIds = [.. childIds, .. GetAllChildIds(child)];
             }
@@ -18,7 +18,7 @@ namespace Auth.Features.Organizations.Contracts.Mappings
                 childIds.Add(organization.Id);
             }
 
-            return childIds;
+            return [.. childIds];
         }
 
         public static OrganizationInfo MapToInfo(
@@ -28,9 +28,31 @@ namespace Auth.Features.Organizations.Contracts.Mappings
             {
                 Id = organization.Id,
                 Title = organization.Title,
-                Chides = organization.Chides.Select(MapToInfo),
+                Chides = organization.Children.Select(MapToInfo),
                 ChidesIds = organization.GetAllChildIds()
             };
+        }
+
+        public static OrganizationResponse MapToResponse(this Organization organization)
+        {
+            return new()
+            {
+                Id = organization.Id,
+                Title = organization.Title,
+
+                ParentId = organization.ParentId,
+                ParentTitle = organization.Parent?.Title,
+
+                Status = organization.Status,
+
+                Children = organization.Children.MapToResponse(),
+            };
+        }
+
+        public static IEnumerable<OrganizationResponse> MapToResponse(
+            this IEnumerable<Organization> organizations)
+        {
+            return organizations.Select(MapToResponse);
         }
     }
 }

@@ -21,7 +21,7 @@ public static class ModelBuilderConfig
 			entity.Property(e => e.ParentId).HasMaxLength(200);
 
 			entity.HasOne(e => e.Parent)
-				.WithMany(e => e.Chides)
+				.WithMany(e => e.Children)
 				.HasForeignKey(e => e.ParentId)
 				.OnDelete(DeleteBehavior.NoAction);
 
