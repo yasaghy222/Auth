@@ -59,14 +59,14 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 557, DateTimeKind.Utc).AddTicks(8762),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 366, DateTimeKind.Utc).AddTicks(8330),
                             Status = (byte)1,
                             Title = "Auth.Service"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 557, DateTimeKind.Utc).AddTicks(8779),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 366, DateTimeKind.Utc).AddTicks(8350),
                             ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "Accounting.Service"
@@ -74,7 +74,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 139, 183, 77, 220, 76, 77, 22, 99, 90, 112, 204, 45, 8 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 557, DateTimeKind.Utc).AddTicks(8783),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 366, DateTimeKind.Utc).AddTicks(8360),
                             ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "RedSense.Service"
@@ -82,7 +82,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 53, 249, 102, 223, 110, 72, 121, 238, 195, 21, 7, 23, 232 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 557, DateTimeKind.Utc).AddTicks(8786),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 366, DateTimeKind.Utc).AddTicks(8370),
                             ParentId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "RedGuard.Update.Service"
@@ -123,70 +123,70 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 204, 150, 84, 240, 42, 228, 210, 77, 104, 4, 133, 180, 25, 184 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9234),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3910),
                             ResourceId = new byte[] { 1, 145, 203, 214, 139, 112, 40, 246, 89, 83, 179, 208, 14, 133, 229, 148 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 204, 150, 107, 127, 150, 207, 20, 119, 52, 110, 7, 61, 68, 202 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9243),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3910),
                             ResourceId = new byte[] { 1, 145, 204, 104, 59, 239, 89, 149, 197, 113, 106, 71, 146, 116, 105, 173 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 208, 13, 36, 216, 81, 194, 36, 35, 85, 25, 108, 59, 73, 83 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9246),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3920),
                             ResourceId = new byte[] { 1, 145, 194, 19, 100, 213, 195, 167, 224, 76, 129, 159, 122, 140, 74, 9 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 208, 13, 243, 255, 43, 0, 161, 232, 166, 128, 90, 226, 38, 133 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9249),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3920),
                             ResourceId = new byte[] { 1, 145, 204, 124, 54, 99, 52, 242, 64, 198, 0, 248, 113, 159, 236, 46 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 208, 14, 63, 53, 205, 210, 151, 168, 232, 220, 223, 155, 152, 77 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9252),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3920),
                             ResourceId = new byte[] { 1, 145, 194, 46, 218, 213, 189, 253, 172, 150, 128, 62, 74, 166, 112, 183 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 176, 126, 122, 203, 118, 66, 117, 103, 189, 43, 158, 160, 222 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9256),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3940),
                             ResourceId = new byte[] { 1, 145, 214, 176, 204, 85, 137, 149, 161, 112, 84, 190, 254, 162, 47, 32 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 170, 115, 211, 50, 48, 38, 38, 57, 82, 44, 32, 56, 80 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9259),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3940),
                             ResourceId = new byte[] { 1, 145, 214, 171, 56, 8, 104, 114, 75, 43, 244, 80, 64, 185, 70, 168 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 170, 132, 231, 9, 175, 156, 183, 58, 100, 14, 45, 125, 45 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9262),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3940),
                             ResourceId = new byte[] { 1, 145, 214, 171, 75, 18, 105, 188, 45, 78, 63, 255, 179, 32, 94, 10 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 170, 150, 60, 90, 64, 108, 63, 128, 120, 86, 131, 246, 81 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9264),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3950),
                             ResourceId = new byte[] { 1, 145, 214, 171, 101, 41, 92, 86, 224, 46, 203, 24, 33, 17, 49, 104 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 170, 170, 175, 250, 134, 135, 121, 252, 210, 91, 70, 221, 66 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(9267),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(3950),
                             ResourceId = new byte[] { 1, 145, 214, 171, 132, 43, 47, 250, 217, 165, 234, 153, 82, 63, 96, 126 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 }
                         });
@@ -245,7 +245,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 203, 214, 139, 112, 40, 246, 89, 83, 179, 208, 14, 133, 229, 148 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7887),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2060),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "POST",
@@ -257,19 +257,19 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 204, 104, 59, 239, 89, 149, 197, 113, 106, 71, 146, 116, 105, 173 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7906),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2080),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "PUT",
                             OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             RequirePermission = true,
-                            Title = "Auth.User.Create",
+                            Title = "Auth.User.Update",
                             Url = "/user"
                         },
                         new
                         {
                             Id = new byte[] { 1, 145, 194, 19, 100, 213, 195, 167, 224, 76, 129, 159, 122, 140, 74, 9 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7913),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2090),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "DELETE",
@@ -281,7 +281,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 204, 113, 69, 43, 84, 249, 125, 55, 60, 132, 175, 127, 19, 107 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7917),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2090),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "PATCH",
@@ -293,7 +293,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 204, 121, 186, 100, 163, 46, 156, 160, 49, 160, 100, 99, 222, 204 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7921),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2100),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = true,
                             Method = "PATCH",
@@ -305,7 +305,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 204, 124, 54, 99, 52, 242, 64, 198, 0, 248, 113, 159, 236, 46 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7924),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2100),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "GET",
@@ -317,7 +317,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 194, 46, 218, 213, 189, 253, 172, 150, 128, 62, 74, 166, 112, 183 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7929),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2110),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "GET",
@@ -329,7 +329,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 208, 27, 199, 238, 30, 19, 80, 232, 161, 201, 236, 48, 39, 95 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7932),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2110),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "PUT",
@@ -341,7 +341,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 204, 125, 253, 118, 135, 100, 148, 172, 21, 53, 133, 140, 225, 216 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7936),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2120),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = false,
                             Method = "GET",
@@ -353,7 +353,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 209, 139, 180, 41, 120, 35, 55, 253, 6, 185, 177, 78, 191, 21 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7940),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2120),
                             GroupId = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
                             IsPublic = true,
                             Method = "POST",
@@ -365,7 +365,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 176, 204, 85, 137, 149, 161, 112, 84, 190, 254, 162, 47, 32 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7943),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2130),
                             GroupId = new byte[] { 1, 145, 208, 31, 165, 2, 171, 227, 176, 45, 84, 44, 249, 118, 7, 186 },
                             IsPublic = false,
                             Method = "POST",
@@ -377,7 +377,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 171, 56, 8, 104, 114, 75, 43, 244, 80, 64, 185, 70, 168 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7949),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2130),
                             GroupId = new byte[] { 1, 145, 208, 31, 165, 2, 171, 227, 176, 45, 84, 44, 249, 118, 7, 186 },
                             IsPublic = false,
                             Method = "PUT",
@@ -389,7 +389,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 171, 75, 18, 105, 188, 45, 78, 63, 255, 179, 32, 94, 10 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7952),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2140),
                             GroupId = new byte[] { 1, 145, 208, 31, 165, 2, 171, 227, 176, 45, 84, 44, 249, 118, 7, 186 },
                             IsPublic = false,
                             Method = "DELETE",
@@ -401,7 +401,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 171, 101, 41, 92, 86, 224, 46, 203, 24, 33, 17, 49, 104 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7956),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2140),
                             GroupId = new byte[] { 1, 145, 208, 31, 165, 2, 171, 227, 176, 45, 84, 44, 249, 118, 7, 186 },
                             IsPublic = false,
                             Method = "GET",
@@ -413,7 +413,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 214, 171, 132, 43, 47, 250, 217, 165, 234, 153, 82, 63, 96, 126 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(7960),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 427, DateTimeKind.Utc).AddTicks(2150),
                             GroupId = new byte[] { 1, 145, 208, 31, 165, 2, 171, 227, 176, 45, 84, 44, 249, 118, 7, 186 },
                             IsPublic = false,
                             Method = "GET",
@@ -464,7 +464,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 194, 42, 195, 53, 198, 72, 83, 119, 87, 191, 13, 30, 74, 191 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(6120),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 426, DateTimeKind.Utc).AddTicks(9820),
                             Order = 1,
                             OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Title = "Auth.User"
@@ -472,7 +472,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 208, 31, 165, 2, 171, 227, 176, 45, 84, 44, 249, 118, 7, 186 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(6130),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 426, DateTimeKind.Utc).AddTicks(9820),
                             Order = 2,
                             OrganizationId = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
                             Title = "Auth.Organization"
@@ -517,7 +517,7 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 557, DateTimeKind.Utc).AddTicks(9786),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 366, DateTimeKind.Utc).AddTicks(9790),
                             OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             Status = (byte)1,
                             Title = "Admin.Auth.Service"
@@ -591,13 +591,13 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 558, DateTimeKind.Utc).AddTicks(466),
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 367, DateTimeKind.Utc).AddTicks(510),
                             FailedLoginAttempts = 0,
                             Family = "",
                             IsEmailValid = false,
                             IsPhoneValid = false,
                             Name = "Admin.Auth.Service",
-                            Password = "37JLFzB1iLS0sZ7H6J54EuGBmTa6N4TMG73jc6IfziHmobGjMgmebOcpwVl6FNA0",
+                            Password = "ijc7dOJFpk5EAiGQWkccBD7kAwzd8mmi15wrOuJFrh9hxkLxB7k75CBezicrBOw6",
                             Status = (byte)1,
                             Username = "AdminAuthService1"
                         });
@@ -644,8 +644,8 @@ namespace Auth.Migrations
                         new
                         {
                             Id = new byte[] { 1, 145, 110, 124, 211, 13, 172, 121, 123, 233, 248, 119, 101, 211, 216, 0 },
-                            CreateAt = new DateTime(2024, 9, 9, 12, 41, 55, 606, DateTimeKind.Utc).AddTicks(4896),
-                            OrganizationId = new byte[] { 1, 145, 106, 139, 32, 123, 205, 111, 137, 86, 72, 123, 76, 224, 81, 14 },
+                            CreateAt = new DateTime(2024, 9, 11, 7, 1, 7, 426, DateTimeKind.Utc).AddTicks(8100),
+                            OrganizationId = new byte[] { 1, 145, 106, 136, 242, 8, 4, 73, 225, 232, 220, 197, 197, 104, 46, 232 },
                             RoleId = new byte[] { 1, 145, 106, 169, 155, 50, 131, 103, 80, 86, 64, 7, 186, 122, 115, 182 },
                             UserId = new byte[] { 1, 145, 110, 104, 183, 60, 4, 137, 1, 231, 28, 132, 171, 255, 73, 237 }
                         });
@@ -654,7 +654,7 @@ namespace Auth.Migrations
             modelBuilder.Entity("Auth.Domain.Entities.Organization", b =>
                 {
                     b.HasOne("Auth.Domain.Entities.Organization", "Parent")
-                        .WithMany("Chides")
+                        .WithMany("Children")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
 
@@ -756,7 +756,7 @@ namespace Auth.Migrations
 
             modelBuilder.Entity("Auth.Domain.Entities.Organization", b =>
                 {
-                    b.Navigation("Chides");
+                    b.Navigation("Children");
 
                     b.Navigation("Resources");
 

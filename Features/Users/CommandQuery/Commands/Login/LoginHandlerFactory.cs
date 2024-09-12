@@ -12,6 +12,7 @@ using Auth.Features.Organizations.Repositories;
 using Auth.Features.Users.Contracts.Responses;
 using Auth.Features.Organizations.Contracts.Responses;
 using Auth.Features.UserOrganizations.Contracts.Mappings;
+using Auth.Shared.Extensions;
 
 namespace Auth.Features.Users.CommandQuery.Commands.Login
 {
@@ -49,6 +50,19 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
 
             return getOrganization.ValueUnsafe();
         }
+
+        private static ErrorOr<bool> IsInOrganizations(
+            OrganizationInfo organizationInfo, User user)
+        {
+            if (user.UserOrganizations.Any(i =>
+                organizationInfo.ChidesIds.Contains(i.OrganizationId)))
+            {
+                return true;
+            }
+
+            return UserErrors.NotFound();
+        }
+
 
         private TokenResponse GenerateToken(
             Ulid sessionId,
@@ -118,6 +132,12 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
             }
 
             User user = loginResponse.Value;
+
+            ErrorOr<bool> isInOrganizations = IsInOrganizations(organizationInfo, user);
+            if (isInOrganizations.IsError)
+            {
+                return isInOrganizations.Errors;
+            }
 
             Ulid sessionId = Ulid.NewUlid(DateTime.UtcNow);
 

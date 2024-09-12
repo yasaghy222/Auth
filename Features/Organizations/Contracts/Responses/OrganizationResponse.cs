@@ -14,6 +14,7 @@ namespace Auth.Features.Organizations.Contracts.Responses
 
         public OrganizationStatus Status { get; set; }
 
+        public Ulid[] ParentIds { get; set; } = [];
         public IEnumerable<OrganizationResponse> Children { get; set; } = [];
     }
 

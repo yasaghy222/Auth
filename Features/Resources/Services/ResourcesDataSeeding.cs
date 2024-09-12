@@ -24,7 +24,7 @@ namespace Auth.Features.Resources.Services
                     Id = Ulid.Parse(UserConstes.Update_Resource_Id),
                     OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
                     GroupId = Ulid.Parse(ResourceGroupConstes.Auth_User_Group_Id),
-                    Title = UserConstes.Create_Resource_Title,
+                    Title = UserConstes.Update_Resource_Title,
                     Url = UserConstes.Update_Resource_Url,
                     Method = HttpMethod.Put.ToString(),
                     IsPublic = false,

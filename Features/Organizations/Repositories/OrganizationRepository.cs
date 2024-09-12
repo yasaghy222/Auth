@@ -24,13 +24,17 @@ namespace Auth.Features.Organizations.Repositories
             if (childrenIds != null)
             {
                 return await _db.Organizations
+                    .Include(i => i.Parent)
                     .Include(i => i.Children.Where(i => childrenIds.Contains(i.Id)))
+                    .ThenInclude(i => i.Children.Where(i => childrenIds.Contains(i.Id)))
                     .ThenInclude(i => i.Children.Where(i => childrenIds.Contains(i.Id)))
                     .FirstOrDefaultAsync(expression, ct);
             }
 
             return await _db.Organizations
+                .Include(i => i.Parent)
                 .Include(i => i.Children)
+                .ThenInclude(i => i.Children)
                 .ThenInclude(i => i.Children)
                 .FirstOrDefaultAsync(expression, ct);
         }

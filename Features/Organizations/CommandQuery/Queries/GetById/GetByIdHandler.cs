@@ -4,8 +4,8 @@ using LanguageExt;
 using Auth.Domain.Entities;
 using Auth.Shared.CustomErrors;
 using Auth.Features.Organizations.Repositories;
-using Auth.Features.Organizations.Contracts.Responses;
 using Auth.Features.Organizations.Contracts.Mappings;
+using Auth.Features.Organizations.Contracts.Responses;
 
 namespace Auth.Features.Organizations.CommandQuery.Queries.GetById
 {
@@ -19,7 +19,7 @@ namespace Auth.Features.Organizations.CommandQuery.Queries.GetById
             GetByIdQuery query, CancellationToken ct)
         {
             Option<Organization> organization = await _organizationRepository
-                .FindAsync(i => i.Id == query.Id, query.OrganizationIds, ct);
+                .FindAsync(i => i.Id == query.Id, null, ct);
 
             return organization.Match<ErrorOr<OrganizationResponse>>(
                 value => value.MapToResponse(),

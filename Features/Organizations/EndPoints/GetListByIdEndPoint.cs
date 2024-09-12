@@ -43,18 +43,22 @@ namespace Auth.Features.Organizations.EndPoints
             IEnumerable<Ulid> userOrganizationsIds =
                 _userClaimsInfo.UserOrganizations?.Select(i => i.OrganizationId) ?? [];
 
-            if (!userOrganizationsIds.Any(i => i == id))
-            {
-                return Results.Forbid();
-            }
-
-            GetByIdQuery query = new((Ulid)id, userOrganizationsIds);
+            GetByIdQuery query = new((Ulid)id);
             _logger.LogInformation("Query: {query}", query.ToJson());
 
             ErrorOr<OrganizationResponse> response = await _sender.Send(query, ct);
             return response.Match(
-                value => Results.Ok(value),
+                value =>
+                {
+                    if (userOrganizationsIds.Any(value.ParentIds.Contains))
+                    {
+                        return Results.Ok(value);
+                    }
+
+                    return Results.Forbid();
+                },
                 error => OrganizationErrors.NotFound().ToResult()
+
             );
         }
     }

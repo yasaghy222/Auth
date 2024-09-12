@@ -4,6 +4,6 @@ using Auth.Features.Organizations.Contracts.Responses;
 
 namespace Auth.Features.Organizations.CommandQuery.Queries.GetById
 {
-    public record GetByIdQuery(Ulid Id, IEnumerable<Ulid> OrganizationIds)
+    public record GetByIdQuery(Ulid Id)
     : IUserQuery<ErrorOr<OrganizationResponse>>;
 }

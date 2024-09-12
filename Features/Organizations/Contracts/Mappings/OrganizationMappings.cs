@@ -5,9 +5,26 @@ namespace Auth.Features.Organizations.Contracts.Mappings
 {
     public static class OrganizationMappings
     {
+
+        private static Ulid[] GetAllParentIds(this Organization? organization)
+        {
+            if (organization == null)
+            {
+                return [];
+            }
+
+            Organization? parent = organization.Parent;
+            if (parent == null)
+            {
+                return [organization.Id];
+            }
+
+            return [.. GetAllParentIds(organization.Parent), organization.Id];
+        }
+
         private static Ulid[] GetAllChildIds(this Organization organization)
         {
-            List<Ulid> childIds = organization.Children.Select(ch => ch.Id).ToList();
+            List<Ulid> childIds = [.. organization.Children.Select(ch => ch.Id)];
 
             foreach (Organization child in organization.Children)
             {
@@ -45,6 +62,7 @@ namespace Auth.Features.Organizations.Contracts.Mappings
 
                 Status = organization.Status,
 
+                ParentIds = organization.GetAllParentIds(),
                 Children = organization.Children.MapToResponse(),
             };
         }
