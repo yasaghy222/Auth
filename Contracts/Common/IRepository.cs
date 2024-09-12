@@ -1,21 +1,25 @@
 using Auth.Contracts.Response;
-using LanguageExt;
 using System.Linq.Expressions;
+using LanguageExt;
 
 namespace Auth.Contracts.Common
 {
     public interface IRepository<TEntity, TId>
     {
+        public abstract IQueryable<TEntity> ToQueryable(
+           Expression<Func<TEntity, bool>>? expression = default);
+
         public List<TEntity> ToList();
 
         public List<TEntity> ToList(Expression<Func<TEntity, bool>> condition);
 
         public abstract QueryResponse<TResponse> ToList<TResponse>(
-                 Func<TEntity, TResponse> selector,
-                 Expression<Func<TEntity, bool>>? expression = default,
-                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = default,
-                 int pageIndex = 1,
-                 int pageSize = 10);
+            IQueryable<TEntity>? query,
+            Func<TEntity, TResponse> selector,
+            Expression<Func<TEntity, bool>>? expression = default,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = default,
+            int pageIndex = 1,
+            int pageSize = 10);
 
         public Task<List<TEntity>> ToListAsync(
             CancellationToken ct);
@@ -25,12 +29,13 @@ namespace Auth.Contracts.Common
             CancellationToken ct);
 
         public Task<QueryResponse<TResponse>> ToListAsync<TResponse>(
-                  Func<TEntity, TResponse> selector,
-                  Expression<Func<TEntity, bool>>? expression = default,
-                  Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = default,
-                  int pageIndex = 1,
-                  int pageSize = 10,
-                  CancellationToken ct = default);
+            IQueryable<TEntity>? query,
+            Func<TEntity, TResponse> selector,
+            Expression<Func<TEntity, bool>>? expression = default,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = default,
+            int pageIndex = 1,
+            int pageSize = 10,
+            CancellationToken ct = default);
 
         public Option<TEntity> Find(TId id);
 

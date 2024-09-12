@@ -12,33 +12,42 @@ namespace Auth.Data.Repositories
         : RepositoryBase<TEntity, TId> where TEntity : class,
         IIdentityAggregate<TId>
     {
-        public override List<TEntity> ToList()
-        {
-            return [.. db.Set<TEntity>().AsNoTracking()];
-        }
-
-        public override List<TEntity> ToList(
-            Expression<Func<TEntity, bool>> condition)
-        {
-            return [.. db.Set<TEntity>().Where(condition).AsNoTracking()];
-        }
-
-        public override QueryResponse<TResponse> ToList<TResponse>(
-           Func<TEntity, TResponse> selector,
-           Expression<Func<TEntity, bool>>? expression = null,
-           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
-           int pageIndex = 1,
-           int pageSize = 10)
+        public override IQueryable<TEntity> ToQueryable(
+            Expression<Func<TEntity, bool>>? expression = null)
         {
             IQueryable<TEntity> baseQuery = db.Set<TEntity>()
-                .AsNoTracking()
-                .AsQueryable();
+                        .AsNoTracking()
+                        .AsQueryable();
 
             // Apply filtering
             if (expression != null)
             {
                 baseQuery = baseQuery.Where(expression);
             }
+
+            return baseQuery;
+        }
+
+        public override List<TEntity> ToList()
+        {
+            return [.. ToQueryable()];
+        }
+
+        public override List<TEntity> ToList(
+            Expression<Func<TEntity, bool>> condition)
+        {
+            return [.. ToQueryable(condition)];
+        }
+
+        public override QueryResponse<TResponse> ToList<TResponse>(
+          IQueryable<TEntity>? query,
+           Func<TEntity, TResponse> selector,
+           Expression<Func<TEntity, bool>>? expression = null,
+           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+           int pageIndex = 1,
+           int pageSize = 10)
+        {
+            IQueryable<TEntity> baseQuery = query ?? ToQueryable();
 
             // Calculate total count before applying pagination
             int totalCount = baseQuery.Count();
@@ -66,22 +75,18 @@ namespace Auth.Data.Repositories
         public override async Task<List<TEntity>> ToListAsync(
             CancellationToken ct)
         {
-            return await db.Set<TEntity>()
-                .AsNoTracking()
-                .ToListAsync(ct);
+            return await ToQueryable().ToListAsync(ct);
         }
 
         public override async Task<List<TEntity>> ToListAsync(
             Expression<Func<TEntity, bool>> condition,
             CancellationToken ct)
         {
-            return await db.Set<TEntity>()
-                .Where(condition)
-                .AsNoTracking()
-                .ToListAsync(ct);
+            return await ToQueryable(condition).ToListAsync(ct);
         }
 
         public override async Task<QueryResponse<TResponse>> ToListAsync<TResponse>(
+            IQueryable<TEntity>? query,
             Func<TEntity, TResponse> selector,
             Expression<Func<TEntity, bool>>? expression = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
@@ -89,15 +94,7 @@ namespace Auth.Data.Repositories
             int pageSize = 10,
             CancellationToken ct = default)
         {
-            IQueryable<TEntity> baseQuery = db.Set<TEntity>()
-                .AsNoTracking()
-                .AsQueryable();
-
-            // Apply filtering
-            if (expression != null)
-            {
-                baseQuery = baseQuery.Where(expression);
-            }
+            IQueryable<TEntity> baseQuery = query ?? ToQueryable(expression);
 
             // Calculate total count before applying pagination
             int totalCount = await baseQuery.CountAsync(ct);
@@ -121,8 +118,6 @@ namespace Auth.Data.Repositories
                 TotalPageIndex = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
         }
-
-
 
         public override Option<TEntity> Find(TId id)
         {

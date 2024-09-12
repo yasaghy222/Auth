@@ -252,7 +252,7 @@ namespace Auth.Features.Users.Repositories
             Func<IQueryable<User>, IOrderedQueryable<User>> order = GetOrders(request);
 
             QueryResponse<UserResponse> queryResponse = await base.ToListAsync(
-                selector, expression, order, request.PageIndex ?? 1, request.PageSize ?? 10, ct);
+                null, selector, expression, order, request.PageIndex ?? 1, request.PageSize ?? 10, ct);
 
             return queryResponse.ToResponse();
         }
