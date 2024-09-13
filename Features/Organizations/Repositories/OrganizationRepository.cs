@@ -21,6 +21,29 @@ namespace Auth.Features.Organizations.Repositories
     {
         private readonly AuthDBContext _db = db;
 
+        public async Task<Ulid[]> GetParentIdsAsync(Organization organization)
+        {
+            List<Ulid> parentIds = [];
+
+            Organization? currentOrganization = organization;
+
+            // Loop through parents until the root is reached
+            while (currentOrganization?.Parent != null)
+            {
+                if (currentOrganization.ParentId != null)
+                {
+                    parentIds.Add((Ulid)currentOrganization.ParentId);
+                }
+
+                // Fetch the parent organization from the database
+                currentOrganization = await _db.Organizations
+                    .Include(o => o.Parent) // Include the parent for recursive lookup
+                    .FirstOrDefaultAsync(o => o.Id == currentOrganization.Parent.Id);
+            }
+
+            return [.. parentIds];
+        }
+
         public async Task<Option<Organization>> FindAsync(
             Expression<Func<Organization, bool>> expression,
             IEnumerable<Ulid>? childrenIds,
@@ -33,12 +56,14 @@ namespace Auth.Features.Organizations.Repositories
                     .Include(i => i.Children.Where(i => childrenIds.Contains(i.Id)))
                     .ThenInclude(i => i.Children.Where(i => childrenIds.Contains(i.Id)))
                     .ThenInclude(i => i.Children.Where(i => childrenIds.Contains(i.Id)))
+                    .ThenInclude(i => i.Children.Where(i => childrenIds.Contains(i.Id)))
                     .FirstOrDefaultAsync(expression, ct);
             }
 
             return await _db.Organizations
                 .Include(i => i.Parent)
                 .Include(i => i.Children)
+                .ThenInclude(i => i.Children)
                 .ThenInclude(i => i.Children)
                 .ThenInclude(i => i.Children)
                 .FirstOrDefaultAsync(expression, ct);
@@ -81,7 +106,9 @@ namespace Auth.Features.Organizations.Repositories
 
             return expression;
         }
-        private static Func<IQueryable<Organization>, IOrderedQueryable<Organization>> GetOrders(OrganizationFilterRequest request)
+
+        private static Func<IQueryable<Organization>, IOrderedQueryable<Organization>>
+             GetOrders(OrganizationFilterRequest request)
         {
             Func<IQueryable<Organization>, IOrderedQueryable<Organization>> order;
             order = request.IdOrderType switch
@@ -147,6 +174,7 @@ namespace Auth.Features.Organizations.Repositories
             IQueryable<Organization> query = base.ToQueryable(expression)
                 .Include(i => i.Children)
                 .ThenInclude(i => i.Children)
+                .ThenInclude(i => i.Children)
                 .ThenInclude(i => i.Children);
 
             QueryResponse<OrganizationResponse> queryResponse = await base.ToListAsync(
@@ -161,7 +189,7 @@ namespace Auth.Features.Organizations.Repositories
                 .Where(i => i.Id == id && i.Status == OrganizationStatus.Active)
                 .Include(i => i.Children.Where(j => j.Status == OrganizationStatus.Active))
                 .ThenInclude(i => i.Children.Where(j => j.Status == OrganizationStatus.Active))
-                .Select(i => i.MapToInfo())
+                .Select(i => i.MapToInfo(default))
                 .FirstOrDefaultAsync(ct);
         }
     }

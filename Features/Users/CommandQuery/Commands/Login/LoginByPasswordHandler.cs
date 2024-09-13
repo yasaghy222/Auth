@@ -14,12 +14,12 @@ using Auth.Features.Users.Events.ResetFailedStatus;
 namespace Auth.Features.Users.CommandQuery.Commands.Login
 {
     public class LoginByPasswordHandler(
-        IUserRepository userRepository,
+        IOrganizationRepository userRepository,
         IHashService hashService,
         IMediator mediator) :
         ILoginHandler
     {
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IOrganizationRepository _userRepository = userRepository;
         private readonly IHashService _hashService = hashService;
         private readonly IMediator _mediator = mediator;
 

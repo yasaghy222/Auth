@@ -10,7 +10,8 @@ namespace Auth.Features.Organizations.Contracts.Mappings
     public static class GetListByFiltersMappings
     {
         private static IEnumerable<Ulid> GetUserOrganizationIds(
-            this IEnumerable<Ulid>? filterIds, IEnumerable<Ulid> userOrganizationIds)
+            this IEnumerable<Ulid>? filterIds,
+            IEnumerable<Ulid> userOrganizationIds)
         {
             if (filterIds == null || !filterIds.Any())
                 return userOrganizationIds;
@@ -19,7 +20,8 @@ namespace Auth.Features.Organizations.Contracts.Mappings
         }
 
         public static GetListByFiltersQuery MapToQuery(
-            this OrganizationGetListByFiltersDto dto, IEnumerable<Ulid> userOrganizations)
+            this OrganizationGetListByFiltersDto dto,
+            IEnumerable<Ulid> userOrganizations)
         {
             return new()
             {

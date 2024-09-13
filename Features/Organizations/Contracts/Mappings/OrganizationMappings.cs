@@ -39,18 +39,20 @@ namespace Auth.Features.Organizations.Contracts.Mappings
         }
 
         public static OrganizationInfo MapToInfo(
-            this Organization organization)
+            this Organization organization, Ulid[]? parentIds = default)
         {
             return new()
             {
                 Id = organization.Id,
                 Title = organization.Title,
-                Chides = organization.Children.Select(MapToInfo),
-                ChidesIds = organization.GetAllChildIds()
+                Chides = organization.Children.Select(i => i.MapToInfo()),
+                ChidesIds = organization.GetAllChildIds(),
+                ParentIds = parentIds ?? []
             };
         }
 
-        public static OrganizationResponse MapToResponse(this Organization organization)
+        public static OrganizationResponse MapToResponse(
+                this Organization organization, Ulid[]? parentIds = default)
         {
             return new()
             {
@@ -62,7 +64,7 @@ namespace Auth.Features.Organizations.Contracts.Mappings
 
                 Status = organization.Status,
 
-                ParentIds = organization.GetAllParentIds(),
+                ParentIds = parentIds ?? [],
                 Children = organization.Children.MapToResponse(),
             };
         }
@@ -70,7 +72,7 @@ namespace Auth.Features.Organizations.Contracts.Mappings
         public static IEnumerable<OrganizationResponse> MapToResponse(
             this IEnumerable<Organization> organizations)
         {
-            return organizations.Select(MapToResponse);
+            return organizations.Select(i => i.MapToResponse());
         }
     }
 }

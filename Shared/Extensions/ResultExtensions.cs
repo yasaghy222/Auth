@@ -11,6 +11,19 @@ public static class ResultExtensions
             throw new InvalidOperationException("Can't convert success result to problem");
         }
 
+        if (result.Errors.Count == 1)
+        {
+            Error error = result.Errors.FirstOrDefault();
+            switch (error.Type)
+            {
+                case ErrorType.Unauthorized:
+                    return Results.Unauthorized();
+
+                case ErrorType.Forbidden:
+                    return Results.Forbid();
+            }
+        }
+
         return Results.Problem(
             statusCode: StatusCodes.Status400BadRequest,
             title: "Bad Request",
@@ -32,7 +45,7 @@ public static class ResultExtensions
                 type: "https://tools.ietf.org/html/rfc7231#section-6.6.1",
                 extensions: new Dictionary<string, object?>
                 {
-                    { "errors", error.Metadata }
+                    { "errors", error }
                 }),
             ErrorType.Unexpected => Results.Problem(
                 statusCode: StatusCodes.Status500InternalServerError,
@@ -41,11 +54,11 @@ public static class ResultExtensions
                 type: "https://tools.ietf.org/html/rfc7231#section-6.6.1",
                 extensions: new Dictionary<string, object?>
                 {
-                    { "errors", error.Metadata }
+                    { "errors", error }
                 }),
             ErrorType.Validation => Results.BadRequest(error),
             ErrorType.Conflict => Results.Conflict(error),
-            ErrorType.NotFound => Results.NotFound(error.Metadata),
+            ErrorType.NotFound => Results.NotFound(error),
             ErrorType.Unauthorized => Results.Unauthorized(),
             ErrorType.Forbidden => Results.Forbid(),
             _ => Results.Empty,

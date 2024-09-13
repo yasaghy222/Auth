@@ -17,6 +17,8 @@ public static class OrganizationErrors
 
     public static Error NotFound() => Error.NotFound("Organization.NotFound",
         $"there are no organization with this data exist in the database.");
+    public static Error ParentNotFound() => Error.NotFound("Organization.Parent.NotFound",
+           $"there are no parent organization with this data exist in the database.");
 
     public static Error SuspendStatus() => Error.NotFound("Organization.SuspendStatus",
      $"this organization was suspend plz talk with admin");

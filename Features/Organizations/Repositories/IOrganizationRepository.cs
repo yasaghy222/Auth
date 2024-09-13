@@ -9,6 +9,8 @@ namespace Auth.Features.Organizations.Repositories
 {
     public interface IOrganizationRepository : IRepository<Organization, Ulid>
     {
+        public Task<Ulid[]> GetParentIdsAsync(Organization organization);
+
         public Task<Option<Organization>> FindAsync(
                        Expression<Func<Organization, bool>> expression,
                        IEnumerable<Ulid>? childrenIds,
@@ -17,6 +19,6 @@ namespace Auth.Features.Organizations.Repositories
         public Task<OrganizationsResponse> ToListByFilters(
                OrganizationFilterRequest request, CancellationToken ct);
 
-        public Task<Option<OrganizationInfo>> GetInfoAsync(Ulid idm, CancellationToken ct);
+        public Task<Option<OrganizationInfo>> GetInfoAsync(Ulid id, CancellationToken ct);
     }
 }

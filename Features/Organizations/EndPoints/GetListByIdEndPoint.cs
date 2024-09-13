@@ -13,13 +13,11 @@ namespace Auth.Features.Organizations.EndPoints
 
     public class GetListByIdEndPoint(
             ISender sender,
-            ILogger<GetListByIdEndPoint> logger,
-            IUserClaimsInfo userClaimsInfo)
+            ILogger<GetListByIdEndPoint> logger)
             : EndpointWithoutRequest<IResult>
     {
         private readonly ISender _sender = sender;
         private readonly ILogger<GetListByIdEndPoint> _logger = logger;
-        private readonly IUserClaimsInfo _userClaimsInfo = userClaimsInfo;
 
         public override void Configure()
         {
@@ -40,9 +38,6 @@ namespace Auth.Features.Organizations.EndPoints
                 return OrganizationErrors.NotFound().ToResult();
             }
 
-            IEnumerable<Ulid> userOrganizationsIds =
-                _userClaimsInfo.UserOrganizations?.Select(i => i.OrganizationId) ?? [];
-
             GetByIdQuery query = new((Ulid)id);
             _logger.LogInformation("Query: {query}", query.ToJson());
 
@@ -50,15 +45,9 @@ namespace Auth.Features.Organizations.EndPoints
             return response.Match(
                 value =>
                 {
-                    if (userOrganizationsIds.Any(value.ParentIds.Contains))
-                    {
-                        return Results.Ok(value);
-                    }
-
-                    return Results.Forbid();
+                    return Results.Ok(value);
                 },
                 error => OrganizationErrors.NotFound().ToResult()
-
             );
         }
     }

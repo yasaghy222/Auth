@@ -7,10 +7,10 @@ using MediatR;
 namespace Auth.Features.Users.CommandQuery.Queries.GetListByFilters
 {
     public class GetListByFiltersHandler(
-        IUserRepository userRepository)
+        IOrganizationRepository userRepository)
         : IRequestHandler<GetListByFiltersQuery, UsersResponse>
     {
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IOrganizationRepository _userRepository = userRepository;
 
         public async Task<UsersResponse> Handle(
             GetListByFiltersQuery query, CancellationToken ct)

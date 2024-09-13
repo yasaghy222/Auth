@@ -7,12 +7,12 @@ namespace Auth.Features.Users.Events.ResetFailedStatus
 {
     public class ResetFailedStatusHandler(
         IUnitOfWork unitOfWork,
-        IUserRepository userRepository,
+        IOrganizationRepository userRepository,
         ILogger<ResetFailedStatusHandler> logger)
         : INotificationHandler<ResetFailedStatusEvent>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IOrganizationRepository _userRepository = userRepository;
         private readonly ILogger<ResetFailedStatusHandler> _logger = logger;
 
         public async Task Handle(ResetFailedStatusEvent @event, CancellationToken ct)

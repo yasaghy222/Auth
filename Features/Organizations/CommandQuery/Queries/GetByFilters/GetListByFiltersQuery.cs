@@ -1,14 +1,12 @@
 using Auth.Contracts.Enums;
 using Auth.Contracts.Common;
-using Auth.Features.Users.Contracts.Enums;
-using Auth.Features.Users.Contracts.Requests;
-using Auth.Features.Users.Contracts.Responses;
 using Auth.Features.Organizations.Contracts.Enums;
+using Auth.Features.Organizations.Contracts.Requests;
 using Auth.Features.Organizations.Contracts.Responses;
 
 namespace Auth.Features.Organizations.CommandQuery.Queries.GetByFilters
 {
-    public record GetListByFiltersQuery : IUserQuery<OrganizationsResponse>,
+    public record GetListByFiltersQuery : IOrganizationQuery<OrganizationsResponse>,
     IPaginationFilterDto, IDateFilterDto
     {
         public required IEnumerable<Ulid> Ids { get; set; }

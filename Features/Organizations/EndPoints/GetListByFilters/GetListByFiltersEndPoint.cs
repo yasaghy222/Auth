@@ -34,7 +34,8 @@ namespace Auth.Features.Organizations.EndPoints.GetListByFilters
                    .ProducesProblemFE(500));
         }
 
-        public override async Task<IResult> ExecuteAsync([FromQuery] OrganizationGetListByFiltersDto dto, CancellationToken ct)
+        public override async Task<IResult> ExecuteAsync(
+            [FromQuery] OrganizationGetListByFiltersDto dto, CancellationToken ct)
         {
             IEnumerable<Ulid> userOrganizationsIds =
                 _userClaimsInfo.UserOrganizations?.Select(i => i.OrganizationId) ?? [];

@@ -12,11 +12,11 @@ using Auth.Features.Users.Contracts.Mappings;
 namespace Auth.Features.Users.CommandQuery.Commands.ChangePassword
 {
     public class ChangePasswordHandler(
-        IUserRepository userRepository,
+        IOrganizationRepository userRepository,
         IHashService hashService)
         : IRequestHandler<ChangePasswordCommand, ErrorOr<Updated>>
     {
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IOrganizationRepository _userRepository = userRepository;
         private readonly IHashService _hashService = hashService;
 
         public async Task<ErrorOr<Updated>> Handle(

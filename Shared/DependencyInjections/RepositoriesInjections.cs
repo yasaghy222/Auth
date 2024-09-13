@@ -13,10 +13,10 @@ namespace Auth.Shared.DependencyInjections
 			services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 
 			services.AddScoped<IRepository<User, Ulid>, UserRepository>();
-			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<Features.Users.Repositories.IOrganizationRepository, UserRepository>();
 
 			services.AddScoped<IRepository<Organization, Ulid>, OrganizationRepository>();
-			services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+			services.AddScoped<Features.Organizations.Repositories.IOrganizationRepository, OrganizationRepository>();
 
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 
