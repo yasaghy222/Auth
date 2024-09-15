@@ -7,17 +7,17 @@ using Auth.Shared.CustomErrors;
 using LanguageExt.UnsafeValueAccess;
 using Auth.Features.Organizations.Repositories;
 using Auth.Features.Organizations.Contracts.Mappings;
+using Auth.Features.Organizations.Contracts.Requests;
 
-namespace Auth.Features.Organizations.CommandQuery.Commands.Create
+namespace Auth.Features.Organizations.CommandQuery.Commands.Update
 {
-    public class CreateHandler(
-        IOrganizationRepository OrganizationRepository,
-        IUserClaimsInfo userClaimsInfo) :
-        IRequestHandler<CreateCommand, ErrorOr<Ulid>>
+    public class UpdateHandler(
+        IUserClaimsInfo userClaimsInfo,
+        IOrganizationRepository organizationRepository)
+        : IRequestHandler<UpdateCommand, ErrorOr<Updated>>
     {
         private readonly IUserClaimsInfo _userClaimsInfo = userClaimsInfo;
-        private readonly IOrganizationRepository _organizationRepository
-             = OrganizationRepository;
+        private readonly IOrganizationRepository _organizationRepository = organizationRepository;
 
         private async Task<ErrorOr<bool>> ValidateTitle(string title, CancellationToken ct)
         {
@@ -61,8 +61,8 @@ namespace Auth.Features.Organizations.CommandQuery.Commands.Create
 
             return Error.Forbidden();
         }
-
-        public async Task<ErrorOr<Ulid>> Handle(CreateCommand command, CancellationToken ct)
+        public async Task<ErrorOr<Updated>> Handle(
+            UpdateCommand command, CancellationToken ct)
         {
             ErrorOr<bool> validateTitle = await ValidateTitle(command.Title, ct);
             if (validateTitle.IsError)
@@ -76,10 +76,10 @@ namespace Auth.Features.Organizations.CommandQuery.Commands.Create
                 return validateParent.Errors;
             }
 
-            Organization organization = command.MapToEntity();
-            await _organizationRepository.AddAsync(organization, ct);
+            UpdateRequest updateRequest = command.MapToRequest();
+            await _organizationRepository.UpdateAsync(updateRequest, ct);
 
-            return organization.Id;
+            return Result.Updated;
         }
     }
 }

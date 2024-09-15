@@ -20,5 +20,8 @@ namespace Auth.Features.Organizations.Repositories
                OrganizationFilterRequest request, CancellationToken ct);
 
         public Task<Option<OrganizationInfo>> GetInfoAsync(Ulid id, CancellationToken ct);
+
+        public Task<bool> UpdateAsync(
+           UpdateRequest request, CancellationToken ct);
     }
 }

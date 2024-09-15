@@ -192,5 +192,18 @@ namespace Auth.Features.Organizations.Repositories
                 .Select(i => i.MapToInfo(default))
                 .FirstOrDefaultAsync(ct);
         }
+
+        public async Task<bool> UpdateAsync(
+         UpdateRequest request, CancellationToken ct)
+        {
+            return await base.EditAsync(
+              i => i.Id == request.Id
+                  && i.Status == OrganizationStatus.Active,
+              setter =>
+                  setter.SetProperty(i => i.Title, request.Title)
+                  .SetProperty(i => i.ParentId, request.ParentId)
+                  .SetProperty(i => i.ModifyAt, DateTime.UtcNow),
+              ct);
+        }
     }
 }
