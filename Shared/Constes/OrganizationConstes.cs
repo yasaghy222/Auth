@@ -30,7 +30,7 @@ namespace Auth.Shared.Constes
 
         public const string Delete_Resource_Id = "01J7BAPJRJD6Y2TKHZZYSJ0QGA";
         public const string Delete_Resource_Title = $"{BaseConstes.Auth_Service_Title}.{Base_Title}.Delete";
-        public const string Delete_Resource_Url = $"{Base_Url}";
+        public const string Delete_Resource_Url = Base_Url + "/{id}";
 
         public const string Get_Id_Resource_Id = "01J7BAPS99BHBE0BPB30GH2CB8";
         public const string Get_Id_Resource_Title = $"{BaseConstes.Auth_Service_Title}.{Base_Title}.Get.Id";

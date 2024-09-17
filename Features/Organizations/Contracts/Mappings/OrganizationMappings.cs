@@ -45,8 +45,8 @@ namespace Auth.Features.Organizations.Contracts.Mappings
             {
                 Id = organization.Id,
                 Title = organization.Title,
-                Chides = organization.Children.Select(i => i.MapToInfo()),
-                ChidesIds = organization.GetAllChildIds(),
+                ParentId = organization.ParentId,
+                ChildrenIds = organization.GetAllChildIds(),
                 ParentIds = parentIds ?? []
             };
         }

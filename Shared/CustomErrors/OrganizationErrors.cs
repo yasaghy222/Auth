@@ -11,6 +11,12 @@ public static class OrganizationErrors
     public const string ChangeStatusLogMsg = "Organization_ChangeStatus_Error: some error has occurred when changing organization status with this input data: {Errors}";
 
 
+    public static Error CanNotDelParent() => Error.Validation("Organization.CanNotDelParent",
+        $"you can not delete organization witch has a children");
+
+    public static Error CanNotDelInitialItem() => Error.Validation("Organization.CanNotDelInitialItem",
+          $"you can not delete initial organization item");
+
     public static Error DuplicateTitle(string title) =>
         Error.Validation("Organization.DuplicateTitle",
         $"your input Organization Title:'{title}' already is exist.");

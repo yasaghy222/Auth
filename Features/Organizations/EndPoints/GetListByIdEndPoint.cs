@@ -3,7 +3,6 @@ using MediatR;
 using FastEndpoints;
 using Auth.Shared.Constes;
 using Auth.Shared.Extensions;
-using Auth.Contracts.Common;
 using Auth.Shared.CustomErrors;
 using Auth.Features.Organizations.Contracts.Responses;
 using Auth.Features.Organizations.CommandQuery.Queries.GetById;

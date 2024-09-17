@@ -55,7 +55,7 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
             OrganizationInfo organizationInfo, User user)
         {
             if (user.UserOrganizations.Any(i =>
-                organizationInfo.ChidesIds.Contains(i.OrganizationId)))
+                organizationInfo.ChildrenIds.Contains(i.OrganizationId)))
             {
                 return true;
             }
@@ -97,7 +97,7 @@ namespace Auth.Features.Users.CommandQuery.Commands.Login
 
             return await loginHandler
                 .HandleLogin(command.MapToHandlerCommand(),
-                organizationInfo.ChidesIds, ct);
+                organizationInfo.ChildrenIds, ct);
         }
 
         private async Task SubmitSession(SubmitSessionRequest request)

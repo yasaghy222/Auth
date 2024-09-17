@@ -9,13 +9,13 @@ using Auth.Features.Organizations.CommandQuery.Commands.Update;
 
 namespace Auth.Features.Organizations.EndPoints.Update
 {
-    public class UpdateEndPoint(
+    public class DeleteEndPoint(
         ISender sender,
-        ILogger<UpdateEndPoint> logger)
+        ILogger<DeleteEndPoint> logger)
         : Endpoint<OrganizationUpdateDto, IResult>
     {
         private readonly ISender _sender = sender;
-        private readonly ILogger<UpdateEndPoint> _logger = logger;
+        private readonly ILogger<DeleteEndPoint> _logger = logger;
 
         public override void Configure()
         {
