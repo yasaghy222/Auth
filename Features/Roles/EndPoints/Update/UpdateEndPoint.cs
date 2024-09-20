@@ -4,34 +4,34 @@ using FastEndpoints;
 using Auth.Shared.Constes;
 using Auth.Shared.Extensions;
 using Auth.Shared.CustomErrors;
-using Auth.Features.Users.Contracts.Mappings;
-using Auth.Features.Users.CommandQuery.Commands.Update;
+using Auth.Features.Roles.Contracts.Mappings;
+using Auth.Features.Roles.CommandQuery.Commands.Update;
 
-namespace Auth.Features.Users.EndPoints.Update
+namespace Auth.Features.Roles.EndPoints.Update
 {
-    public class UpdateEndPoint(
+    public class RoleEndPoint(
         ISender sender,
-        ILogger<UpdateEndPoint> logger)
-        : Endpoint<UserUpdateDto, IResult>
+        ILogger<RoleEndPoint> logger)
+        : Endpoint<RoleUpdateDto, IResult>
     {
         private readonly ISender _sender = sender;
-        private readonly ILogger<UpdateEndPoint> _logger = logger;
+        private readonly ILogger<RoleEndPoint> _logger = logger;
 
         public override void Configure()
         {
-            Put(UserConstes.Update_Resource_Url);
-            Permissions(UserConstes.Update_Permission_Id);
+            Put(RoleConstes.Update_Resource_Url);
+            Permissions(RoleConstes.Update_Permission_Id);
             Description(b => b
-                .Accepts<UserUpdateDto>("application/json")
+                .Accepts<RoleUpdateDto>("application/json")
                 .Produces(200)
                 .Produces(401)
                 .Produces(403)
-                .ProducesProblemFE(400)
-                .Produces<InternalErrorResponse>(500));
+                .ProducesProblemDetails(400)
+                .ProducesProblemFE<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync(
-            UserUpdateDto dto, CancellationToken ct)
+            RoleUpdateDto dto, CancellationToken ct)
         {
             UpdateCommand command = dto.MapToCommand();
             _logger.LogInformation("Command: {command}", command.ToJson());
@@ -42,7 +42,7 @@ namespace Auth.Features.Users.EndPoints.Update
                 created => Results.Ok(),
                 errors =>
                 {
-                    _logger.LogWarning(UserErrors.UpdateLogMsg, errors);
+                    _logger.LogWarning(RoleErrors.UpdateLogMsg, errors);
                     return result.ToProblemDetails();
                 }
             );

@@ -9,13 +9,13 @@ using Auth.Features.Organizations.CommandQuery.Commands.Update;
 
 namespace Auth.Features.Organizations.EndPoints.Update
 {
-    public class DeleteEndPoint(
+    public class UpdateEndPoint(
         ISender sender,
-        ILogger<DeleteEndPoint> logger)
+        ILogger<UpdateEndPoint> logger)
         : Endpoint<OrganizationUpdateDto, IResult>
     {
         private readonly ISender _sender = sender;
-        private readonly ILogger<DeleteEndPoint> _logger = logger;
+        private readonly ILogger<UpdateEndPoint> _logger = logger;
 
         public override void Configure()
         {
@@ -27,7 +27,7 @@ namespace Auth.Features.Organizations.EndPoints.Update
                 .Produces(401)
                 .Produces(403)
                 .ProducesProblemFE(400)
-                .ProducesProblemFE(500));
+                .Produces<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync(

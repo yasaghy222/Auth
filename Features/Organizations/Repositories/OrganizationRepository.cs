@@ -197,8 +197,7 @@ namespace Auth.Features.Organizations.Repositories
          UpdateRequest request, CancellationToken ct)
         {
             return await base.EditAsync(
-              i => i.Id == request.Id
-                  && i.Status == OrganizationStatus.Active,
+              i => i.Id == request.Id,
               setter =>
                   setter.SetProperty(i => i.Title, request.Title)
                   .SetProperty(i => i.ParentId, request.ParentId)

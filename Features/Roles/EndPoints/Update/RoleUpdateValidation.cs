@@ -1,11 +1,11 @@
 using FluentValidation;
 
-namespace Auth.Features.Organizations.EndPoints.Update
+namespace Auth.Features.Roles.EndPoints.Update
 {
-    public class OrganizationUpdateValidation
-        : AbstractValidator<OrganizationUpdateDto>
+    public class RoleUpdateValidation
+        : AbstractValidator<RoleUpdateDto>
     {
-        public OrganizationUpdateValidation()
+        public RoleUpdateValidation()
         {
             RuleFor(i => i.Id)
               .NotNull();
@@ -14,7 +14,7 @@ namespace Auth.Features.Organizations.EndPoints.Update
                 .NotEmpty()
                 .MaximumLength(100);
 
-            RuleFor(i => i.ParentId)
+            RuleFor(i => i.OrganizationId)
                 .NotEmpty();
         }
     }

@@ -26,12 +26,12 @@ namespace Auth.Features.Users.EndPoints.GetListByFilters
             Get(UserConstes.Get_List_Filter_Resource_Url);
             Permissions(UserConstes.Get_List_Filter_Permission_Id);
             Description(b => b
-                   .Accepts<UserGetListByFiltersDto>()
-                   .Produces<UsersResponse>(200, "application/json")
-                   .ProducesProblemFE(400)
-                   .ProducesProblemFE(401)
-                   .ProducesProblemFE(403)
-                   .ProducesProblemFE(500));
+                .Accepts<UserGetListByFiltersDto>()
+                .Produces<UsersResponse>(200, "application/json")
+                .ProducesProblemFE(400)
+                .ProducesProblemFE(401)
+                .ProducesProblemFE(403)
+                .Produces<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync([FromQuery] UserGetListByFiltersDto dto, CancellationToken ct)

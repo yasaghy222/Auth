@@ -22,11 +22,11 @@ namespace Auth.Features.Users.EndPoints.ChangePassword
         {
             Patch(UserConstes.Change_Password_Resource_Url);
             Description(b => b
-              .Accepts<UserChangePasswordDto>("application/json")
-              .Produces(200)
-              .Produces(401)
-              .ProducesProblemFE(400)
-              .ProducesProblemFE(500));
+                .Accepts<UserChangePasswordDto>("application/json")
+                .Produces(200)
+                .Produces(401)
+                .ProducesProblemFE(400)
+                .Produces<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync(

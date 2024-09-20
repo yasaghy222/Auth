@@ -26,7 +26,7 @@ namespace Auth.Features.Organizations.EndPoints
                 .Produces(401)
                 .Produces(403)
                 .ProducesProblemFE(400)
-                .ProducesProblemFE(500));
+                .Produces<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync(CancellationToken ct)

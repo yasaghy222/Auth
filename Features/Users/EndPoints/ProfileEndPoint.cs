@@ -25,8 +25,9 @@ namespace Auth.Features.Users.EndPoints
         {
             Get(UserConstes.Get_Profile_Resource_Url);
             Description(b => b
-                   .Produces<UserResponse>(200, "application/json")
-                   .ProducesProblemFE(500));
+                .Produces<UserResponse>(200, "application/json")
+                .Produces(401)
+                .Produces<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync(CancellationToken ct)

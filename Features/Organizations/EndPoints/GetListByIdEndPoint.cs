@@ -23,10 +23,10 @@ namespace Auth.Features.Organizations.EndPoints
             Get(OrganizationConstes.Get_Id_Resource_Url);
             Permissions(OrganizationConstes.Get_Id_Permission_Id);
             Description(b => b
-                   .Accepts<Ulid>()
-                   .Produces<OrganizationResponse>(200, "application/json")
-                   .ProducesProblemFE(400)
-                   .ProducesProblemFE(500));
+                .Accepts<Ulid>()
+                .Produces<OrganizationResponse>(200, "application/json")
+                .ProducesProblemFE(400)
+                .Produces<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync(CancellationToken ct)

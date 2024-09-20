@@ -42,7 +42,7 @@ namespace Auth.Features.Roles.EndPoints.Create
                 id => Results.Ok(id),
                 errors =>
                 {
-                    _logger.LogWarning(OrganizationErrors.CreateLogMsg, errors);
+                    _logger.LogWarning(RoleErrors.CreateLogMsg, errors);
                     return result.ToProblemDetails();
                 }
             );

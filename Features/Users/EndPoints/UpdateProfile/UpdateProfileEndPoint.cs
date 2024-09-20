@@ -5,7 +5,6 @@ using Auth.Shared.Constes;
 using Auth.Shared.Extensions;
 using Auth.Contracts.Common;
 using Auth.Shared.CustomErrors;
-using Auth.Features.Users.EndPoints.Update;
 using Auth.Features.Users.Contracts.Mappings;
 using Auth.Features.Users.CommandQuery.Commands.UpdateProfile;
 
@@ -29,7 +28,7 @@ namespace Auth.Features.Users.EndPoints.UpdateProfile
                 .Produces(200)
                 .Produces(401)
                 .ProducesProblemFE(400)
-                .ProducesProblemFE(500));
+                .Produces<InternalErrorResponse>(500));
         }
 
         public override async Task<IResult> ExecuteAsync(UserUpdateProfileDto dto, CancellationToken ct)
