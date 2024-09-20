@@ -1,10 +1,9 @@
 using ErrorOr;
-using Auth.Features.Organizations.Contracts.Requests;
+using Auth.Features.Roles.Contracts.Requests;
 
 namespace Auth.Features.Roles.CommandQuery.Commands.Update
 {
-    public record UpdateCommand
-        : IOrganizationCommand<ErrorOr<Updated>>
+    public record UpdateCommand : IRoleCommand<ErrorOr<Updated>>
     {
         public required Ulid Id { get; set; }
         public required string Title { get; set; }
