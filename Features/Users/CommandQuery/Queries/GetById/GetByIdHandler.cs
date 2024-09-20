@@ -9,10 +9,10 @@ using Auth.Features.Users.Contracts.Responses;
 
 namespace Auth.Features.Users.CommandQuery.Queries.GetById
 {
-    public class GetByIdHandler(IOrganizationRepository userRepository)
+    public class GetByIdHandler(IUserRepository userRepository)
         : IRequestHandler<GetByIdQuery, ErrorOr<UserResponse>>
     {
-        private readonly IOrganizationRepository _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<ErrorOr<UserResponse>> Handle(
             GetByIdQuery query, CancellationToken ct)

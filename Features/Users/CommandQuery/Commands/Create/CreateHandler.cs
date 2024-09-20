@@ -10,11 +10,11 @@ using Auth.Features.Users.Contracts.Mappings;
 
 namespace Auth.Features.Users.CommandQuery.Commands.Create
 {
-    public class CreateHandler(IOrganizationRepository userRepository,
+    public class CreateHandler(IUserRepository userRepository,
         IHashService hashService) :
         IRequestHandler<CreateCommand, ErrorOr<Created>>
     {
-        private readonly IOrganizationRepository _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly IHashService _hashService = hashService;
 
         public async Task<ErrorOr<Created>> Handle(CreateCommand command, CancellationToken ct)

@@ -17,7 +17,7 @@ namespace Auth.Features.Users.Repositories
 {
     public class UserRepository(AuthDBContext db) :
         Repository<User, Ulid>(db),
-        IOrganizationRepository
+        IUserRepository
     {
         private readonly AuthDBContext _db = db;
 

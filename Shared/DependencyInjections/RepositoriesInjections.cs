@@ -3,6 +3,7 @@ using Auth.Data.Repositories;
 using Auth.Contracts.Common;
 using Auth.Features.Users.Repositories;
 using Auth.Features.Organizations.Repositories;
+using Auth.Features.Roles.Repositories;
 
 namespace Auth.Shared.DependencyInjections
 {
@@ -13,10 +14,13 @@ namespace Auth.Shared.DependencyInjections
 			services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 
 			services.AddScoped<IRepository<User, Ulid>, UserRepository>();
-			services.AddScoped<Features.Users.Repositories.IOrganizationRepository, UserRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
 
 			services.AddScoped<IRepository<Organization, Ulid>, OrganizationRepository>();
-			services.AddScoped<Features.Organizations.Repositories.IOrganizationRepository, OrganizationRepository>();
+			services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+
+			services.AddScoped<IRepository<Role, Ulid>, RoleRepository>();
+			services.AddScoped<IRoleRepository, RoleRepository>();
 
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 

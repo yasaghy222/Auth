@@ -176,7 +176,65 @@ namespace Auth.Features.Resources.Services
                     IsPublic = false,
                     RequirePermission = true
                 },
-                #endregion Auth.Users
+                #endregion Auth Organization Resources
+
+            #region  Auth Role Resources
+                new Resource
+                {
+                    Id = Ulid.Parse(RoleConstes.Create_Resource_Id),
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
+                    GroupId = Ulid.Parse(ResourceGroupConstes.Auth_Role_Group_Id),
+                    Title = RoleConstes.Create_Resource_Title,
+                    Url = RoleConstes.Create_Resource_Url,
+                    Method = HttpMethod.Post.ToString(),
+                    IsPublic = false,
+                    RequirePermission = true,
+                },
+                new Resource
+                {
+                    Id = Ulid.Parse(RoleConstes.Update_Resource_Id),
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
+                    GroupId = Ulid.Parse(ResourceGroupConstes.Auth_Role_Group_Id),
+                    Title = RoleConstes.Create_Resource_Title,
+                    Url = RoleConstes.Update_Resource_Url,
+                    Method = HttpMethod.Put.ToString(),
+                    IsPublic = false,
+                    RequirePermission = true
+                },
+                new Resource
+                {
+                    Id = Ulid.Parse(RoleConstes.Delete_Resource_Id),
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
+                    GroupId = Ulid.Parse(ResourceGroupConstes.Auth_Role_Group_Id),
+                    Title = RoleConstes.Delete_Resource_Title,
+                    Url = RoleConstes.Delete_Resource_Url,
+                    Method = HttpMethod.Delete.ToString(),
+                    IsPublic = false,
+                    RequirePermission = true
+                },
+                new Resource
+                {
+                    Id = Ulid.Parse(RoleConstes.Get_Id_Resource_Id),
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
+                    GroupId = Ulid.Parse(ResourceGroupConstes.Auth_Role_Group_Id),
+                    Title = RoleConstes.Get_Id_Resource_Title,
+                    Url = RoleConstes.Get_Id_Resource_Url,
+                    Method = HttpMethod.Get.ToString(),
+                    IsPublic = false,
+                    RequirePermission = true
+                },
+                new Resource
+                {
+                    Id = Ulid.Parse(RoleConstes.Get_List_Filter_Resource_Id),
+                    OrganizationId = Ulid.Parse(OrganizationConstes.Auth_Service_Id),
+                    GroupId = Ulid.Parse(ResourceGroupConstes.Auth_Role_Group_Id),
+                    Title = OrganizationConstes.Get_List_Filter_Resource_Title,
+                    Url = OrganizationConstes.Get_List_Filter_Resource_Url,
+                    Method = HttpMethod.Get.ToString(),
+                    IsPublic = false,
+                    RequirePermission = true
+                },
+                #endregion Auth Role Resources
             ];
     }
 }

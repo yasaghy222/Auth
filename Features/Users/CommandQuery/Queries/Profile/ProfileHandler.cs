@@ -9,10 +9,10 @@ using Auth.Features.Users.Contracts.Responses;
 
 namespace Auth.Features.Users.CommandQuery.Queries.Profile
 {
-    public class ProfileHandler(IOrganizationRepository userRepository)
+    public class ProfileHandler(IUserRepository userRepository)
         : IRequestHandler<ProfileQuery, ErrorOr<UserResponse>>
     {
-        private readonly IOrganizationRepository _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<ErrorOr<UserResponse>> Handle(
             ProfileQuery query, CancellationToken ct)

@@ -10,10 +10,10 @@ using Auth.Features.Users.Contracts.Mappings;
 namespace Auth.Features.Users.CommandQuery.Commands.Update
 {
     public class UpdateHandler(
-        IOrganizationRepository userRepository)
+        IUserRepository userRepository)
         : IRequestHandler<UpdateCommand, ErrorOr<Updated>>
     {
-        private readonly IOrganizationRepository _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         private async Task<ErrorOr<bool>> ValidateData(
             UpdateCommand command, CancellationToken ct)

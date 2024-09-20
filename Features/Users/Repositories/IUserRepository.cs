@@ -7,7 +7,7 @@ using Auth.Features.Users.Contracts.Responses;
 
 namespace Auth.Features.Users.Repositories
 {
-    public interface IOrganizationRepository : IRepository<User, Ulid>
+    public interface IUserRepository : IRepository<User, Ulid>
     {
         public Task<Option<User>> FindAsync(
                   Expression<Func<User, bool>> expression,

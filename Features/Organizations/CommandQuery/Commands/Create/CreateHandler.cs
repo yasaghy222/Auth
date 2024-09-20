@@ -64,16 +64,16 @@ namespace Auth.Features.Organizations.CommandQuery.Commands.Create
 
         public async Task<ErrorOr<Ulid>> Handle(CreateCommand command, CancellationToken ct)
         {
-            ErrorOr<bool> validateTitle = await ValidateTitle(command.Title, ct);
-            if (validateTitle.IsError)
-            {
-                return validateTitle.Errors;
-            }
-
             ErrorOr<bool> validateParent = await ValidateParent(command.ParentId, ct);
             if (validateParent.IsError)
             {
                 return validateParent.Errors;
+            }
+
+            ErrorOr<bool> validateTitle = await ValidateTitle(command.Title, ct);
+            if (validateTitle.IsError)
+            {
+                return validateTitle.Errors;
             }
 
             Organization organization = command.MapToEntity();

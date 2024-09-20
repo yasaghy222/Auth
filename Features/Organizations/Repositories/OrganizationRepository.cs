@@ -23,7 +23,7 @@ namespace Auth.Features.Organizations.Repositories
 
         public async Task<Ulid[]> GetParentIdsAsync(Organization organization)
         {
-            List<Ulid> parentIds = [];
+            List<Ulid> parentIds = [organization.Id];
 
             Organization? currentOrganization = organization;
 

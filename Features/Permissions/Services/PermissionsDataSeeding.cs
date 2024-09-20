@@ -71,7 +71,40 @@ namespace Auth.Features.Permissions.Services
                 RoleId =Ulid.Parse(RoleConstes.Admin_Role_Id),
                 ResourceId = Ulid.Parse(OrganizationConstes.Get_List_Filter_Resource_Id)
             },
-            #endregion User Resources Permissions
+            #endregion Organization Resources Permissions
+
+            #region  Role Resources Permissions
+            new Permission
+            {
+                Id = Ulid.Parse(RoleConstes.Create_Permission_Id),
+                RoleId =Ulid.Parse(RoleConstes.Admin_Role_Id),
+                ResourceId = Ulid.Parse(RoleConstes.Create_Resource_Id)
+            },
+            new Permission
+            {
+                Id = Ulid.Parse(RoleConstes.Update_Permission_Id),
+                RoleId =Ulid.Parse(RoleConstes.Admin_Role_Id),
+                ResourceId = Ulid.Parse(RoleConstes.Update_Resource_Id)
+            },
+            new Permission
+            {
+                Id = Ulid.Parse(RoleConstes.Delete_Permission_Id),
+                RoleId =Ulid.Parse(RoleConstes.Admin_Role_Id),
+                ResourceId = Ulid.Parse(RoleConstes.Delete_Resource_Id)
+            },
+            new Permission
+            {
+                Id = Ulid.Parse(RoleConstes.Get_Id_Permission_Id),
+                RoleId =Ulid.Parse(RoleConstes.Admin_Role_Id),
+                ResourceId = Ulid.Parse(RoleConstes.Get_Id_Resource_Id)
+            },
+            new Permission
+            {
+                Id = Ulid.Parse(RoleConstes.Get_List_Filter_Permission_Id),
+                RoleId =Ulid.Parse(RoleConstes.Admin_Role_Id),
+                ResourceId = Ulid.Parse(RoleConstes.Get_List_Filter_Resource_Id)
+            },
+            #endregion Role Resources Permissions
         ];
     }
 }

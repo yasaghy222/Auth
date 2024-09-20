@@ -14,11 +14,11 @@ using Auth.Features.Users.Contracts.Mappings;
 namespace Auth.Features.Users.CommandQuery.Commands.UpdateProfile
 {
     public class UpdateProfileHandler(
-        IOrganizationRepository userRepository,
+        IUserRepository userRepository,
         IUserClaimsInfo userClaimsInfo)
         : IRequestHandler<UpdateProfileCommand, ErrorOr<Updated>>
     {
-        private readonly IOrganizationRepository _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly IUserClaimsInfo _userClaimsInfo = userClaimsInfo;
 
         private Expression<Func<User, bool>>? GetExpression(

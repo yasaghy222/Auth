@@ -6,11 +6,11 @@ using Auth.Features.Users.Contracts.Mappings;
 namespace Auth.Features.Users.Events.LoginFailed
 {
     public class LoginFailedEventHandler(
-        IOrganizationRepository userRepository,
+        IUserRepository userRepository,
         ILogger<LoginFailedEventHandler> logger)
         : INotificationHandler<LoginFailedEvent>
     {
-        private readonly IOrganizationRepository _userRepository = userRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly ILogger<LoginFailedEventHandler> _logger = logger;
 
         public async Task Handle(LoginFailedEvent @event, CancellationToken ct)
