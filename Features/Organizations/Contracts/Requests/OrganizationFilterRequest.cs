@@ -1,6 +1,5 @@
 using Auth.Contracts.Enums;
 using Auth.Contracts.Common;
-using Auth.Features.Users.Contracts.Enums;
 using Auth.Features.Organizations.Contracts.Enums;
 
 namespace Auth.Features.Organizations.Contracts.Requests

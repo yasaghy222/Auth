@@ -107,8 +107,7 @@ namespace Auth.Features.Organizations.Repositories
             return expression;
         }
 
-        private static Func<IQueryable<Organization>, IOrderedQueryable<Organization>>
-             GetOrders(OrganizationFilterRequest request)
+        private static Func<IQueryable<Organization>, IOrderedQueryable<Organization>> GetOrders(OrganizationFilterRequest request)
         {
             Func<IQueryable<Organization>, IOrderedQueryable<Organization>> order;
             order = request.IdOrderType switch
